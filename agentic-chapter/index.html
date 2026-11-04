@@ -2087,10 +2087,9 @@
   /* Intro slide holds 4 bid tiles + 2 demo tiles, so tiles are shorter here. */
   [data-slug="ex-intro"] .ex-grid{ margin-top:var(--space-8); }
   [data-slug="ex-intro"] .ex-tile{ min-height:clamp(190px, 26vh, 280px); }
-  [data-slug="ex-intro"] .ex-demos-label{ margin-top:var(--space-10); margin-bottom:0; }
-  [data-slug="ex-intro"] .ex-demos{ grid-template-columns:repeat(2,1fr); margin-top:var(--space-5); }
-  [data-slug="ex-intro"] .ex-demos .ex-tile{ min-height:clamp(120px, 15vh, 170px); border-style:dashed; }
-  @media (max-width: 760px){ [data-slug="ex-intro"] .ex-demos{ grid-template-columns:1fr; } }
+  /* Demo tiles sit in the same 4-column grid at the same size as the bid tiles. */
+  [data-slug="ex-intro"] .ex-demos{ margin-top:var(--space-5); }
+  [data-slug="ex-intro"] .ex-demos .ex-tile{ border-style:dashed; }
   /* Hover/focus reveals a one-line description on each picker tile. */
   .ex-tile .ex-desc{
     display:block; max-height:0; opacity:0; overflow:hidden; margin-top:0;
@@ -2914,7 +2913,6 @@
 <!-- ex0 · Examples intro -->
 <section class="frame" data-hue="mix" data-slug="ex-intro" data-sect="Examples" data-title="Four bids. One framework.">
   <div class="frame-inner">
-    <div class="eyebrow-label reveal"><span class="tick"></span>Theming</div>
     <h2 class="display reveal d1">Four bids. Two demos. <span class="gradient-underline">One framework.</span></h2>
     <p class="subhead reveal d2">Hover for the idea. Click to see how it was built.</p>
     <div class="ex-grid reveal d3">
@@ -2924,7 +2922,6 @@
       <button type="button" class="ex-tile" data-go="ex-ralph-lauren"><img class="ex-thumb" src="../assets/examples/ralph-lauren-deck.jpg" alt="" onerror="this.remove()"><span class="ex-client">Ralph Lauren</span><span class="ex-theme">From investor report to deck</span><span class="ex-desc">The deck concept drawn straight from the client’s own investor report.</span></button>
     </div>
     <!-- Demo examples: placeholders until David confirms the two demos (FS persona + manufacturing persona per 4 Nov notes). -->
-    <div class="eyebrow-label ex-demos-label reveal d4"><span class="tick"></span>Demos</div>
     <div class="ex-grid ex-demos reveal d4">
       <button type="button" class="ex-tile" data-go="ex-demo-1"><img class="ex-thumb" src="../assets/examples/demo-1.jpg" alt="" onerror="this.remove()"><span class="ex-client">Demo 01 · Placeholder</span><span class="ex-theme">Demo title to come</span><span class="ex-desc">Short description of the demo to come.</span></button>
       <button type="button" class="ex-tile" data-go="ex-demo-2"><img class="ex-thumb" src="../assets/examples/demo-2.jpg" alt="" onerror="this.remove()"><span class="ex-client">Demo 02 · Placeholder</span><span class="ex-theme">Demo title to come</span><span class="ex-desc">Short description of the demo to come.</span></button>
