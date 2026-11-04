@@ -2028,18 +2028,47 @@
      gradient panel with an "asset pending" tag, so the deck never breaks.
      ============================================================ */
   .ex-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-5); margin-top:var(--space-12); }
+  /* Picker tiles flip on hover/focus, same two-stage mechanic as the main deck's flip cards:
+     the front turns edge-on (0 to 90deg), then the back turns in (-90deg to 0). Plain rotateY on each
+     face, no preserve-3d, so Safari and Firefox render it the same as Chrome. */
   .ex-tile{
-    position:relative; display:flex; flex-direction:column; justify-content:flex-end;
-    min-height:340px; padding:var(--space-6); border-radius:var(--radius-md); overflow:hidden;
-    border:1px solid var(--border-hairline-dark); color:var(--fg-on-dark); text-decoration:none;
-    background:#0b0b0b; transition:border-color var(--motion-medium) var(--ease-standard), transform var(--motion-slow) var(--ease-standard);
+    position:relative; display:block; min-height:340px; padding:0; border:0; background:none;
+    color:var(--fg-on-dark); text-decoration:none; perspective:1400px;
+    --flip-half:320ms;
   }
-  .ex-tile:hover, .ex-tile:focus-visible{ border-color:rgba(255,255,255,.5); transform:translateY(-4px); }
-  .ex-tile .ex-thumb{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.55; }
-  .ex-tile::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,.85) 100%); }
-  .ex-tile > span{ position:relative; z-index:1; }
+  .ex-face{
+    position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end;
+    padding:var(--space-6); border-radius:var(--radius-md); overflow:hidden;
+    border:1px solid var(--border-hairline-dark); background:#0b0b0b;
+    transform-origin:50% 50%; backface-visibility:hidden; -webkit-backface-visibility:hidden;
+  }
+  .ex-face.front{
+    visibility:visible; transform:rotateY(0deg);
+    transition:transform var(--flip-half) var(--ease-standard) var(--flip-half), visibility 0s linear var(--flip-half);
+  }
+  .ex-face.back{
+    visibility:hidden; transform:rotateY(-90deg); justify-content:center;
+    background:radial-gradient(120% 100% at 0% 0%, rgba(45,225,253,.16), transparent 60%),
+               radial-gradient(120% 100% at 100% 100%, rgba(252,49,187,.16), transparent 60%), #0e0e10;
+    border-color:rgba(255,255,255,.35);
+    transition:transform var(--flip-half) ease-in 0s, visibility 0s linear var(--flip-half);
+  }
+  .ex-tile:hover .ex-face.front, .ex-tile:focus-visible .ex-face.front, .ex-tile.is-flipped .ex-face.front{
+    visibility:hidden; transform:rotateY(90deg);
+    transition:transform var(--flip-half) ease-in 0s, visibility 0s linear var(--flip-half);
+  }
+  .ex-tile:hover .ex-face.back, .ex-tile:focus-visible .ex-face.back, .ex-tile.is-flipped .ex-face.back{
+    visibility:visible; transform:rotateY(0deg);
+    transition:transform var(--flip-half) var(--ease-standard) var(--flip-half), visibility 0s linear var(--flip-half);
+  }
+  .ex-face .ex-thumb{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.55; }
+  .ex-face.front::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(0,0,0,.85) 100%); }
+  .ex-face > span{ position:relative; z-index:1; }
   .ex-tile .ex-client{ font-family:var(--font-meta); font-size:var(--fs-label-small); letter-spacing:.14em; text-transform:uppercase; color:var(--fg-on-dark-2); }
   .ex-tile .ex-theme{ font-weight:var(--fw-bold); font-size:clamp(26px, 1.9vw, 36px); line-height:1.15; margin-top:var(--space-2); }
+  .ex-face.back .ex-theme{ font-size:clamp(22px, 1.5vw, 28px); }
+  .ex-face.back .ex-desc{ margin-top:var(--space-3); font-size:var(--fs-body-sm); line-height:1.45; color:var(--fg-on-dark-2); }
+  .ex-face.back .ex-hint{ margin-top:auto; padding-top:var(--space-4); font-family:var(--font-meta); font-size:15px; letter-spacing:.12em; text-transform:uppercase; color:var(--ce-aqua); }
 
   .ex-case{ display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); gap:var(--space-16); align-items:center; }
   .ex-case h2.display{ font-size:var(--fs-h2); }
@@ -2109,17 +2138,7 @@
   [data-slug="ex-intro"] .ex-tile{ min-height:clamp(190px, 26vh, 280px); }
   /* Demo tiles sit in the same 4-column grid at the same size as the bid tiles. */
   [data-slug="ex-intro"] .ex-demos{ margin-top:var(--space-5); }
-  [data-slug="ex-intro"] .ex-demos .ex-tile{ border-style:dashed; }
-  /* Hover/focus reveals a one-line description on each picker tile. */
-  .ex-tile .ex-desc{
-    display:block; max-height:0; opacity:0; overflow:hidden; margin-top:0;
-    font-size:var(--fs-body-sm); line-height:1.4; color:var(--fg-on-dark-2);
-    transition:max-height 420ms cubic-bezier(.16,1,.3,1), opacity 300ms ease, margin-top 420ms cubic-bezier(.16,1,.3,1);
-  }
-  .ex-tile:hover .ex-desc, .ex-tile:focus-visible .ex-desc{ max-height:6em; opacity:1; margin-top:var(--space-3); }
-  .ex-tile .ex-thumb{ transition:opacity 400ms ease, scale 900ms cubic-bezier(.16,1,.3,1); }
-  .ex-tile:hover .ex-thumb, .ex-tile:focus-visible .ex-thumb{ opacity:.3; scale:1.05; }
-  @media (hover: none){ .ex-tile .ex-desc{ max-height:6em; opacity:1; margin-top:var(--space-3); } }
+  [data-slug="ex-intro"] .ex-demos .ex-face{ border-style:dashed; }
   button.ex-tile{ font:inherit; text-align:left; cursor:pointer; width:100%; }
   button.ex-tile:focus-visible{ outline:2px solid var(--ce-aqua); outline-offset:3px; }
   /* v2.0 (4 Nov): Huw's slides hidden until further notice. To restore, change
@@ -2936,15 +2955,15 @@
     <h2 class="display reveal d1">Four bids. Two demos. <span class="gradient-underline">One framework.</span></h2>
     <p class="subhead reveal d2">Hover for the idea. Click to see how it was built.</p>
     <div class="ex-grid reveal d3">
-      <button type="button" class="ex-tile" data-go="ex-telstra"><img class="ex-thumb" src="../assets/examples/telstra.jpg" alt="" onerror="this.remove()"><span class="ex-client">Telstra</span><span class="ex-theme">Unleash the Energy</span><span class="ex-desc">Vendor to strategic partner, told as energy released across every document.</span></button>
-      <button type="button" class="ex-tile" data-go="ex-temasek"><img class="ex-thumb" src="../assets/examples/temasek.jpg" alt="" onerror="this.remove()"><span class="ex-client">Temasek</span><span class="ex-theme">Scaling New Heights</span><span class="ex-desc">An ascent: each section of the response is a stage of the climb.</span></button>
-      <button type="button" class="ex-tile" data-go="ex-google"><img class="ex-thumb" src="../assets/examples/google-butterfly.jpg" alt="" onerror="this.remove()"><span class="ex-client">Google · Project Chrysalis</span><span class="ex-theme">Unfolding the Future</span><span class="ex-desc">A paper-craft butterfly unfolding in Google’s colours, from cover to motion.</span></button>
-      <button type="button" class="ex-tile" data-go="ex-ralph-lauren"><img class="ex-thumb" src="../assets/examples/ralph-lauren-deck.jpg" alt="" onerror="this.remove()"><span class="ex-client">Ralph Lauren</span><span class="ex-theme">Rise with AIR</span><span class="ex-desc">The deck concept drawn straight from the client’s own investor report.</span></button>
+      <button type="button" class="ex-tile" data-go="ex-telstra" aria-label="Unleash the Energy: Telstra. Vendor to strategic partner, told as energy released across every document."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/telstra.jpg" alt="" onerror="this.remove()"><span class="ex-client">Telstra</span><span class="ex-theme">Unleash the Energy</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Telstra</span><span class="ex-theme">Unleash the Energy</span><span class="ex-desc">Vendor to strategic partner, told as energy released across every document.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
+      <button type="button" class="ex-tile" data-go="ex-temasek" aria-label="Scaling New Heights: Temasek. An ascent: each section of the response is a stage of the climb."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/temasek.jpg" alt="" onerror="this.remove()"><span class="ex-client">Temasek</span><span class="ex-theme">Scaling New Heights</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Temasek</span><span class="ex-theme">Scaling New Heights</span><span class="ex-desc">An ascent: each section of the response is a stage of the climb.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
+      <button type="button" class="ex-tile" data-go="ex-google" aria-label="Unfolding the Future: Google · Project Chrysalis. A paper-craft butterfly unfolding in Google’s colours, from cover to motion."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/google-butterfly.jpg" alt="" onerror="this.remove()"><span class="ex-client">Google · Project Chrysalis</span><span class="ex-theme">Unfolding the Future</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Google · Project Chrysalis</span><span class="ex-theme">Unfolding the Future</span><span class="ex-desc">A paper-craft butterfly unfolding in Google’s colours, from cover to motion.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
+      <button type="button" class="ex-tile" data-go="ex-ralph-lauren" aria-label="Rise with AIR: Ralph Lauren. The deck concept drawn straight from the client’s own investor report."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/ralph-lauren-deck.jpg" alt="" onerror="this.remove()"><span class="ex-client">Ralph Lauren</span><span class="ex-theme">Rise with AIR</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Ralph Lauren</span><span class="ex-theme">Rise with AIR</span><span class="ex-desc">The deck concept drawn straight from the client’s own investor report.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
     </div>
     <!-- Demo examples: placeholders until David confirms the two demos (FS persona + manufacturing persona per 4 Nov notes). -->
     <div class="ex-grid ex-demos reveal d4">
-      <button type="button" class="ex-tile" data-go="ex-demo-1"><img class="ex-thumb" src="../assets/examples/demo-1.jpg" alt="" onerror="this.remove()"><span class="ex-client">Demo 01 · Next in Manufacturing</span><span class="ex-theme">The Art of Flight</span><span class="ex-desc">An aircraft C-Check as an interactive story, with live AI answers for the engineer.</span></button>
-      <button type="button" class="ex-tile" data-go="ex-demo-2"><img class="ex-thumb" src="../assets/examples/demo-2.jpg" alt="" onerror="this.remove()"><span class="ex-client">Demo 02 · Microsoft</span><span class="ex-theme">S2P Copilot</span><span class="ex-desc">A sourcing manager's day, with Copilot running the RFP across Word, Outlook and Teams.</span></button>
+      <button type="button" class="ex-tile" data-go="ex-demo-1" aria-label="The Art of Flight: Demo 01 · Next in Manufacturing. An aircraft C-Check as an interactive story, with live AI answers for the engineer."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/demo-1.jpg" alt="" onerror="this.remove()"><span class="ex-client">Demo 01 · Next in Manufacturing</span><span class="ex-theme">The Art of Flight</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Demo 01 · Next in Manufacturing</span><span class="ex-theme">The Art of Flight</span><span class="ex-desc">An aircraft C-Check as an interactive story, with live AI answers for the engineer.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
+      <button type="button" class="ex-tile" data-go="ex-demo-2" aria-label="S2P Copilot: Demo 02 · Microsoft. A sourcing manager's day, with Copilot running the RFP across Word, Outlook and Teams."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/demo-2.jpg" alt="" onerror="this.remove()"><span class="ex-client">Demo 02 · Microsoft</span><span class="ex-theme">S2P Copilot</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Demo 02 · Microsoft</span><span class="ex-theme">S2P Copilot</span><span class="ex-desc">A sourcing manager's day, with Copilot running the RFP across Word, Outlook and Teams.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
     </div>
   </div>
 </section>
