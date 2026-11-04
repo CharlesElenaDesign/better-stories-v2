@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Account Opportunity Workshop — toolkit</title>
+<meta name="description" content="The working page for the Account Opportunity Workshop: write a deal synopsis, run it through three agents, and build your clickable presentation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+/* ============================================================
+   Account Opportunity Workshop — toolkit
+   Charles Elena | Titan — light-mode variant of agentic-chapter/index.html:
+   same tokens, same frame-per-page deck mechanic, same component names
+   (agent-card, term, ce-btn), recoloured for a white ground. No aurora,
+   no video, no chat/lightbox machinery — this deck doesn't need them.
+   ============================================================ */
+
+  :root{
+    --ce-black:#000000; --ce-white:#ffffff;
+    --ce-aqua-dark:#193F44;   --ce-aqua-medium:#3E94A6;   --ce-aqua:#2DE1FD;   --ce-aqua-light:#C2F3FA;
+    --ce-magenta-dark:#430560; --ce-magenta-medium:#A924B4; --ce-magenta:#FC31BB; --ce-magenta-light:#FFDDF8;
+    --ce-orange-dark:#2F1113;  --ce-orange-medium:#B05027;  --ce-orange:#FF7A00;  --ce-orange-light:#FFDDC3;
+    --ce-grey-900:#333333; --ce-grey-700:#525252; --ce-grey-500:#6F6F6F; --ce-grey-400:#A6A6A6;
+    --ce-grey-300:#A8A8A8; --ce-grey-200:#C6C6C6; --ce-grey-150:#DBDBDB; --ce-grey-100:#E0E0E0;
+    --ce-grey-50:#F5F5F5;  --ce-grey-25:#F4F4F4;
+    --ce-brand-gradient: linear-gradient(90deg, var(--ce-aqua) 0%, var(--ce-magenta) 50%, var(--ce-orange) 100%);
+
+    /* light-ground surface tokens — the inverse of the deck's --fg-on-dark set */
+    --paper: var(--ce-white);
+    --paper-2: var(--ce-grey-25);
+    --ink: #15181C;
+    --ink-2: var(--ce-grey-700);
+    --ink-3: var(--ce-grey-500);
+    --hairline: rgba(15,18,20,.14);
+    --hairline-soft: rgba(15,18,20,.08);
+
+    --font-sans: "Roboto","Helvetica Neue",Arial,sans-serif;
+    --font-meta: "Inter","Roboto",system-ui,sans-serif;
+    --fw-light:300; --fw-regular:400; --fw-medium:500; --fw-bold:700; --fw-black:900;
+
+    /* type scale — identical to agentic-chapter/index.html. Do not re-inflate. */
+    --fs-h1: clamp(40px, 4.6vw, 88px);
+    --fs-h2: clamp(30px, 3.2vw, 56px);
+    --fs-h3: clamp(24px, 2.4vw, 40px);
+    --fs-h4: clamp(21px, 1.6vw, 28px);
+    --fs-preceed-lg: clamp(20px, 1.7vw, 30px);
+    --fs-preceed: clamp(18px, 1.3vw, 24px);
+    --fs-body-lg: clamp(21px, 1.5vw, 27px);
+    --fs-body: clamp(19px, 1.3vw, 23px);
+    --fs-body-sm: 17px;
+    --fs-tag: 15px;
+    --fs-label-small: 14px;
+    --fs-footer: 13px;
+
+    --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:20px; --space-6:24px;
+    --space-8:32px; --space-10:40px; --space-12:48px; --space-16:64px; --space-20:80px;
+
+    --radius-xs:2px; --radius-sm:4px; --radius-md:8px; --radius-pill:100px;
+    --motion-fast:120ms; --motion-medium:200ms; --motion-slow:320ms;
+    --ease-standard: cubic-bezier(0.2,0,0,1);
+    --ease-emphasis: cubic-bezier(0.3,0,0,1);
+
+    --gutter: 96px;
+    --header-h: 84px;
+    --footer-h: 56px;
+  }
+  @media (max-width: 900px){ :root{ --gutter: 28px; --header-h: 64px; --footer-h: 48px; } }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--font-sans); -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+  h1,h2,h3,h4,p,ul,ol{ margin:0; padding:0; }
+  ul{ list-style:none; }
+  button{ font-family:inherit; color:inherit; }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+  .visually-hidden{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; padding:0; margin:-1px; }
+
+  /* ============================================================
+     HEADER / FOOTER — sticky, flow across every frame
+     ============================================================ */
+  .site-header{
+    position:fixed; top:0; left:0; right:0; height:var(--header-h);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 var(--gutter); z-index:40;
+    background:linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,0) 100%);
+    pointer-events:none;
+  }
+  .site-header > *{ pointer-events:auto; }
+  .eyebrow{
+    display:flex; align-items:center; gap:var(--space-3);
+    font-weight:var(--fw-bold); font-size:14px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-2); white-space:nowrap;
+  }
+  .eyebrow .tick{ width:22px; height:2px; background:var(--ce-brand-gradient); border-radius:2px; flex:0 0 auto; }
+  .frame-count{
+    font-family:var(--font-meta); font-size:13px; letter-spacing:.06em; color:var(--ink-3);
+    font-variant-numeric:tabular-nums;
+  }
+  .site-footer{
+    position:fixed; bottom:0; left:0; right:0; height:var(--footer-h);
+    display:flex; align-items:center; justify-content:space-between; gap:var(--space-5);
+    padding:0 var(--gutter); z-index:40;
+    background:rgba(255,255,255,.96); border-top:1px solid var(--hairline-soft);
+    font-weight:var(--fw-light); font-size:var(--fs-footer); color:var(--ink-3);
+  }
+  .site-footer .brand{ flex:0 0 auto; }
+  .foot-nav{ display:flex; align-items:center; gap:var(--space-3); flex:0 0 auto; }
+  .foot-nav button{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:inherit; font-size:13px; font-weight:var(--fw-medium); color:var(--ink);
+    background:none; border:1px solid var(--hairline); border-radius:var(--radius-pill);
+    padding:7px 16px; cursor:pointer; transition:background-color var(--motion-fast) var(--ease-standard);
+  }
+  .foot-nav button:hover{ background:rgba(15,18,20,.05); }
+  .foot-nav button[hidden]{ visibility:hidden; }
+  .foot-nav .foot-next{ background:var(--ink); color:#fff; border-color:var(--ink); }
+  .foot-nav .foot-next:hover{ background:#000; }
+  @media (max-width:700px){ .site-footer .brand{ display:none; } }
+
+  /* ============================================================
+     PROGRESS NAV — click any dot to jump
+     ============================================================ */
+  .progress-nav{
+    position:fixed; right:22px; top:50%; transform:translateY(-50%); z-index:40;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .progress-nav button{
+    width:7px; height:7px; border-radius:50%; background:rgba(15,18,20,.18);
+    border:0; padding:0; cursor:pointer; transition:all var(--motion-medium) var(--ease-standard);
+  }
+  .progress-nav button.is-active{ background:var(--ink); height:20px; border-radius:4px; }
+  @media (max-width: 700px){ .progress-nav{ right:10px; } }
+
+  /* ============================================================
+     DECK / FRAMES — one page shown at a time. No scroll-snap chain
+     between pages: Back/Next (footer) or the dots switch frames;
+     a single frame scrolls on its own if its content runs long.
+     ============================================================ */
+  .deck{
+    position:fixed; top:var(--header-h); bottom:var(--footer-h); left:0; right:0;
+    overflow:hidden;
+  }
+  .frame{
+    display:none; /* toggled to flex by JS for the active page only */
+    position:absolute; inset:0; overflow-y:auto;
+    flex-direction:column; justify-content:flex-start;
+    padding:var(--space-10) var(--gutter);
+  }
+  .frame.is-active{ display:flex; }
+  .frame.hero.is-active{ justify-content:center; }
+  .frame-inner{ max-width:1200px; margin:auto; width:100%; }
+
+  /* Dense frames re-scale type locally rather than scrolling inside a
+     scroll-snap child (which fights the wheel) — same fix the deck itself
+     uses. Every page but the cover carries real content, so every page
+     but the cover is dense. */
+  .frame.dense{
+    --fs-h2: clamp(26px, 2.6vw, 42px);
+    --fs-preceed: clamp(16px, 1.05vw, 19px);
+    --fs-body-sm: 15px;
+  }
+  .frame.dense{ padding-top:var(--space-6); padding-bottom:var(--space-6); }
+  .frame.dense .eyebrow-label{ margin-bottom:var(--space-3); }
+  .frame.dense .lede{ margin-top:var(--space-3); }
+  .frame.dense .body-copy{ margin-top:var(--space-3); }
+
+  .reveal{
+    opacity:0; transform:translateY(18px); filter:blur(6px);
+    transition:opacity 700ms var(--ease-emphasis), transform 700ms var(--ease-emphasis), filter 700ms var(--ease-emphasis);
+  }
+  .frame.in-view .reveal{ opacity:1; transform:translateY(0); filter:blur(0); }
+  .reveal.d1{ transition-delay:60ms; } .reveal.d2{ transition-delay:140ms; }
+  .reveal.d3{ transition-delay:220ms; } .reveal.d4{ transition-delay:300ms; }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ transition:opacity var(--motion-fast) linear; transform:none; filter:none; }
+  }
+
+  @media (max-width: 900px){
+    .frame{ padding:var(--space-6) var(--gutter); }
+  }
+
+  /* ============================================================
+     TYPE UTILITIES
+     ============================================================ */
+  .eyebrow-label{
+    display:inline-flex; align-items:center; gap:var(--space-3);
+    font-weight:var(--fw-bold); font-size:15px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--ink-2); margin-bottom:var(--space-5);
+  }
+  .eyebrow-label .tick{ width:26px; height:2px; background:var(--ce-brand-gradient); border-radius:2px; }
+  .step-of{
+    font-family:var(--font-meta); font-size:13px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--ink-3); margin-bottom:var(--space-3);
+  }
+  h1.display{ font-size:var(--fs-h1); font-weight:var(--fw-bold); line-height:1.08; letter-spacing:-0.02em; max-width:1100px; }
+  h2.display{ font-size:var(--fs-h2); font-weight:var(--fw-bold); line-height:1.12; letter-spacing:-0.01em; max-width:1000px; }
+  .gradient-text{ background:var(--ce-brand-gradient); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .lede{ font-weight:var(--fw-light); font-size:var(--fs-preceed); color:var(--ink-2); line-height:1.45; max-width:900px; margin-top:var(--space-5); }
+  .lede b{ color:var(--ink); font-weight:var(--fw-medium); }
+  .body-copy{ font-weight:var(--fw-regular); font-size:var(--fs-body-sm); color:var(--ink-2); line-height:1.6; max-width:760px; margin-top:var(--space-4); }
+  .body-copy strong{ color:var(--ink); font-weight:var(--fw-medium); }
+
+  /* ============================================================
+     BUTTONS (CE pill mechanic — light-ground variant)
+     ============================================================ */
+  .ce-btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:10px;
+    font-family:var(--font-sans); font-weight:var(--fw-medium); letter-spacing:.02em; font-size:15px;
+    border-radius:var(--radius-pill); border:1px solid var(--hairline);
+    background:transparent; color:var(--ink); padding:13px 24px;
+    cursor:pointer; text-decoration:none;
+    transition:background-color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard);
+  }
+  .ce-btn:hover, .ce-btn:focus-visible{ background:rgba(15,18,20,.05); border-color:rgba(15,18,20,.32); outline:none; }
+  .ce-btn.is-done{ background:var(--ce-magenta); border-color:var(--ce-magenta); color:#fff; }
+  .ce-btn.btn-pink{ background:var(--ce-magenta); border-color:var(--ce-magenta); color:#fff; }
+  .ce-btn.btn-pink:hover{ background:var(--ce-magenta-medium); border-color:var(--ce-magenta-medium); }
+  .ce-btn .arrow{ width:16px; height:16px; flex:0 0 auto; }
+  .btnrow{ display:flex; flex-wrap:wrap; gap:12px; margin-top:var(--space-8); }
+
+  /* ============================================================
+     TIP — a lightbulb aside. One per page, at most.
+     ============================================================ */
+  .tip{
+    display:flex; gap:var(--space-4); align-items:flex-start;
+    margin-top:var(--space-8); padding:var(--space-5); max-width:800px;
+    background:var(--paper-2); border:1px solid var(--hairline); border-radius:var(--radius-md);
+  }
+  .tip svg{ flex:0 0 auto; width:22px; height:22px; margin-top:1px; color:var(--ce-orange); }
+  .tip p{ font-size:15px; line-height:1.5; color:var(--ink-2); }
+  .tip .tip-k{ display:block; font-size:11px; font-weight:var(--fw-bold); letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); margin-bottom:4px; }
+
+  /* ============================================================
+     MUDMAP — the four-step roadmap. Not clickable, on purpose.
+     ============================================================ */
+  .mudmap{
+    margin-top:var(--space-8);
+    display:grid; grid-template-columns:repeat(2,1fr); gap:var(--space-5);
+  }
+  .map-step{
+    position:relative; overflow:hidden;
+    display:grid; grid-template-columns:auto 1fr; column-gap:var(--space-4); row-gap:var(--space-2);
+    align-items:baseline;
+    padding:var(--space-5) var(--space-5) var(--space-6);
+    background:var(--paper-2); border:1px solid var(--hairline-soft); border-radius:var(--radius-md);
+  }
+  .map-step::before{
+    content:attr(data-n); grid-column:1; grid-row:1;
+    font-size:var(--fs-h4); font-weight:var(--fw-bold); line-height:1.2;
+    color:transparent; background:var(--ce-brand-gradient);
+    -webkit-background-clip:text; background-clip:text;
+    font-variant-numeric:tabular-nums;
+  }
+  .map-step h3{ grid-column:2; grid-row:1; font-size:var(--fs-h4); font-weight:var(--fw-bold); line-height:1.2; }
+  .map-step p{ grid-column:2; grid-row:2; font-size:var(--fs-body-sm); color:var(--ink-2); line-height:1.5; }
+  @media (max-width:700px){ .mudmap{ grid-template-columns:1fr; } }
+
+  /* ============================================================
+     AGENT CARDS — ported from agentic-chapter, recoloured
+     ============================================================ */
+  .agent-cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-6); margin-top:calc(var(--space-8) + 38px); }
+  .agent-card{
+    position:relative; border-radius:20px; border:1px solid var(--hairline);
+    background:var(--paper-2); padding:60px var(--space-6) var(--space-6);
+    display:flex; flex-direction:column; gap:var(--space-3);
+    box-shadow:0 14px 34px rgba(15,18,20,.06);
+    transition:transform 300ms var(--ease-standard), border-color 300ms var(--ease-standard);
+  }
+  .agent-card:hover{ transform:translateY(-4px); border-color:rgba(15,18,20,.28); }
+  .agent-card .agent-portrait{
+    position:absolute; top:0; left:50%; transform:translate(-50%,-46%);
+    width:100px; height:100px; border-radius:50%; object-fit:cover; object-position:center 22%;
+    border:3px solid var(--paper); box-shadow:0 8px 20px rgba(15,18,20,.18);
+  }
+  .agent-card .role{ display:block; text-align:center; font-size:12px; font-weight:var(--fw-bold); letter-spacing:.14em; text-transform:uppercase; color:var(--ink-3); }
+  .agent-card .nme{ text-align:center; font-size:clamp(20px,1.5vw,26px); font-weight:var(--fw-bold); line-height:1; margin:6px 0 4px; }
+  .agent-card .job{ text-align:center; font-size:15px; line-height:1.4; font-weight:var(--fw-bold); color:var(--ink); margin:0; }
+  .agent-card .lead{ text-align:center; font-size:13.5px; line-height:1.65; color:var(--ink-2); margin:8px 0 0; }
+  .agent-card .outcome{ margin-top:var(--space-4); padding-top:var(--space-4); border-top:1px solid var(--hairline-soft); }
+  .agent-card .outcome-k{ display:block; font-size:11px; font-weight:var(--fw-bold); letter-spacing:.14em; text-transform:uppercase; margin-bottom:8px; }
+  .agent-card .outcome p{ font-size:13px; line-height:1.6; color:var(--ink-2); margin:0; }
+  .agent-card .gline{ display:block; height:3px; border-radius:2px; margin-top:auto; padding-top:var(--space-5); }
+  .agent-card.a1 .outcome-k{ color:var(--ce-aqua-medium); }
+  .agent-card.a2 .outcome-k{ color:var(--ce-magenta-medium); }
+  .agent-card.a3 .outcome-k{ color:var(--ce-orange-medium); }
+  @media (max-width:1000px){ .agent-cards{ grid-template-columns:1fr; gap:calc(var(--space-6) + 30px); } }
+
+  /* small circular "who's talking" avatar, used at the top of each agent page */
+  .persona{
+    width:52px; height:52px; border-radius:50%; overflow:hidden; flex:0 0 auto;
+    border:1px solid var(--hairline); background:var(--paper-2);
+  }
+  .persona img{ width:100%; height:100%; object-fit:cover; }
+  .persona-row{ display:flex; align-items:center; gap:var(--space-4); margin-bottom:var(--space-4); }
+
+  /* ============================================================
+  /* ============================================================
+     FORM FIELDS (deal synopsis) — the page itself scrolls; nothing
+     in here gets its own inner scrollbar.
+     ============================================================ */
+  .synopsis-lede{
+    font-size:clamp(18px, 1.3vw, 22px);
+    font-weight:var(--fw-regular);
+    color:var(--ink);
+    line-height:1.5;
+    max-width:880px;
+    margin-top:var(--space-4);
+  }
+  .synopsis-lede strong{
+    font-weight:var(--fw-bold);
+    color:var(--ink);
+  }
+  .synopsis-copy{
+    font-size:16px;
+    font-weight:var(--fw-regular);
+    color:var(--ink-2);
+    line-height:1.65;
+    max-width:840px;
+    margin-top:var(--space-3);
+  }
+  .disclaim{
+    display:flex; align-items:flex-start; gap:var(--space-4);
+    background:var(--paper-2);
+    border:1px solid var(--hairline);
+    border-left:4px solid var(--ce-magenta);
+    border-radius:var(--radius-md);
+    padding:18px 24px;
+    margin:var(--space-5) 0 var(--space-2);
+    max-width:880px;
+    box-shadow:0 4px 18px rgba(15,18,20,.03);
+  }
+  .disclaim-icon{
+    flex:0 0 auto; width:22px; height:22px; margin-top:2px; color:var(--ce-magenta);
+  }
+  .disclaim-content{ flex:1 1 auto; }
+  .disclaim-tag{
+    display:block; font-size:11px; font-weight:var(--fw-bold); letter-spacing:.14em;
+    text-transform:uppercase; color:var(--ce-magenta-medium); margin-bottom:4px;
+  }
+  .disclaim-text{
+    font-size:14.5px; line-height:1.6; color:var(--ink-2); margin:0;
+  }
+  .form-break{
+    position:relative;
+    height:1px;
+    background:var(--hairline);
+    margin:calc(var(--space-8) + 12px) 0 var(--space-8);
+    max-width:1000px;
+  }
+  .form-break-tick{
+    position:absolute; left:0; top:-1px; height:3px; width:52px;
+    background:var(--ce-brand-gradient); border-radius:2px;
+    display:block;
+  }
+  .form-subhead{
+    margin-bottom:var(--space-8);
+    max-width:1000px;
+  }
+  .form-subhead-title{
+    font-size:clamp(22px, 2.2vw, 30px);
+    font-weight:var(--fw-bold);
+    color:var(--ink);
+    letter-spacing:-0.015em;
+    line-height:1.2;
+    margin:0 0 8px;
+  }
+  .form-subhead-desc{
+    font-size:15px;
+    color:var(--ink-2);
+    line-height:1.55;
+    margin:0;
+  }
+  .field-list{ margin-top:var(--space-6); }
+  .field{ margin:0 0 calc(var(--space-8) + 12px); max-width:1000px; }
+  .field label{ display:block; font-weight:var(--fw-bold); font-size:17px; color:var(--ink); margin-bottom:8px; letter-spacing:-0.01em; }
+  .field .hint{ font-size:14.5px; color:var(--ink-3); font-style:italic; margin-bottom:14px; line-height:1.55; max-width:880px; }
+  .field textarea{
+    width:100%; font:inherit; font-size:15.5px; line-height:1.65; color:var(--ink);
+    background:var(--paper-2); border:1px solid var(--hairline); border-radius:var(--radius-md);
+    padding:20px 22px; resize:vertical; min-height:150px;
+    box-shadow:inset 0 1px 2px rgba(15,18,20,.03);
+    transition:border-color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard);
+  }
+  .field textarea:hover{ border-color:rgba(15,18,20,.3); background:#ffffff; }
+  .field textarea:focus{
+    outline:none; border-color:var(--ce-magenta); background:#ffffff;
+    box-shadow:0 0 0 3px var(--ce-magenta-light);
+  }
+  .confirm{
+    margin-top:var(--space-8);
+    padding-top:var(--space-6);
+    border-top:1px solid var(--hairline-soft);
+    max-width:1000px;
+  }
+  .confirm p{
+    color:var(--ink-2);
+    font-size:15.5px;
+    line-height:1.6;
+    margin-bottom:var(--space-4);
+    max-width:820px;
+  }
+  .confirm .btnrow{ margin-top:var(--space-4); }
+  .frame[data-slug="synopsis"] .tip{ max-width:1000px; margin-top:var(--space-6); margin-bottom:var(--space-10); padding:var(--space-6); }
+
+  /* ============================================================
+     NUMBERED STEP LIST
+     ============================================================ */
+  /* Native <ol> numbering only. The circular counter badge that used to sit
+     here doubled up with it — "1." beside a "1" chip — so it's gone. */
+  .steps2{ margin-top:var(--space-6); margin-bottom:var(--space-8); padding-left:20px; list-style:decimal outside; }
+  .steps2 li{ margin-bottom:var(--space-4); padding-left:6px; font-size:16px; line-height:1.6; }
+  .steps2 li:last-child{ margin-bottom:0; }
+  .steps2 li::marker{ font-weight:var(--fw-bold); color:var(--ink-3); }
+  .steps2 code{ font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.88em; background:var(--paper-2); padding:.1em .35em; border-radius:4px; }
+
+  /* ============================================================
+     TERMINAL — the copy-paste prompts. Kept dark on purpose:
+     a prompt reads as a thing you run, whatever the page theme is.
+     ============================================================ */
+  .term{ border:1px solid var(--hairline); border-radius:var(--radius-sm); background:var(--ce-black); overflow:hidden; margin-top:var(--space-8); }
+  .term-bar{ display:flex; align-items:center; gap:var(--space-4); padding:10px var(--space-5); border-bottom:1px solid rgba(255,255,255,.1); background:rgba(255,255,255,.03); }
+  .term-bar .dots{ display:flex; gap:6px; }
+  .term-bar .dots i{ width:9px; height:9px; border-radius:50%; background:rgba(255,255,255,.2); display:block; }
+  .term-bar .nm{ font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px; color:#fff; }
+  .term-bar button{
+    margin-left:auto; font:inherit; font-size:13px; font-weight:var(--fw-medium); color:#fff;
+    background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:6px;
+    padding:6px 14px; cursor:pointer;
+  }
+  .term-bar button:hover{ background:rgba(255,255,255,.18); }
+  .term-bar button.is-done{ background:var(--ce-magenta); border-color:var(--ce-magenta); }
+  .term-body{
+    margin:0; padding:16px 18px; color:#F1EFEA; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:13px; line-height:1.6; white-space:pre-wrap; word-wrap:break-word;
+    outline:none; caret-color:#fff;
+  }
+  .term-body[contenteditable="true"]:focus{ background:rgba(255,255,255,.03); box-shadow:inset 0 0 0 2px var(--ce-magenta); }
+  /* the bracket you replace with your own text — bold and coloured so it reads as "type here" */
+  .term-body .ph{ color:var(--ce-orange); font-weight:700; }
+  .term-editnote{
+    display:flex; align-items:center; gap:8px; padding:9px var(--space-5); font-size:12.5px; color:#F1EFEA;
+    background:rgba(255,122,0,.14); border-top:1px solid rgba(255,255,255,.1);
+  }
+  .term-editnote svg{ width:14px; height:14px; flex:0 0 auto; color:var(--ce-orange); }
+
+  /* ============================================================
+     TIPS / CHECKLIST — the page scrolls, this list never does on its own.
+     ============================================================ */
+  .tips{ margin-top:var(--space-4); }
+  .tips li{ padding:14px 0; border-bottom:1px solid var(--hairline-soft); font-size:16px; line-height:1.5; }
+  .tips li:last-child{ border-bottom:none; }
+  .tips strong{ display:block; margin-bottom:2px; }
+  .tips code{ font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.88em; background:var(--paper-2); padding:.1em .35em; border-radius:4px; }
+
+  /* ============================================================
+     TABLE (build-the-pack)
+     ============================================================ */
+  table.plain{ width:100%; border-collapse:collapse; margin-top:var(--space-3); font-size:14px; max-width:900px; }
+  table.plain th, table.plain td{ text-align:left; padding:6px 12px; border-bottom:1px solid var(--hairline-soft); vertical-align:top; }
+  table.plain th{ font-size:12.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-3); }
+
+  /* ============================================================
+     GOOD / BAD PROMPT COMPARISON (image-prompts page)
+     ============================================================ */
+  .ipg{ display:grid; grid-template-columns:1fr 1fr; gap:var(--space-5); margin-top:var(--space-6); align-items:start; }
+  .ipc{ border:1px solid var(--hairline); border-radius:var(--radius-md); overflow:hidden; }
+  .ipc .ipc-hd{ display:flex; align-items:center; justify-content:space-between; padding:10px var(--space-5); font-size:12.5px; font-weight:var(--fw-bold); letter-spacing:.1em; text-transform:uppercase; }
+  .ipc.bad .ipc-hd{ background:var(--ce-orange-light); color:var(--ce-orange-medium); }
+  .ipc.good .ipc-hd{ background:var(--ce-aqua-light); color:var(--ce-aqua-dark); }
+  .ipc pre{ margin:0; padding:16px 18px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:13px; line-height:1.6; white-space:pre-wrap; background:var(--paper-2); }
+  .ipc .why{ padding:12px 18px 16px; font-size:13.5px; line-height:1.5; color:var(--ink-2); }
+  .miss{ display:flex; flex-wrap:wrap; gap:6px; margin-top:var(--space-5); }
+  .miss span{ font-size:12.5px; padding:4px 12px; border-radius:var(--radius-pill); background:var(--ce-orange-light); color:var(--ce-orange-medium); }
+  .ipg > .ipc.bad{ grid-column:1; grid-row:1; }
+  .ipg > .tip{ grid-column:1; grid-row:2; margin-top:0; max-width:none; }
+  .ipg > .ipc.good{ grid-column:2; grid-row:1 / span 2; }
+  @media (max-width:900px){
+    .ipg{ grid-template-columns:1fr; }
+    .ipg > .ipc.bad, .ipg > .tip, .ipg > .ipc.good{ grid-column:1; grid-row:auto; }
+  }
+
+  /* ============================================================
+     IMAGE PROMPT EVIDENCE — the two reference frames and the three
+     fixed hex values that make the "specified" prompt specified.
+     Light-ground port of the deck's .refs / .hx.
+     ============================================================ */
+  .ipbits{ display:flex; flex-wrap:wrap; gap:var(--space-8); padding:18px 18px 2px; }
+  .ipbits .cap{
+    display:block; font-size:11px; font-weight:var(--fw-bold); letter-spacing:.12em;
+    text-transform:uppercase; color:var(--ce-aqua-dark); margin-bottom:var(--space-3);
+  }
+  .refs{ display:flex; gap:var(--space-3); }
+  .refs figure{
+    margin:0; width:134px; height:82px; border-radius:6px; overflow:hidden;
+    border:1px solid var(--hairline); position:relative;
+  }
+  .refs img{ width:100%; height:100%; object-fit:cover; }
+  .refs figcaption{
+    position:absolute; left:0; right:0; bottom:0; padding:4px 7px;
+    background:linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.82));
+    font-size:9.5px; font-weight:var(--fw-bold); letter-spacing:.06em; text-transform:uppercase;
+    color:#fff; white-space:nowrap;
+  }
+  .hx{ display:flex; flex-direction:column; gap:8px; }
+  .hx span{
+    display:flex; align-items:center; gap:10px; font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:13px; font-weight:var(--fw-medium); color:var(--ink);
+  }
+  .hx i{ width:22px; height:22px; border-radius:4px; border:1px solid var(--hairline); flex:0 0 auto; }
+  .ipc pre mark{ background:var(--ce-aqua-light); color:var(--ce-aqua-dark); border-radius:3px; padding:0 2px; }
+
+  /* ============================================================
+     HERO VIDEO — full-bleed behind the cover and the closing page.
+     The scrim is weighted left, where the type and the buttons are,
+     so the dark ink keeps its contrast against near-white and the
+     footage only reads as colour bleeding in from the right.
+     ============================================================ */
+  .hero-video{ position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none; }
+  .hero-video video{ width:100%; height:100%; object-fit:cover; display:block; }
+  .hero-video::after{
+    content:''; position:absolute; inset:0;
+    background:
+      linear-gradient(90deg, rgba(255,255,255,.97) 0%, rgba(255,255,255,.96) 56%, rgba(255,255,255,.78) 76%, rgba(255,255,255,.4) 100%),
+      linear-gradient(180deg, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 30%);
+  }
+  .frame.hero .frame-inner{ position:relative; z-index:1; }
+  .frame.hero .lede, .frame.hero .body-copy, .frame.hero .cta-note{ max-width:620px; }
+  @media (max-width:900px){
+    .hero-video::after{ background:rgba(255,255,255,.93); }
+  }
+  @media (prefers-reduced-motion: reduce){ .hero-video video{ display:none; } }
+
+  /* ============================================================
+     FINAL PAGE — CTA out to the website, and to a person
+     ============================================================ */
+  .cta-row{ display:flex; flex-wrap:wrap; gap:var(--space-4); align-items:center; margin-top:var(--space-8); }
+  .cta-row .ce-btn{ padding:16px 30px; font-size:16px; }
+  .cta-note{ margin-top:var(--space-6); font-size:15px; color:var(--ink-2); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <p class="eyebrow"><span class="tick" aria-hidden="true"></span>Account Opportunity Workshop</p>
+  <span class="frame-count" id="frameCount">01 / 12</span>
+</header>
+
+<footer class="site-footer">
+  <span class="brand">Charles Elena · Titan Europe Roadshow</span>
+  <nav class="foot-nav" aria-label="Page navigation">
+    <button type="button" id="footBack">&larr; Back</button>
+    <button type="button" class="foot-next" id="footNext">Next &rarr;</button>
+  </nav>
+</footer>
+
+<nav class="progress-nav" id="progressNav" aria-label="Pages"></nav>
+<p class="visually-hidden" aria-live="polite" id="announce"></p>
+
+<main class="deck" id="deck">
+
+<!-- ═══════════════════════════════════ HOME -->
+<section class="frame hero is-active in-view" data-slug="home" data-title="Turn one opportunity into a pitch, this afternoon">
+    <div class="hero-video" aria-hidden="true">
+      <video src="assets/video/cover.mp4" poster="assets/video/cover.jpg" autoplay muted loop playsinline></video>
+    </div>
+  <div class="frame-inner">
+    <p class="eyebrow-label reveal"><span class="tick" aria-hidden="true"></span>Account Opportunity Workshop &middot; 14:00&ndash;16:00</p>
+    <h1 class="display reveal d1">Turn one opportunity into a <span class="gradient-text">pitch, this afternoon.</span></h1>
+    <p class="lede reveal d2">Every prompt your table needs for the next two hours, in the order you
+    use them. Nothing to install.</p>
+    <p class="body-copy reveal d3">Take a real opportunity, write a short synopsis, run it through
+    three agents. You leave with a clickable four-frame presentation and a coach's review.</p>
+    <div class="btnrow reveal d4">
+      <button type="button" class="ce-btn btn-pink" data-go="overview">Begin <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 12h15M13 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ OVERVIEW / MUDMAP -->
+<section class="frame dense" data-slug="overview" data-title="How the afternoon runs">
+  <div class="frame-inner">
+    <p class="eyebrow-label reveal"><span class="tick" aria-hidden="true"></span>The shape of it</p>
+    <h2 class="display reveal d1">How the <span class="gradient-text">afternoon runs.</span></h2>
+    <p class="lede reveal d2">Four steps, always in this order. This is a map, not a menu &mdash; read
+    it top to bottom, nothing below is a link.</p>
+
+    <div class="mudmap reveal d3">
+      <div class="map-step" data-n="1"><h3>Write your deal synopsis</h3><p>A short, plain summary of the opportunity &mdash; no AI involved yet.</p></div>
+      <div class="map-step" data-n="2"><h3>Scout finds the story</h3><p>Give it your synopsis. In a single turn, it hands back three distinct stories and locks your claim and line.</p></div>
+      <div class="map-step" data-n="3"><h3>Arc writes the presentation copy</h3><p>Give it Scout's story. In one message, it writes the full copy for your 4-slide presentation.</p></div>
+      <div class="map-step" data-n="4"><h3>Iris builds your presentation</h3><p>Give it Arc's copy. It builds a clickable Keynote-style HTML presentation web artefact, with copy-ready AI image prompts.</p></div>
+    </div>
+
+    <div class="tip reveal d4">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.4.3.7.8.7 1.3V16h5.6v-.8c0-.5.3-1 .7-1.3A6 6 0 0 0 12 3Z"/></svg>
+      <p><span class="tip-k">Tip</span>Optional, and separate from the four steps above: the three
+      agents can also be installed as a Skill for advanced users. If that means nothing to you,
+      ignore it &mdash; skip straight to step 1.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ SKILLS (optional) -->
+<section class="frame dense" data-slug="skills" data-title="Optional: install the skills">
+  <div class="frame-inner">
+    <p class="eyebrow-label reveal"><span class="tick" aria-hidden="true"></span>Optional &middot; advanced users only</p>
+    <h2 class="display reveal d1">Meet the three <span class="gradient-text">agents.</span></h2>
+    <p class="lede reveal d2">This section is for advanced users only. If you are new to this, or
+    short on time, skip it &mdash; everything from step 1 onward works by copy and paste alone, with
+    nothing to install.</p>
+
+    <div class="agent-cards reveal d3">
+      <article class="agent-card a1">
+        <img class="agent-portrait" src="assets/agents-img/scout.jpg" alt="Scout">
+        <span class="role">Agent 01</span>
+        <h3 class="nme">Scout</h3>
+        <p class="job">Finds the story.</p>
+        <p class="lead">Reads whatever brief you already have, interrogates only the gaps, and returns three genuinely different stories.</p>
+        <div class="outcome"><span class="outcome-k">Outcome</span><p>A <b>claim</b> you defend internally and a <b>line</b> the client repeats.</p></div>
+        <span class="gline" style="background:linear-gradient(90deg,#2DE1FD,#FC31BB)"></span>
+      </article>
+      <article class="agent-card a2">
+        <img class="agent-portrait" src="assets/agents-img/arc.jpg" alt="Arc">
+        <span class="role">Agent 02</span>
+        <h3 class="nme">Arc</h3>
+        <p class="job">Writes your presentation copy.</p>
+        <p class="lead">Turns Scout's story into complete, frame-by-frame copy for a 4-slide clickable Keynote-style HTML presentation, with humanized boardroom language.</p>
+        <div class="outcome"><span class="outcome-k">Outcome</span><p>Presentation-ready <b>copy for a clickable HTML presentation</b> with 3 narrative angles.</p></div>
+        <span class="gline" style="background:linear-gradient(90deg,#FC31BB,#FF7A00)"></span>
+      </article>
+      <article class="agent-card a3">
+        <img class="agent-portrait" src="assets/agents-img/iris.jpg" alt="Iris">
+        <span class="role">Agent 03</span>
+        <h3 class="nme">Iris</h3>
+        <p class="job">Builds your clickable presentation.</p>
+        <p class="lead">Takes Arc's copy and builds a complete, clickable Keynote-style presentation web artefact in pure HTML, with slide navigation, presenter notes, and copy-ready AI image prompts.</p>
+        <div class="outcome"><span class="outcome-k">Outcome</span><p>An interactive, <b>clickable HTML presentation</b> ready to open and present in any browser.</p></div>
+        <span class="gline" style="background:linear-gradient(90deg,#FF7A00,#2DE1FD)"></span>
+      </article>
+    </div>
+
+    <div class="tip reveal d4">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.4.3.7.8.7 1.3V16h5.6v-.8c0-.5.3-1 .7-1.3A6 6 0 0 0 12 3Z"/></svg>
+      <p><span class="tip-k">Tip</span>A <strong>skill</strong> is a saved set of instructions some AI
+      tools (Claude among them) can load once, so you don't have to paste the whole prompt into every
+      chat. If you already know how to install a custom skill or project instructions, take the pack
+      below. If you don't, the copy-paste prompts further on do exactly the same job.</p>
+    </div>
+
+    <div class="btnrow reveal d4">
+      <a class="ce-btn btn-pink" href="assets/agents/storytellers-starter-pack.zip" download>Download the skill pack (.zip)</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ STEP 1 — SYNOPSIS -->
+<section class="frame dense" data-slug="synopsis" data-title="Write your deal synopsis">
+  <div class="frame-inner">
+    <p class="step-of reveal">Step 1 of 4</p>
+    <h2 class="display reveal d1">Write your <span class="gradient-text">deal synopsis.</span></h2>
+    <p class="lede synopsis-lede reveal d2"><strong>No AI yet</strong> &mdash; this is the one step you do yourself. It's the raw material every agent after this reads.</p>
+    <p class="body-copy synopsis-copy reveal d2">Below is a worked example for a fictional account, <strong>Danske Bank</strong>, one field per section, each pre-filled so you can see what &ldquo;done&rdquo; looks like. Click into any field and replace the example text with your own account's details.</p>
+    <div class="disclaim reveal d2">
+      <svg class="disclaim-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+      <div class="disclaim-content">
+        <span class="disclaim-tag">Fictional Example</span>
+        <p class="disclaim-text">The Danske Bank example is entirely fictional, written to show the shape of a finished synopsis. No real Danske Bank data, contacts or figures were used.</p>
+      </div>
+    </div>
+
+    <div class="form-break reveal d2" role="separator" aria-label="Deal Input Form">
+      <span class="form-break-tick" aria-hidden="true"></span>
+    </div>
+
+    <div class="form-subhead reveal d3">
+      <h3 class="form-subhead-title">Deal Input</h3>
+      <p class="form-subhead-desc">Ten fields to capture your deal &mdash; work through each question below to complete your synopsis before moving to Step 2.</p>
+    </div>
+
+    <div class="field-list reveal d3">
+      <div class="field">
+        <label for="f1">Account &amp; opportunity snapshot</label>
+        <div class="hint">Name the business unit, what you're bidding for, the size of it, who holds it today, and when it gets decided.</div>
+        <textarea id="f1" rows="7">Danske Bank, retail lending arm, covering mortgages and personal loans across Denmark, Norway, Sweden and Finland.
+
+Infosys is bidding for a three-year business process services contract to run loan origination and servicing operations, roughly €22m. Currently split between an in-house team and a regional BPO provider whose contract expires in eight months. Two other bidders are on the shortlist. Decision expected March 2027.</textarea>
+      </div>
+      <div class="field">
+        <label for="f2">The pain</label>
+        <div class="hint">Say what's actually broken, in the client's own words if you have a quote, and tie it to a number someone senior is already being measured on.</div>
+        <textarea id="f2" rows="9">Mette Holm, COO for Personal &amp; Business Customers, said this to her own board last quarter:
+
+"We tell customers they can apply for a mortgage in an app. We don't tell them it then sits in someone's queue for eleven days."
+
+Average time from application to offer is 11 days. The digital-only challengers Danske competes with quote same-day approval. Mette's board has tied her bonus to cutting that number, but the operations team reports to a different P&amp;L, and nobody has moved the incentive to match.
+
+The processing team is not idle. Exception volume is high because income and affordability documents arrive in a dozen formats, and each one gets checked by hand before a case can move forward.</textarea>
+      </div>
+      <div class="field">
+        <label for="f3">Economic buyer</label>
+        <div class="hint">Name whoever can actually move budget, not whoever signs the paperwork. Note how much access you have to them today and what they personally have riding on this.</div>
+        <textarea id="f3" rows="6">Mette Holm. She controls the budget, and cutting time-to-offer is her own board-level number, not something delegated down to her. We've met her once, at a vendor showcase, not one to one.</textarea>
+      </div>
+      <div class="field">
+        <label for="f4">Champion</label>
+        <div class="hint">List the client advocates who'll be in the room and who can move the decision our way. Add their position, what they personally want out of this, and what's been costing them sleep.</div>
+        <textarea id="f4" rows="7">Anders Friis, Head of Lending Operations. He runs the team most exposed if this goes wrong, and he's the one who explains the 11-day number every month. He's shared internal cycle-time data with us that he hasn't shared with the other two bidders. He hasn't yet agreed to introduce us to Mette directly, so right now he's a strong coach, not a confirmed champion.</textarea>
+      </div>
+      <div class="field">
+        <label for="f5">Decision criteria</label>
+        <div class="hint">List what they say they're scoring on, plus anything unpublished you've picked up in conversation. Flag which way each one cuts for us.</div>
+        <textarea id="f5" rows="6">Three published criteria: cycle-time reduction, cost per case, and data residency (all processing has to stay inside the EU). A fourth, unpublished one, from a conversation with Anders: whoever wins takes on his current team rather than replacing it. He raised that himself, unprompted, twice.</textarea>
+      </div>
+      <div class="field">
+        <label for="f6">Decision process and paper process</label>
+        <div class="hint">Map every step from shortlist to signature, including procurement and security review. Flag anything with no date or no owner yet.</div>
+        <textarea id="f6" rows="6">Shortlist demo in six weeks, reference calls in week eight, contract negotiation from week ten. Danske's procurement team runs a standard vendor risk assessment that Anders says takes "about six weeks once it starts, longer if security asks for a second round." That hasn't started, and it isn't on the timeline above. It should be.</textarea>
+      </div>
+      <div class="field">
+        <label for="f7">Competition</label>
+        <div class="hint">Name every vendor in the deal, including an internal build or doing nothing. For each, say where they beat us and where we beat them on the published criteria.</div>
+        <textarea id="f7" rows="6">The incumbent BPO provider is rebidding and knows the account cold, but their proposal so far just repeats the current operating model at a modest discount. One digital-native challenger is also on the shortlist, strong on the same-day-approval story but with no presence handling EU data residency at this scale, which is where the published criteria work for us.</textarea>
+      </div>
+      <div class="field">
+        <label for="f8">Our angle</label>
+        <div class="hint">State the one thing only we can prove, tied to a number, backed by reference work a client can call and check. If a competitor could claim the same sentence, it isn't a win theme yet.</div>
+        <textarea id="f8" rows="7">We already run mortgage and loan operations for two other European retail banks, including the document-exception workflow that's the actual bottleneck here, not the underwriting decision itself. At one of those banks, the same exception queue went from a 9-day average to 3 within eight months of go-live, without adding headcount. That's a real before-and-after number to bring into the shortlist demo, one neither other bidder can show.</textarea>
+      </div>
+      <div class="field">
+        <label for="f9">Risks and open gaps</label>
+        <div class="hint">List every assumption you're making and every door you haven't been let through yet, so nobody finds out about them in week ten.</div>
+        <textarea id="f9" rows="5">No access yet to the economic buyer outside a group setting. Vendor risk assessment hasn't started. We're assuming the unpublished team-transfer condition applies to all three bidders equally; Anders hasn't confirmed that.</textarea>
+      </div>
+      <div class="field">
+        <label for="f10">The ask</label>
+        <div class="hint">Name one concrete next step, with a person and a date attached. Not "stay in touch."</div>
+        <textarea id="f10" rows="5">A high impact four frame interactive presentation outlining our problem statement. This will act as a POV to entice further sales opportunities with the client.</textarea>
+      </div>
+    </div>
+
+    <div class="confirm reveal d4">
+      <p>When every field reads as your own account, not Danske's: download it as a file to
+      attach, or copy it as text to paste straight into a prompt.</p>
+      <div class="btnrow">
+        <button class="ce-btn btn-pink" id="dlSynopsis" type="button">Download as markdown</button>
+        <button class="ce-btn" id="copySynopsis" type="button">Copy as prompt</button>
+      </div>
+    </div>
+
+    <div class="tip reveal d4">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.4.3.7.8.7 1.3V16h5.6v-.8c0-.5.3-1 .7-1.3A6 6 0 0 0 12 3Z"/></svg>
+      <p><span class="tip-k">Tip</span>Write it the way you'd explain the deal to a colleague who
+      knows nothing about it. Scout can only work from what's on this page &mdash; a gap here is a
+      gap in every story it hands back.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ STEP 2 — SCOUT -->
+<section class="frame dense" data-slug="scout" data-title="Scout — find the story">
+  <div class="frame-inner">
+    <p class="step-of reveal">Step 2 of 4</p>
+    <div class="persona-row reveal d1">
+      <span class="persona"><img src="assets/agents-img/scout.jpg" alt=""></span>
+      <h2 class="display" style="font-size:var(--fs-h3)">Scout &mdash; <span class="gradient-text">find the story.</span></h2>
+    </div>
+    <p class="lede reveal d2">You get three genuinely different stories, ranked, one recommended,
+    delivered in a single message with a ready-to-copy story block.</p>
+
+    <ol class="steps2 reveal d3">
+      <li>Attach the <code>deal-synopsis.md</code> you downloaded to a new chat &mdash; or paste your synopsis where the prompt below says <code>[PASTE YOUR DEAL SYNOPSIS HERE]</code>.</li>
+      <li>Copy the whole prompt below and paste it in, straight after your synopsis is attached or pasted.</li>
+    </ol>
+
+    <div class="term reveal d4">
+      <div class="term-bar">
+        <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="nm">prompt · scout</span>
+        <button type="button" data-copy="p-scout">Copy</button>
+      </div>
+      <div class="term-editnote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20l4-1 11-11-3-3L5 16l-1 4Z"/></svg>Click into the box and edit it &mdash; replace the orange bracket with your synopsis, then hit Copy.</div>
+      <pre class="term-body" id="p-scout" contenteditable="true" spellcheck="false">You are Scout. Your job is to find the story in the deal I am pitching. Do not write slides yet. Deliver your entire analysis and recommendations in a SINGLE response.
+
+Most pitches fail because they answer "what can we tell them about ourselves" instead of "what is the one uncomfortable, urgent truth about their situation that we can solve and our competitors cannot".
+
+A story is two things:
+- THE CLAIM — the uncomfortable, arguable truth about their situation. The internal strategic spine.
+- THE LINE — the same idea spoken out loud in warm, customer-facing language that a client would repeat to their board.
+
+"You do not have an AI problem. You have an evidence backlog" is a claim. "Do Your Thing — empowering you to deliver at scale with AI" is the line that claim earns. A line without a claim is an empty slogan. A claim without a line is an audit finding. I need both.
+
+STYLE AND HUMANIZER RULES (MANDATORY):
+- Write like an elite executive brand strategist and pitch lead, not an academic auditor or compliance officer.
+- Focus on persuasive storytelling: human stakes, organizational friction, tension, and commercial reality.
+- Strictly eliminate AI writing tells:
+  - No "not X, but Y" or "not just X, it is Y" formulas.
+  - No dramatic one-line fragments ("That is the real win.", "Let that sink in.").
+  - No pseudo-profound aphorisms ("At its core", "what really matters", "X is the Y of Z").
+  - No staged run-ups ("Let's dive in", "Here is what you need to know", "Honestly?").
+  - No arguing with phantom objections ("To be clear", "This is not about").
+  - No forced triads ("innovation, agility, and efficiency").
+  - No em dashes or en dashes as lazy connectors; use clean periods, commas, or colons.
+  - Absolute ban on overused AI buzzwords: delve, robust, tapestry, testament, pivotal, crucial, enhance, foster, showcase, bolster, journey, leverage, seamless, transformation, at scale, vibrant, intricate.
+  - No bold decoration on every noun or list item.
+
+Here is my deal brief:
+
+---
+<b class="ph">[PASTE YOUR DEAL SYNOPSIS HERE]</b>
+---
+
+IN A SINGLE MESSAGE, EXECUTE THE FOLLOWING:
+
+1. BRIEF SYNTHESIS & GAP RESOLUTION
+Extract what the brief provides: Account, Position, Sponsor (who personally loses if nothing changes), Sceptic (who can challenge our claim), Client's real words or [NO QUOTE], Past attempts, and What only we can say.
+Do not pause to ask me questions. If the brief does not explicitly state an answer, intelligently infer a plausible recommendation based strictly on the context, mark it [ASSUMPTION], and mark any unverified external statistics [NEEDS SOURCE].
+
+2. THREE GENUINELY DIFFERENT STORIES
+Provide three ranked, distinct stories (Safer / Recommended / Riskier). Each must differ across all three elements:
+- Protagonist: whose fortunes the story follows.
+- Enemy: the real constraint, obsolete belief, or organizational bottleneck.
+- Reframe: what they thought the problem was, versus what it is actually about.
+
+For each story, provide:
+- Story Title & Risk Profile (Safer / Recommended / Riskier)
+- Claim: one arguable sentence under 15 words.
+- Line: client-facing, repeatable, under 10 words.
+- Protagonist / Enemy / Reframe
+- What it rests on: 2-3 specific facts or proof points ([ASSUMPTION] and [NEEDS SOURCE] marked).
+- What it costs us: the commercial trade-off, ground conceded, or uncomfortable truth admitted.
+- Sceptic test: what the sceptic will say, and how this narrative survives them.
+
+3. HAND-OFF CODE BLOCK
+Output the complete story file for the RECOMMENDED story in ONE fenced markdown code block ready to copy into the next agent:
+
+```markdown
+---
+account:      [Account Name]
+position:     [Defending / Challenging / First meeting]
+sponsor:      [Person with skin in the game]
+sceptic:      [Toughest internal critic]
+claim:        [The single arguable claim]
+line:         [The client-facing repeatable line]
+protagonist:  [Protagonist]
+enemy:        [The real bottleneck or constraint]
+reframe:      [The strategic shift]
+rests_on:
+  - [Proof point 1]
+  - [Proof point 2]
+costs_us:     [Trade-off or admitted bottleneck]
+banned_words: [delve, robust, leverage, seamless, journey, transformation, tapestry, at scale]
+brand_assets: [Supplied or marked UNVERIFIED]
+---
+
+# Story Handover
+
+## The Claim & The Line
+[One paragraph detailing the claim, the line, and why they fit together.]
+
+## Strategic Rests On & Costs
+[The supporting evidence, assumptions, and commercial concessions.]
+
+## The Two Alternatives Not Chosen
+[Brief note on the other two stories and why the recommended option wins for this room.]
+```
+
+4. SINGLE-MESSAGE RESOLUTION
+Conclude your response with this exact sentence:
+"Review the three recommendations, and pick one for the following agent, or, push back, and ask to re-generate or refine new options."</pre>
+    </div>
+
+    <div class="tip reveal d4">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.4.3.7.8.7 1.3V16h5.6v-.8c0-.5.3-1 .7-1.3A6 6 0 0 0 12 3Z"/></svg>
+      <p><span class="tip-k">Tip</span>Start a fresh chat for this prompt. Scout delivers three distinct
+      stories in a single message &mdash; pick the one that fits your meeting best, then copy its
+      handover block straight into Arc.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ STEP 3 — ARC -->
+<section class="frame dense" data-slug="arc" data-title="Arc — write the presentation copy">
+  <div class="frame-inner">
+    <p class="step-of reveal">Step 3 of 4</p>
+    <div class="persona-row reveal d1">
+      <span class="persona"><img src="assets/agents-img/arc.jpg" alt=""></span>
+      <h2 class="display" style="font-size:var(--fs-h3)">Arc &mdash; <span class="gradient-text">write the presentation copy.</span></h2>
+    </div>
+    <p class="lede reveal d2">Arc focuses exclusively on your 4-slide interactive presentation. In a single message,
+    you get three narrative angles, frame-by-frame copy for a clickable Keynote-style HTML presentation, and a handover block for Iris.</p>
+
+    <ol class="steps2 reveal d3">
+      <li>Start a fresh chat, and paste Scout's story block where the prompt below says <code>[PASTE THE STORY BLOCK FROM PROMPT 1 HERE]</code>.</li>
+      <li>Copy the whole prompt below and paste it in, straight after Scout's block.</li>
+    </ol>
+
+    <table class="plain reveal d3">
+      <tr><th>Slide</th><th>Job</th><th>What must be on it</th></tr>
+      <tr><td>1 &middot; Cover</td><td>Open on their situation</td><td>Their real words or number, the line, nothing about our capabilities</td></tr>
+      <tr><td>2 &middot; The claim</td><td>Land the argument</td><td>The strategic reframe, the internal tension, the proof behind it</td></tr>
+      <tr><td>3 &middot; The solution</td><td>Show operating proof</td><td>How the breakthrough works in practice, concrete evidence</td></tr>
+      <tr><td>4 &middot; The ask</td><td>Close on one action</td><td>The single next step, small enough to say yes to in the room</td></tr>
+    </table>
+
+    <div class="term reveal d4">
+      <div class="term-bar">
+        <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="nm">prompt · arc</span>
+        <button type="button" data-copy="p-arc">Copy</button>
+      </div>
+      <div class="term-editnote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20l4-1 11-11-3-3L5 16l-1 4Z"/></svg>Click into the box and edit it &mdash; replace the orange bracket with Scout's block, then hit Copy.</div>
+      <pre class="term-body" id="p-arc" contenteditable="true" spellcheck="false">You are Arc. You take a locked story from Scout and write the complete copy for a 4-frame, clickable Keynote-style presentation web artefact. Do not create abstract beat sheets. Do not map multiple formats. Deliver the entire presentation copy and handover file in a SINGLE response.
+
+A presentation is not a brochure of capabilities. It is the structured argument that earns the client's agreement, frame by frame.
+
+The workshop focuses on a high-impact 4-frame presentation structure:
+- Slide 1: Cover / The Client's Reality — opens on their situation, their real words or numbers, customer-first hook, the Line. Nothing about our capabilities.
+- Slide 2: The Uncomfortable Truth / The Claim — lands the strategic reframe, the internal tension, the proof behind it, and why previous attempts failed.
+- Slide 3: The Solution in Action / Operating Proof — shows how the breakthrough works in practice, concrete operational evidence, tangible proof points.
+- Slide 4: The Commercial Ask / Next Action — closes on one concrete next step, small enough to approve in the room.
+
+STYLE AND HUMANIZER RULES (MANDATORY):
+- Write punchy, persuasive, marketing-friendly copy that sounds like a confident executive in a boardroom.
+- Keep the language human, sharp, and narrative-driven. Avoid dry technical jargon and auditor-speak.
+- Keep headlines punchy (under 6 words). Determine on-slide body copy length based on narrative necessity and design balance — giving each slide enough substance to carry the argument without overcrowding the screen.
+- Strictly eliminate AI writing tells:
+  - No "not X, but Y" or "not only X, but Y" constructions.
+  - No dramatic one-line closers ("That is the real win.", "Let that sink in.").
+  - No pseudo-profound aphorisms ("At its core", "what really matters").
+  - No staged run-ups ("Let's explore", "Here is what you need to know").
+  - No arguing with phantom objections ("To be clear", "This is not to say").
+  - No forced triads.
+  - No em dashes or en dashes as lazy connectors; use clean punctuation.
+  - Banned buzzwords: delve, robust, tapestry, testament, pivotal, crucial, enhance, foster, showcase, bolster, journey, leverage, seamless, transformation, at scale, vibrant.
+  - No bold decoration on every noun.
+
+Here is my story file:
+
+---
+<b class="ph">[PASTE THE STORY BLOCK FROM PROMPT 1 HERE]</b>
+---
+
+IN A SINGLE MESSAGE, EXECUTE THE FOLLOWING:
+
+1. STORY ALIGNMENT
+Confirm in two lines: the Claim, the Line, and the key decision maker in the room.
+
+2. THREE PRESENTATION NARRATIVE ANGLES
+Offer three distinct narrative angles for the 4-frame presentation:
+- Option 1 (Operational & Friction-Led): Focuses heavily on the cost of delay, day-to-day bottleneck relief, and immediate efficiency.
+- Option 2 (Recommended / The Strategic Reframe): The definitive narrative arc that pairs the Claim with the Line, reframing their operational challenge into a competitive advantage.
+- Option 3 (Executive Challenger / Outcome-Led): A bold, high-stakes boardroom narrative focused on transformative commercial market leadership.
+
+3. COMPLETE FRAME-BY-FRAME COPY (FOR RECOMMENDED OPTION)
+Write the complete, presentation-ready copy for all 4 slides:
+For each slide provide:
+- Slide Number & Name (Slide 1 Cover, Slide 2 The Claim, Slide 3 The Solution, Slide 4 The Ask)
+- Job of the Frame: the single decision or belief this slide wins.
+- Headline: client-focused, narrative-driven, marketing-sharp (under 6 words).
+- On-Slide Copy: the exact text to appear on the presentation slide (balanced for clarity, impact, and presentation hierarchy).
+- Key Visual / Data Anchor: the exact stat, quote, or diagram concept that anchors the slide.
+- Presenter Talking Points: 2-3 sentences of natural spoken dialogue for the presenter in the room.
+
+4. HAND-OFF CODE BLOCK FOR AGENT 3 (IRIS)
+Output the complete presentation copy inside ONE fenced markdown code block ready for Agent 3 (Iris):
+
+```markdown
+---
+account:          [From story file]
+claim:            [From story file]
+line:             [From story file]
+narrative:        Option 2 · The Strategic Reframe
+delivery_format:  clickable_html_presentation
+slides_count:     4
+---
+
+# Presentation Copy Handover
+
+## Slide 1 · Cover: The Client's Reality
+- Headline: [Headline]
+- On-slide text: [Body copy]
+- Visual anchor: [Visual or stat anchor]
+- Talking points: [Spoken dialogue]
+
+## Slide 2 · The Uncomfortable Truth: The Claim
+- Headline: [Headline]
+- On-slide text: [Body copy]
+- Visual anchor: [Evidence stat or quote]
+- Talking points: [Spoken dialogue]
+
+## Slide 3 · The Solution in Action: Operating Proof
+- Headline: [Headline]
+- On-slide text: [Body copy]
+- Visual anchor: [Workflow, system, or metric anchor]
+- Talking points: [Spoken dialogue]
+
+## Slide 4 · The Commercial Ask: Next Action
+- Headline: [Headline]
+- On-slide text: [Body copy]
+- Visual anchor: [Action roadmap or pilot scope]
+- Talking points: [Spoken dialogue]
+```
+
+5. SINGLE-MESSAGE RESOLUTION
+Conclude your response with this exact sentence:
+"Review the three recommendations, and pick one for the following agent, or, push back, and ask to re-generate or refine new options."</pre>
+    </div>
+
+    <div class="tip reveal d4">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.4.3.7.8.7 1.3V16h5.6v-.8c0-.5.3-1 .7-1.3A6 6 0 0 0 12 3Z"/></svg>
+      <p><span class="tip-k">Tip</span>Arc writes the complete frame-by-frame copy for your 4-slide
+      clickable Keynote-style presentation in one turn. Save the handover block at the end &mdash; you'll paste it straight
+      into Iris.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ STEP 4 — IRIS -->
+<section class="frame dense" data-slug="iris" data-title="Iris — build your clickable presentation">
+  <div class="frame-inner">
+    <p class="step-of reveal">Step 4 of 4</p>
+    <div class="persona-row reveal d1">
+      <span class="persona"><img src="assets/agents-img/iris.jpg" alt=""></span>
+      <h2 class="display" style="font-size:var(--fs-h3)">Iris &mdash; <span class="gradient-text">build your clickable presentation.</span></h2>
+    </div>
+    <p class="lede reveal d2">Iris takes Arc's presentation copy and builds your complete, clickable Keynote-style presentation web artefact in pure HTML &mdash; with keyboard and click navigation, presenter notes drawer, and copy-ready AI image prompts.</p>
+
+    <ol class="steps2 reveal d3">
+      <li>Start a fresh chat, and paste Arc's presentation copy handover block where the prompt below says <code>[PASTE THE PRESENTATION COPY BLOCK FROM PROMPT 2 HERE]</code>.</li>
+      <li>Copy the prompt below and paste it in. Iris generates your complete, working HTML presentation and copy-ready AI image prompts in a single response.</li>
+    </ol>
+
+    <div class="term reveal d4">
+      <div class="term-bar">
+        <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="nm">prompt · iris · clickable presentation</span>
+        <button type="button" data-copy="p-iris">Copy</button>
+      </div>
+      <div class="term-editnote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20l4-1 11-11-3-3L5 16l-1 4Z"/></svg>Click into the box and edit it &mdash; replace the orange bracket with Arc's presentation copy block, then hit Copy.</div>
+      <pre class="term-body" id="p-iris" contenteditable="true" spellcheck="false">You are Iris, the final agent. Your job is to take the story and presentation copy from Arc and build a complete, clickable Keynote-style presentation web artefact in a single self-contained HTML file. Deliver your design system, three aesthetic routes, copy-ready AI image prompts, and the COMPLETE, WORKING HTML ARTEFACT in a SINGLE response.
+
+Visual design is the argument made visible. A serious commercial claim dressed in generic stock imagery contradicts itself. Do not deliver vague design specs or markdown layout outlines. Deliver the real, interactive presentation code.
+
+STYLE AND HUMANIZER RULES (MANDATORY):
+- Present art direction with concrete design specifications: exact hex colors, type pairings, and visual rules.
+- Strictly eliminate AI buzzwords (delve, robust, tapestry, testament, pivotal, journey, leverage, seamless, transformation, at scale).
+- Do not use decorative bold text on every item. Keep descriptions clean and direct.
+
+Here is my presentation copy file:
+
+---
+<b class="ph">[PASTE THE PRESENTATION COPY BLOCK FROM PROMPT 2 HERE]</b>
+---
+
+IN A SINGLE MESSAGE, EXECUTE THE FOLLOWING:
+
+1. DESIGN SYSTEM SPECIFICATION
+Define the visual identity for the presentation:
+- Palette: Dominant color (dark or light ground), Text/Paper contrast, and one Accent color (provide exact hex codes). Rule: Accent is used at most once per slide for the key focal point.
+- Typography: Clean typography pairing (e.g. system font stack or modern geometric sans like Inter / SF Pro / Roboto). Three distinct sizes: Headline, Body, Caption/Label.
+- Visual Territory: Three words for what the aesthetic IS, and three words for what it is explicitly NOT.
+
+2. THREE AESTHETIC RECOMMENDATIONS
+Offer three distinct aesthetic directions for the presentation:
+- Option 1 (Clean Editorial / Documentary): Authentic documentary feel, natural daylight, understated executive authority.
+- Option 2 (Recommended / High-Impact Strategic): Sharp editorial contrast, powerful typographic hierarchy, confident negative space, strategic color pop.
+- Option 3 (Precision Structural / Architectural): Clean architectural system layouts, clear data flows, transparent processes, technical credibility.
+
+3. GENERATIVE AI IMAGE PROMPTS (MANDATORY)
+For every slide that benefits from imagery or visual assets, write a production-grade generative AI image prompt following these rules:
+- Aspect ratio: specify 16:9 for presentation slides.
+- Framing: subject weighted to one side with clear negative space across the opposite third for headlines.
+- Camera and lens: specify realistic optics (e.g. 50mm f/1.8, natural depth of field).
+- Lighting: specify concrete natural lighting (e.g. late afternoon directional daylight, soft architectural side-light; never generic &#39;inspiring light&#39;).
+- Palette: embed the exact hex values from your design system.
+- Strict negative prompt: no text, no letters, no logos, no watermarks, no distorted hands, no generic CGI renders.
+
+CRITICAL FORMATTING REQUIREMENT:
+Format each generative AI image prompt in its own isolated, copy-ready code box preceded by this exact instruction in bold:
+**Add to your preferred image generation tool** (e.g. Midjourney, DALL-E 3, Adobe Firefly, Nano Banana):
+
+```text
+[The exact generative prompt text...]
+```
+
+4. COMPLETE CLICKABLE KEYNOTE-STYLE HTML PRESENTATION ARTEFACT (MANDATORY)
+Generate the complete, production-ready, self-contained HTML code in ONE fenced ```html code block. The user must be able to copy this code, save it as an .html file, and immediately open it in any web browser to present.
+
+The HTML web artefact MUST include:
+- A self-contained single file (&lt;!DOCTYPE html&gt;&lt;html&gt;...&lt;/html&gt;) with all CSS in a &lt;style&gt; tag and all JavaScript in a &lt;script&gt; tag. Zero external runtime dependencies.
+- Keynote-style 16:9 presentation canvas centered in the viewport, styled according to your Recommended Design System.
+- All 4 slides fully built out with Arc's finalized headlines, crisp on-slide text, and structured layouts:
+  - Slide 1: Cover / The Client's Reality
+  - Slide 2: The Uncomfortable Truth / The Claim
+  - Slide 3: The Solution in Action / Operating Proof
+  - Slide 4: The Commercial Ask / Next Action
+- Interactive Navigation (Click & Keyboard):
+  - Keyboard controls: Right Arrow / Space = Next slide, Left Arrow = Previous slide, Home = First slide.
+  - On-screen controls: Sleek "Prev" and "Next" buttons, plus clickable slide step indicators (e.g., "01", "02", "03", "04") or progress bar showing current position.
+  - Smooth, elegant slide transition (clean fade or crisp translate; no cheesy or slow animations).
+- Presenter Notes Drawer:
+  - A toggle button (labeled "Notes" or keyboard shortcut 'N') that opens a discreet drawer showing Arc's presenter talking points for the current slide.
+- Visual Placeholder / Anchor Container:
+  - Each slide includes a designated visual frame that showcases the visual anchor (diagram, stat callout, or a styled image card displaying the AI image prompt for that slide).
+
+5. SINGLE-MESSAGE RESOLUTION
+Conclude your response with this exact sentence:
+"Review the three recommendations, and pick one for the following agent, or, push back, and ask to re-generate or refine new options."</pre>
+    </div>
+
+    <div class="tip reveal d4">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.4.3.7.8.7 1.3V16h5.6v-.8c0-.5.3-1 .7-1.3A6 6 0 0 0 12 3Z"/></svg>
+      <p><span class="tip-k">Tip</span>Iris delivers a complete, self-contained HTML file in a single message. Save the code as <code>presentation.html</code>, double-click it to open in any browser, and use your arrow keys or on-screen controls to click through your Keynote-style presentation. Press &ldquo;N&rdquo; to toggle your presenter notes.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ TIPS -->
+<section class="frame dense" data-slug="tips" data-title="Tips &amp; tricks">
+  <div class="frame-inner">
+    <p class="eyebrow-label reveal"><span class="tick" aria-hidden="true"></span>Before you go</p>
+    <h2 class="display reveal d1">Tips &amp; <span class="gradient-text">tricks.</span></h2>
+    <p class="lede reveal d2">Things that make this go faster, from people who have run it before.</p>
+
+    <ul class="tips reveal d3">
+      <li><strong>Start a fresh chat for each prompt.</strong> They're built to stand alone, and a clean window stops the model quietly reusing something you already rejected.</li>
+      <li><strong>Single-message resolution.</strong> Each agent delivers three concrete recommendations in a single turn and concludes with: <em>&ldquo;Review the three recommendations, and pick one for the following agent, or, push back, and ask to re-generate or refine new options.&rdquo;</em></li>
+      <li><strong>If a model pauses to ask questions,</strong> reply: &ldquo;Proceed directly to the single-message output. Use your best brief-derived recommendations and assumptions.&rdquo;</li>
+      <li><strong>Keep every handover block somewhere safe before you close the chat.</strong> A note, a doc, an email to yourself. The block is the memory &mdash; lose it and the next prompt has nothing to work from.</li>
+      <li><strong>Copy AI image prompts directly.</strong> Iris outputs isolated, copy-ready AI image prompts marked with &ldquo;Add to your preferred image generation tool&rdquo;. Paste them straight into Midjourney, DALL-E, Firefly, or Nano Banana to produce slide visuals.</li>
+      <li><strong>Does the claim survive the sceptic?</strong> Say out loud what that person would push back on. If nobody at the table can answer it, the claim isn't ready.</li>
+      <li><strong>Does the line match the claim?</strong> If explaining the line takes more than a sentence, it's doing too much work.</li>
+      <li><strong>Check the copy against humanizer rules.</strong> Watch out for AI buzzwords (delve, robust, tapestry, pivotal, seamless, at scale) and false contrast (&ldquo;not X, but Y&rdquo;). Speak like an executive in a boardroom.</li>
+      <li><strong>If two of the three stories feel the same,</strong> reply: &ldquo;Give me three that differ on protagonist, enemy and reframe.&rdquo; It will offer more.</li>
+      <li><strong><code>[NEEDS SOURCE]</code> and <code>[UNVERIFIED]</code> are the point,</strong> not a flaw. They're your list of what to go and check before this reaches a client.</li>
+      <li><strong>No AI access at your table?</strong> Ask David in the room &mdash; that's a solved problem this afternoon, not a blocker.</li>
+      <li><strong>These agents don't remember your account between sessions.</strong> Run them again next quarter and they start from nothing &mdash; that's expected, not a bug.</li>
+    </ul>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ GOOD / BAD IMAGE PROMPTS -->
+<section class="frame dense" data-slug="image-prompts" data-title="The same rule, on images">
+  <div class="frame-inner">
+    <p class="eyebrow-label reveal"><span class="tick" aria-hidden="true"></span>Before you go &middot; image prompts</p>
+    <h2 class="display reveal d1">The same rule, <span class="gradient-text">on images.</span></h2>
+    <p class="lede reveal d2">Same model, same brief. The difference is a lens, a light, a framing
+    rule, a fixed palette, a reference image and a banned list &mdash; the same discipline Iris
+    already applies to your locked image prompt.</p>
+
+    <div class="ipg reveal d3">
+      <div class="ipc bad">
+        <div class="ipc-hd">Vague</div>
+        <pre>A professional photo of a bank with modern technology, high quality, 4k, trending</pre>
+        <div class="why">
+          <div class="miss"><span>Lens</span><span>Light</span><span>Framing</span><span>Palette</span><span>References</span><span>Banned list</span></div>
+          <p style="margin-top:10px">Not one of these is specified, so the model returns the average
+          of everything it has ever seen. Nobody in a regulated business believes it.</p>
+        </div>
+      </div>
+      <div class="tip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.4.3.7.8.7 1.3V16h5.6v-.8c0-.5.3-1 .7-1.3A6 6 0 0 0 12 3Z"/></svg>
+        <p><span class="tip-k">Tip</span>Fix all six before you generate anything: name a lens,
+        describe the light rather than a mood, leave room for the words, fix the palette to exact
+        hex values, anchor a style with a reference image, and say what must not appear at all.</p>
+      </div>
+      <div class="ipc good">
+        <div class="ipc-hd">Specified</div>
+        <pre>[CLIENT] brand campaign photography, <mark>50mm f2</mark>, high-key natural light through [SETTING]. [SUBJECT], confident and unposed. Palette <mark>[HEX 1]</mark> / <mark>[HEX 2]</mark> / accent <mark>[HEX 3]</mark>, used once per frame. <mark>No text, no logos, no readable screens.</mark> 16:9, subject weighted right with clear space across the left third. Match <mark>ref 1</mark> for light, <mark>ref 2</mark> for expression.</pre>
+        <div class="ipbits">
+          <div>
+            <span class="cap">Ref 1 &amp; 2 &middot; from the client's own brand photography</span>
+            <div class="refs">
+              <figure><img src="assets/refs/ref-light.jpg" alt="Reference 1 — daylight and openness"><figcaption>Ref 1 &middot; light</figcaption></figure>
+              <figure><img src="assets/refs/ref-confidence.jpg" alt="Reference 2 — confident, unposed portraiture"><figcaption>Ref 2 &middot; expression</figcaption></figure>
+            </div>
+          </div>
+          <div>
+            <span class="cap">Hex 1&ndash;3 &middot; fixed, not described</span>
+            <div class="hx">
+              <span><i style="background:#0B0E12"></i>#0B0E12</span>
+              <span><i style="background:#F4F2ED"></i>#F4F2ED</span>
+              <span><i style="background:#FF6200"></i>#FF6200</span>
+            </div>
+          </div>
+        </div>
+        <div class="why">
+          <p>The more specific the prompt, the further it moves from average. Write your account's
+          version of this once, and every image after it is a paste, not a negotiation.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ FINAL -->
+<section class="frame hero" data-slug="final" data-title="Take it from here">
+    <div class="hero-video" aria-hidden="true">
+      <video src="assets/video/cover.mp4" poster="assets/video/cover.jpg" autoplay muted loop playsinline></video>
+    </div>
+  <div class="frame-inner">
+    <p class="eyebrow-label reveal"><span class="tick" aria-hidden="true"></span>That's everything</p>
+    <h1 class="display reveal d1">Take it <span class="gradient-text">from here.</span></h1>
+    <p class="lede reveal d2">Everything on this page lives at charleselena.com.au &mdash; bookmark
+    it, come back to it next quarter, or send it to someone on your team who missed today.</p>
+    <div class="cta-row reveal d3">
+      <a class="ce-btn btn-pink" href="https://charleselena.com.au" target="_blank" rel="noopener">Visit charleselena.com.au</a>
+    </div>
+    <p class="cta-note reveal d4">Questions about any of this? Find David in the room &mdash; that's what he's there for.</p>
+  </div>
+</section>
+
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  var deck     = document.getElementById('deck'),
+      frames   = Array.prototype.slice.call(deck.querySelectorAll('.frame')),
+      counter  = document.getElementById('frameCount'),
+      pnav     = document.getElementById('progressNav'),
+      announce = document.getElementById('announce'),
+      footBack = document.getElementById('footBack'),
+      footNext = document.getElementById('footNext'),
+      active   = 0;
+
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+
+  // One page visible at a time. Nothing here scrolls between pages —
+  // Back/Next (or a dot, or the arrow keys) is the only way to move.
+  // A page taller than the viewport scrolls on its own (see .frame CSS).
+  function showFrame(i){
+    i = Math.max(0, Math.min(frames.length - 1, i));
+    active = i;
+    frames.forEach(function(f, n){
+      if (n === i){
+        f.classList.add('is-active');
+        f.scrollTop = 0;
+        f.classList.remove('in-view');
+        void f.offsetWidth; // force reflow so the reveal transition re-plays
+        requestAnimationFrame(function(){ f.classList.add('in-view'); });
+      } else {
+        f.classList.remove('is-active', 'in-view');
+      }
+    });
+    var f = frames[i];
+    if (counter) counter.textContent = pad(i + 1) + ' / ' + pad(frames.length);
+    dots.forEach(function(d, n){ d.classList.toggle('is-active', n === i); });
+    if (announce) announce.textContent = f.dataset.title || '';
+    if (footBack) footBack.hidden = (i === 0);
+    if (footNext) footNext.hidden = (i === frames.length - 1);
+  }
+  function goTo(i){ showFrame(i); }
+  function goToSlug(slug){
+    var i = frames.findIndex(function(f){ return f.dataset.slug === slug; });
+    if (i > -1) goTo(i);
+  }
+
+  if (pnav){
+    frames.forEach(function(f, i){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', 'Go to ' + (f.dataset.title || f.dataset.slug));
+      b.addEventListener('click', function(){ goTo(i); });
+      pnav.appendChild(b);
+    });
+  }
+  var dots = pnav ? Array.prototype.slice.call(pnav.children) : [];
+
+  showFrame(0);
+
+  document.querySelectorAll('[data-go]').forEach(function(b){
+    b.addEventListener('click', function(){ goToSlug(b.dataset.go); });
+  });
+  if (footBack) footBack.addEventListener('click', function(){ goTo(active - 1); });
+  if (footNext) footNext.addEventListener('click', function(){ goTo(active + 1); });
+
+  document.addEventListener('keydown', function(e){
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || e.target.isContentEditable) return;
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' '){
+      e.preventDefault(); goTo(active + 1);
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp'){
+      e.preventDefault(); goTo(active - 1);
+    } else if (e.key === 'Home'){ e.preventDefault(); goTo(0); }
+    else if (e.key === 'End'){ e.preventDefault(); goTo(frames.length - 1); }
+  });
+
+  /* ---- copy / download (unchanged behaviour from the previous build) ---- */
+  function flashButton(btn, text, restore){
+    btn.textContent = text;
+    btn.classList.add('is-done');
+    clearTimeout(btn._t);
+    btn._t = setTimeout(function(){ btn.textContent = restore; btn.classList.remove('is-done'); }, 1800);
+  }
+
+  // file:// is not a secure context, so navigator.clipboard can be undefined
+  // when this is opened straight from disk. Fall back to a hidden textarea + execCommand.
+  function copyText(text, btn, restore){
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      document.body.removeChild(ta);
+      flashButton(btn, ok ? 'Copied' : 'Select & ⌘C', restore);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){ flashButton(btn, 'Copied', restore); }, fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-copy]'), function(btn){
+    var target = document.getElementById(btn.getAttribute('data-copy'));
+    if (!target) return;
+    btn.addEventListener('click', function(){
+      // innerText (not textContent) so edits made in the editable box — including the
+      // line breaks a contenteditable div inserts on Enter — copy out correctly.
+      var text = (typeof target.innerText === 'string') ? target.innerText : target.textContent;
+      copyText(text, btn, 'Copy');
+    });
+  });
+
+  // The four prompt boxes are contenteditable so a rep can fill in the bracket in
+  // place. Pasting from Word/Slack can drag formatting in with it — strip it back
+  // to plain text on the way in so the prompt stays plain text on the way out too.
+  Array.prototype.forEach.call(document.querySelectorAll('.term-body[contenteditable="true"]'), function(el){
+    el.addEventListener('paste', function(e){
+      e.preventDefault();
+      var text = (e.clipboardData || window.clipboardData).getData('text/plain');
+      document.execCommand('insertText', false, text);
+    });
+  });
+
+  var FIELDS = [
+    ['f1', 'Account & opportunity snapshot'], ['f2', 'The pain'], ['f3', 'Economic buyer'],
+    ['f4', 'Champion'], ['f5', 'Decision criteria'], ['f6', 'Decision process and paper process'],
+    ['f7', 'Competition'], ['f8', 'Our angle'], ['f9', 'Risks and open gaps'], ['f10', 'The ask']
+  ];
+  function assembleSynopsis(){
+    var out = ['# Deal synopsis', ''];
+    FIELDS.forEach(function(f){
+      var el = document.getElementById(f[0]);
+      var val = el ? el.value.trim() : '';
+      out.push('## ' + f[1], '', val, '');
+    });
+    return out.join('\n').trim() + '\n';
+  }
+
+  var dlBtn = document.getElementById('dlSynopsis');
+  if (dlBtn){
+    dlBtn.addEventListener('click', function(){
+      var blob = new Blob([assembleSynopsis()], {type:'text/markdown'});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = 'deal-synopsis.md';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      flashButton(dlBtn, 'Downloaded', 'Download as markdown');
+    });
+  }
+  var cpBtn = document.getElementById('copySynopsis');
+  if (cpBtn){
+    cpBtn.addEventListener('click', function(){ copyText(assembleSynopsis(), cpBtn, 'Copy as prompt'); });
+  }
+})();
+</script>
+
+</body>
+</html>

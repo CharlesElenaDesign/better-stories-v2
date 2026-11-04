@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Four hundred proofs of concept — ING Group, executive summary</title>
+<meta name="description" content="Sixteen landscape pages, one argument. Executive summary produced by find-the-story, structure-the-narrative and theme-it. Fictional account brief.">
+<link rel="stylesheet" href="fonts/fonts.css">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+/* ============================================================
+   THEME — written by theme-it, applied without amendment.
+   Inherited from slide 09 of the deck.
+
+   01 Territory  Audited. Evidenced. Institutional.
+                 Not: unleash, journey, neural.
+   02 Colour     Near-black on paper. Accent once per page,
+                 only on the number that IS the argument.
+   03 Type       Fraunces 300 for the claim, Instrument Sans
+                 for everything else. Three sizes. 62ch max.
+   04 Imagery    Photography only — the Route B ING brand
+                 lifestyle world, graded black/white/orange.
+   05 Motion     One: a single upward fade on page entry.
+
+   FORMAT        16:9 landscape, one page at a time, clickable
+                 like a deck. Fixed 1600x900 stage scaled to
+                 the viewport, so nothing reflows or clips.
+   ============================================================ */
+:root{
+  --ink:#0B0E12;
+  --paper:#F4F2ED;
+  --accent:#FF6200;
+
+  --ink-70:rgba(11,14,18,.70);
+  --ink-45:rgba(11,14,18,.45);
+  --ink-28:rgba(11,14,18,.28);
+  --ink-12:rgba(11,14,18,.12);
+  --ink-06:rgba(11,14,18,.055);
+  --rule:rgba(11,14,18,.14);
+
+  --pap-70:rgba(244,242,237,.70);
+  --pap-45:rgba(244,242,237,.45);
+  --pap-18:rgba(244,242,237,.18);
+
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'Instrument Sans',system-ui,-apple-system,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,'SF Mono',Menlo,monospace;
+
+  /* three sizes. that is enough. */
+  --fs-claim:44px;
+  --fs-body:15.5px;
+  --fs-meta:11px;
+  /* the claim, one step up, for covers and dividers only */
+  --fs-display:78px;
+
+  --measure:62ch;
+  --pad:64px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:#08090B;color:var(--ink);
+  font:var(--fs-body)/1.62 var(--sans);
+  -webkit-font-smoothing:antialiased;overflow:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+::selection{background:var(--accent);color:#fff}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+/* ── the deck: a fixed stage scaled to fit ─────────────────── */
+#deck{position:fixed;inset:0;display:grid;place-items:center}
+#stage{width:1600px;height:900px;position:relative;flex:none;
+  transform:scale(var(--s,1));transform-origin:center center;
+  box-shadow:0 40px 120px rgba(0,0,0,.55)}
+
+.pg{position:absolute;inset:0;background:var(--paper);
+  display:flex;flex-direction:column;padding:var(--pad);
+  overflow:hidden;visibility:hidden;opacity:0}
+.pg.on{visibility:visible;opacity:1}
+
+/* ── page furniture ───────────────────────────────────────── */
+.eyebrow{font:600 var(--fs-meta)/1 var(--sans);letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-45)}
+.h-title{font-family:var(--serif);font-weight:300;font-size:var(--fs-claim);
+  line-height:1.06;letter-spacing:-.022em;margin-top:14px;max-width:30ch}
+.h-sub{font-size:17px;line-height:1.45;color:var(--ink-45);margin-top:10px;
+  max-width:64ch}
+.hr{height:1px;background:var(--rule);margin:22px 0 0}
+.hr.accent{background:linear-gradient(90deg,var(--accent) 0 90px,var(--rule) 90px)}
+
+.pg-body{flex:1 1 auto;display:flex;flex-direction:column;
+  padding-top:26px;min-height:0}
+
+.foot{flex:none;display:flex;align-items:center;gap:14px;
+  padding-top:18px;margin-top:auto;
+  font:600 var(--fs-meta)/1 var(--sans);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-45)}
+.foot .lock{display:flex;align-items:center;gap:11px}
+.foot .lock img{height:17px;width:auto}
+.foot .lock .bar{width:1px;height:15px;background:var(--ink-28)}
+.foot .lock .inf{font:600 12px/1 var(--sans);letter-spacing:.04em;
+  text-transform:none;color:var(--ink)}
+.foot .grow{flex:1}
+.foot .fol{font-variant-numeric:tabular-nums;color:var(--ink)}
+
+/* dark pages invert the furniture */
+.pg.dark{background:var(--ink);color:var(--paper)}
+.pg.dark .eyebrow,.pg.dark .h-sub,.pg.dark .foot{color:var(--pap-45)}
+.pg.dark .hr{background:var(--pap-18)}
+.pg.dark .foot .lock .inf,.pg.dark .foot .fol{color:var(--paper)}
+.pg.dark .foot .lock .bar{background:var(--pap-45)}
+
+.accent{color:var(--accent)}
+em{font-style:italic}
+strong,b{font-weight:600}
+.pg.dark strong,.pg.dark b{color:#fff}
+
+/* ── copy ─────────────────────────────────────────────────── */
+p.body{color:var(--ink-70);max-width:var(--measure)}
+p.body + p.body{margin-top:11px}
+p.body strong{color:var(--ink);font-weight:500}
+.pg.dark p.body{color:var(--pap-70)}
+.pg.dark p.body strong{color:#fff}
+
+.lead{font-size:19px;line-height:1.5;letter-spacing:-.005em;
+  color:var(--ink);max-width:96ch}
+.lead .accent{font-weight:600}
+
+.claim-xl{font-family:var(--serif);font-weight:300;font-size:60px;
+  line-height:1.05;letter-spacing:-.028em;max-width:24ch}
+.claim-xl em{font-style:italic}
+
+.pull{border-left:2px solid var(--ink-28);padding-left:16px;
+  color:var(--ink-70);max-width:var(--measure)}
+
+.flag{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);
+  font-size:11.5px;letter-spacing:.02em;color:var(--accent);
+  border:1px solid rgba(255,98,0,.42);border-radius:3px;padding:2px 7px;
+  vertical-align:1px;text-transform:none}
+
+/* the accented number, when the argument is a number */
+.big{font-family:var(--serif);font-weight:300;font-size:96px;line-height:.84;
+  letter-spacing:-.045em;color:var(--accent);font-variant-numeric:tabular-nums}
+.big.sm{font-size:60px}
+.big-cap{font:600 var(--fs-meta)/1.55 var(--sans);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-45);margin-top:12px;max-width:30ch}
+.pg.dark .big-cap{color:var(--pap-45)}
+
+/* ── photography: graded black / white / orange ─────────────
+   Every frame gets the same two passes, so the set reads as one
+   treatment: ink where the type goes, orange where the light is.
+   ---------------------------------------------------------- */
+.ph{position:relative;overflow:hidden;background:var(--ink);isolation:isolate}
+.ph img{width:100%;height:100%;object-fit:cover;
+  filter:grayscale(1) contrast(1.12) brightness(.94)}
+/* pass one — the black-to-orange sweep, copy side to light side */
+.ph::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:linear-gradient(112deg,
+    rgba(11,14,18,.95) 0%,rgba(11,14,18,.82) 24%,
+    rgba(11,14,18,.38) 48%,rgba(255,98,0,.34) 72%,
+    rgba(255,98,0,.66) 100%)}
+/* pass two — orange light, blended so highlights glow instead of flatten */
+.ph::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:2;
+  background:radial-gradient(112% 92% at 84% 12%,
+    rgba(255,98,0,.92) 0%,rgba(255,98,0,.34) 44%,rgba(255,98,0,0) 76%);
+  mix-blend-mode:overlay}
+/* figures carry no copy, so the ink end of the sweep pulls right back */
+.ph.fig img{filter:grayscale(1) contrast(1.07) brightness(1.01)}
+.ph.fig::before{background:linear-gradient(128deg,
+  rgba(11,14,18,.10) 0%,rgba(11,14,18,.24) 40%,
+  rgba(255,98,0,.28) 76%,rgba(255,98,0,.52) 100%)}
+.ph.fig::after{background:radial-gradient(104% 84% at 88% 8%,
+  rgba(255,98,0,.78) 0%,rgba(255,98,0,.22) 48%,rgba(255,98,0,0) 78%);
+  mix-blend-mode:overlay}
+
+/* full-bleed pages */
+.pg.bleed{padding:0}
+.pg.bleed .ph{position:absolute;inset:0}
+.pg.bleed .bleed-in{position:relative;z-index:2;flex:1;display:flex;
+  flex-direction:column;padding:var(--pad);color:var(--paper);
+  /* anchors the strap and footer, which otherwise land on bright frame */
+  background:linear-gradient(180deg,rgba(11,14,18,.14) 0%,
+    rgba(11,14,18,0) 30%,rgba(11,14,18,.30) 68%,rgba(11,14,18,.78) 100%)}
+.pg.bleed .foot{color:var(--pap-45)}
+.pg.bleed .foot .lock .inf,.pg.bleed .foot .fol{color:var(--paper)}
+.pg.bleed .foot .lock .bar{background:var(--pap-45)}
+.pg.bleed .foot{border-top:1px solid var(--pap-18);margin-top:auto}
+
+/* ── cover ────────────────────────────────────────────────── */
+.cover-in{flex:1;display:flex;flex-direction:column;justify-content:flex-end;
+  max-width:60%}
+.kick{display:inline-flex;align-self:flex-start;border:1px solid var(--pap-45);
+  padding:8px 14px;font:600 var(--fs-meta)/1 var(--sans);letter-spacing:.2em;
+  text-transform:uppercase;color:var(--paper);margin-bottom:26px}
+.cover-in h1{font-family:var(--serif);font-weight:300;font-size:var(--fs-display);
+  line-height:1.02;letter-spacing:-.032em;max-width:17ch}
+.cover-in .strapline{font-size:18px;line-height:1.5;color:var(--pap-70);
+  margin-top:20px;max-width:52ch}
+.cover-in .strap{display:flex;flex-wrap:wrap;gap:8px 34px;margin-top:30px;
+  font:600 var(--fs-meta)/1.4 var(--sans);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--pap-45)}
+.cover-in .strap b{color:var(--paper);font-weight:600}
+
+/* ── act divider ──────────────────────────────────────────── */
+.div-in{flex:1;display:flex;flex-direction:column;justify-content:center}
+.div-in .of{font:600 var(--fs-meta)/1 var(--sans);letter-spacing:.2em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:20px}
+.div-in h1{font-family:var(--serif);font-weight:300;font-size:var(--fs-display);
+  line-height:1.02;letter-spacing:-.032em;max-width:15ch}
+.div-in .sub{font-size:18px;line-height:1.5;color:var(--pap-70);margin-top:18px;
+  max-width:46ch}
+
+/* ── layout primitives ────────────────────────────────────── */
+.row{display:grid;gap:34px;align-items:start}
+.row.c2{grid-template-columns:1fr 1fr}
+.row.c2w{grid-template-columns:1.22fr 1fr}
+.row.c2n{grid-template-columns:1fr .78fr}
+.row.c3{grid-template-columns:repeat(3,1fr)}
+.row.grow{flex:1 1 auto;min-height:0;align-items:stretch}
+.stack{display:flex;flex-direction:column;gap:18px;min-height:0}
+
+.panel{background:var(--ink-06);border:1px solid var(--rule);padding:24px}
+.panel.tint{background:rgba(255,98,0,.055);border-color:rgba(255,98,0,.22)}
+.panel.white{background:#fff;border-color:var(--ink-12)}
+.panel.dark{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.panel.dark .k,.panel.dark .big-cap{color:var(--pap-45)}
+.panel.dark p{color:var(--pap-70)}
+.panel .k{font:600 var(--fs-meta)/1 var(--sans);letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-45);margin-bottom:14px}
+.panel h3{font:600 15px/1.35 var(--sans);letter-spacing:-.005em;margin-bottom:8px}
+.panel p{font-size:14px;line-height:1.55;color:var(--ink-70)}
+
+/* numbered fact rows */
+.facts{display:flex;flex-direction:column}
+.facts .f{display:flex;gap:16px;padding:14px 0;border-top:1px solid var(--rule)}
+.facts .f:first-child{border-top:0;padding-top:0}
+.facts .f:last-child{padding-bottom:0}
+.facts .n{font-family:var(--mono);font-size:12px;color:var(--accent);
+  flex:none;padding-top:2px;width:20px}
+.facts .f b{display:block;font-weight:600;font-size:14.5px;line-height:1.35;
+  margin-bottom:3px}
+.facts .f span{display:block;font-size:13.5px;line-height:1.5;color:var(--ink-70)}
+
+/* the path, and where it stalls */
+.path{display:flex;align-items:stretch;border:1px solid var(--rule);
+  background:#fff}
+.path .st{flex:1;padding:14px 16px;border-right:1px solid var(--rule);
+  display:flex;flex-direction:column;gap:5px}
+.path .st:last-child{border-right:0}
+.path .st .lbl{font:600 10.5px/1.3 var(--sans);letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-45)}
+.path .st .v{font-family:var(--serif);font-weight:300;font-size:26px;
+  line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.path .st.stall{background:rgba(255,98,0,.075);flex:1.5}
+.path .st.stall .lbl{color:var(--accent)}
+.path .st.stall .v{color:var(--accent)}
+.path .st .note{font-size:11.5px;line-height:1.4;color:var(--ink-45)}
+
+/* horizons — three columns of what gets built */
+.hz{display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid rgba(255,98,0,.22);background:rgba(255,98,0,.045)}
+.hz .h{padding:20px 22px;border-right:1px dashed rgba(255,98,0,.32)}
+.hz .h:last-child{border-right:0}
+.hz .h .t{font:600 12px/1.3 var(--sans);letter-spacing:.04em;color:var(--accent);
+  margin-bottom:3px}
+.hz .h .hn{font:600 10.5px/1 var(--sans);letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-45);margin-bottom:12px}
+.hz .h p{font-size:13.5px;line-height:1.55;color:var(--ink-70)}
+
+/* the dark number strip */
+.strip{display:grid;grid-template-columns:repeat(3,1fr);background:var(--ink);
+  color:var(--paper)}
+.strip .s{padding:26px 28px;border-left:1px solid var(--pap-18)}
+.strip .s:first-child{border-left:0}
+.strip .s .v{font-family:var(--serif);font-weight:300;font-size:52px;
+  line-height:.95;letter-spacing:-.04em;color:var(--accent);
+  font-variant-numeric:tabular-nums}
+.strip .s p{font-size:13.5px;line-height:1.5;color:var(--pap-70);margin-top:12px}
+.strip .s .fl{margin-top:12px}
+.strip-hd{background:var(--ink);color:var(--paper);
+  font:600 var(--fs-meta)/1 var(--sans);letter-spacing:.16em;
+  text-transform:uppercase;padding:16px 28px 0}
+
+/* governance: theirs / ours, around one veto */
+.gov{display:grid;grid-template-columns:1fr 168px 1fr;gap:0;
+  border:1px solid var(--rule);background:#fff}
+.gov .side{display:flex;flex-direction:column}
+.gov .side .hd{font:600 10.5px/1 var(--sans);letter-spacing:.16em;
+  text-transform:uppercase;padding:12px 16px;background:var(--ink-06);
+  border-bottom:1px solid var(--rule);color:var(--ink-45)}
+.gov .side .r{padding:11px 16px;border-bottom:1px solid var(--rule);
+  font-size:13px;line-height:1.4}
+.gov .side .r:last-child{border-bottom:0}
+.gov .side .r span{display:block;font:600 10px/1 var(--sans);
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-45);
+  margin-top:4px}
+.gov .mid{background:var(--accent);color:#fff;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:18px 14px;gap:8px}
+.gov .mid .vt{font-family:var(--serif);font-weight:300;font-size:21px;
+  line-height:1.15;letter-spacing:-.02em}
+.gov .mid .vsub{font:600 10px/1.4 var(--sans);letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(255,255,255,.78)}
+.gov .side.right{border-left:1px solid var(--rule)}
+
+/* the 2x2 journey — the hub takes its own centre column, so it can
+   never sit on top of the copy the way a floating circle does */
+.quad{display:grid;grid-template-columns:1fr 156px 1fr;
+  grid-template-rows:1fr 1fr;gap:12px;flex:1 1 auto;min-height:0}
+.quad .q{background:#fff;border:1px solid var(--ink-12);padding:18px 20px;
+  display:flex;flex-direction:column;min-height:0}
+.quad .q:nth-of-type(1){grid-column:1;grid-row:1}
+.quad .q:nth-of-type(2){grid-column:3;grid-row:1}
+.quad .q:nth-of-type(3){grid-column:1;grid-row:2}
+.quad .q:nth-of-type(4){grid-column:3;grid-row:2}
+.quad .q .k{font:600 10.5px/1 var(--sans);letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:9px}
+.quad .q p{font-size:13px;line-height:1.5;color:var(--ink-70)}
+.quad .q p.o{margin-top:auto;padding-top:10px;color:var(--ink);font-weight:500}
+.quad .hub{grid-column:2;grid-row:1/3;background:var(--accent);color:#fff;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  padding:18px 14px;
+  font-family:var(--serif);font-weight:300;font-size:19px;line-height:1.2;
+  letter-spacing:-.015em}
+
+/* let the primary block on a page absorb the slack, so a page fills
+   instead of leaving a hole above the footer */
+.fill{flex:1 1 auto;min-height:0}
+.vs.fill .c,.strip.fill .s{display:flex;flex-direction:column;
+  justify-content:center}
+
+/* not-this / but-this */
+.vs{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule)}
+.vs .c{padding:22px 24px}
+.vs .c:first-child{border-right:1px solid var(--rule);background:var(--ink-06)}
+.vs .c .k{font:600 10.5px/1 var(--sans);letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-45);margin-bottom:12px}
+.vs .c:last-child .k{color:var(--accent)}
+.vs .c .t{font-family:var(--serif);font-weight:300;font-size:25px;line-height:1.15;
+  letter-spacing:-.02em}
+.vs .c.dim .t{color:var(--ink-45);text-decoration:line-through;
+  text-decoration-thickness:1px;text-decoration-color:var(--ink-28)}
+.vs .c p{font-size:13.5px;line-height:1.55;color:var(--ink-70);margin-top:10px}
+
+/* small caption list */
+.mini{display:flex;gap:0;border:1px solid var(--rule);background:#fff}
+.mini .m{flex:1;padding:14px 18px;border-right:1px solid var(--rule)}
+.mini .m:last-child{border-right:0}
+.mini .m .k{font:600 10.5px/1 var(--sans);letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-45);margin-bottom:7px}
+.mini .m p{font-size:13px;line-height:1.5;color:var(--ink-70)}
+
+/* three-up on the exec summary */
+.moves{display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+  border-top:1px solid var(--rule)}
+.moves .mv{padding:16px 22px 0;border-right:1px solid var(--rule)}
+.moves .mv:last-child{border-right:0}
+.moves .mv:first-child{padding-left:0}
+.moves .mv .n{font-family:var(--mono);font-size:11.5px;color:var(--accent);
+  letter-spacing:.04em}
+.moves .mv h3{font:600 14.5px/1.3 var(--sans);margin:7px 0 6px}
+.moves .mv p{font-size:13px;line-height:1.5;color:var(--ink-70)}
+
+/* figures */
+.figure{position:relative;border:1px solid var(--rule);overflow:hidden;
+  min-height:0}
+.figure .ph{position:absolute;inset:0}
+.figure.r32{aspect-ratio:3/2}
+.figure .cap{position:absolute;left:0;right:0;bottom:0;z-index:2;
+  padding:16px 18px;color:var(--paper);
+  font:600 10.5px/1.5 var(--sans);letter-spacing:.14em;text-transform:uppercase;
+  background:linear-gradient(0deg,rgba(11,14,18,.82),rgba(11,14,18,0))}
+.strip-ph{position:relative;height:118px;border:1px solid var(--rule);
+  overflow:hidden;flex:none}
+.strip-ph .ph{position:absolute;inset:0}
+
+/* ── colophon ─────────────────────────────────────────────── */
+.colo h2{font-family:var(--serif);font-weight:300;font-size:34px;line-height:1.15;
+  letter-spacing:-.024em;max-width:30ch}
+.colo .rows{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;
+  margin-top:28px;padding-top:24px;border-top:1px solid var(--pap-18)}
+.colo .rows h3{font-family:var(--mono);font-weight:400;font-size:13px;
+  color:var(--accent);margin-bottom:8px}
+.colo .rows p{font-size:13.5px;line-height:1.6;color:var(--pap-70)}
+.colo .note{margin-top:24px;padding-top:18px;border-top:1px solid var(--pap-18);
+  font-size:12.5px;line-height:1.6;color:var(--pap-45);max-width:104ch}
+.colo .note em{color:var(--pap-70)}
+.colo .note strong{color:var(--paper);font-weight:600}
+
+/* ── navigation ───────────────────────────────────────────── */
+#nav{position:fixed;inset:0;z-index:30;display:flex}
+#nav button{flex:1;cursor:e-resize}
+#nav button.prev{flex:0 0 13%;cursor:w-resize}
+#hud{position:fixed;z-index:40;right:22px;bottom:18px;display:flex;
+  align-items:center;gap:14px;
+  font:600 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(244,242,237,.5);pointer-events:none}
+#hud .fol{color:rgba(244,242,237,.9);font-variant-numeric:tabular-nums}
+#hud .hint{color:rgba(244,242,237,.32)}
+#bar{pointer-events:none;position:fixed;z-index:40;left:0;right:0;bottom:0;height:2px;
+  background:rgba(244,242,237,.10)}
+#bar i{display:block;height:100%;width:0;background:var(--accent);
+  transition:width .45s var(--ease)}
+
+/* overview */
+#ov{position:fixed;inset:0;z-index:50;background:rgba(8,9,11,.96);
+  padding:44px 48px;overflow:auto;display:none}
+#ov.on{display:block}
+#ov h2{font:600 11px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(244,242,237,.45);margin-bottom:22px}
+#ov .grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+#ov .t{text-align:left;border:1px solid rgba(244,242,237,.16);padding:14px;
+  min-height:104px;display:flex;flex-direction:column;gap:8px;color:var(--paper)}
+#ov .t:hover,#ov .t:focus-visible{border-color:var(--accent);
+  background:rgba(255,98,0,.10);outline:none}
+#ov .t .f{font:600 10.5px/1 var(--sans);letter-spacing:.16em;
+  color:rgba(244,242,237,.45);font-variant-numeric:tabular-nums}
+#ov .t.cur .f{color:var(--accent)}
+#ov .t .n{font-family:var(--serif);font-weight:300;font-size:16px;line-height:1.2;
+  letter-spacing:-.015em}
+#ov .t .a{margin-top:auto;font:600 9.5px/1 var(--sans);letter-spacing:.16em;
+  text-transform:uppercase;color:rgba(244,242,237,.35)}
+
+/* ── motion: one, an upward fade ──────────────────────────── */
+.js .pg .fade{opacity:0;transform:translateY(16px)}
+.js .pg.on .fade{opacity:1;transform:none;
+  transition:opacity .62s var(--ease),transform .62s var(--ease)}
+.js .pg.on .fade:nth-child(1){transition-delay:.02s}
+.js .pg.on .fade:nth-child(2){transition-delay:.08s}
+.js .pg.on .fade:nth-child(3){transition-delay:.14s}
+.js .pg.on .fade:nth-child(4){transition-delay:.20s}
+.js .pg.on .fade:nth-child(5){transition-delay:.26s}
+.js .pg.on .fade:nth-child(6){transition-delay:.32s}
+
+@media (prefers-reduced-motion:reduce){
+  .js .pg .fade,.js .pg.on .fade{opacity:1;transform:none;transition:none}
+  #bar i{transition:none}
+}
+
+@media print{
+  @page{size:landscape;margin:0}
+  body{overflow:visible;background:#fff}
+  #deck{position:static;display:block}
+  #stage{width:1600px;height:auto;transform:none;box-shadow:none}
+  .pg{position:relative;visibility:visible;opacity:1;height:900px;
+    page-break-after:always}
+  #nav,#hud,#bar,#ov{display:none}
+  .js .pg .fade{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div id="deck"><div id="stage">
+
+<!-- ══════════════════════════════════════════════ 01 · COVER -->
+<section class="pg bleed dark" data-fol="01" data-act="Cover" data-name="Four hundred proofs of concept">
+  <div class="ph" aria-hidden="true"><img src="images/concepts/c2-ing-brand.jpg" alt=""></div>
+  <div class="bleed-in">
+    <div class="cover-in">
+      <span class="kick fade">Confidential draft &middot; for discussion</span>
+      <h1 class="fade">Four hundred proofs of concept. <span class="accent">Eleven</span> in production.</h1>
+      <p class="strapline fade">Your figure, from the June review. We have not adjusted it, and we are not going to open with what we could do for you. We are going to open with the distance between those two numbers.</p>
+      <div class="strap fade">
+        <span>Prepared for <b>Marnix de Vries</b> &middot; Head of Data Platforms</span>
+        <span>Q1 planning cycle</span>
+        <span>Sixteen pages</span>
+      </div>
+    </div>
+    <div class="foot">
+      <span class="lock"><img src="images/logos/ing-orange.svg" alt="ING"><span class="bar"></span><span class="inf">Infosys</span></span>
+      <span class="grow"></span>
+      <span>ING Group technology &amp; AI partnership</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ 02 · SUMMARY -->
+<section class="pg" data-fol="02" data-act="Act one" data-name="The argument on one page">
+  <p class="eyebrow fade">Executive summary</p>
+  <h1 class="h-title fade">One number, and the distance inside it</h1>
+  <p class="h-sub fade">The whole argument on one page, in case you read no further.</p>
+  <div class="hr accent fade"></div>
+  <div class="pg-body">
+    <p class="lead fade" style="margin-bottom:24px">ING has proven that AI works. What it cannot yet prove is that <span class="accent">approval</span> scales &mdash; and on the numbers you gave us, that has been the binding constraint for eighteen months, not engineering throughput.</p>
+    <div class="row c2w grow fade" style="margin-bottom:22px">
+      <div class="panel">
+        <div class="k">Anchored by three facts</div>
+        <div class="facts">
+          <div class="f"><span class="n">01</span><div><b>Your own ratio, unadjusted.</b><span>Four hundred proofs of concept, eleven in production, stated at the June 2026 quarterly review.</span></div></div>
+          <div class="f"><span class="n">02</span><div><b>The gate is governance, not model quality.</b><span>DNB and ECB set the clearance cadence. Nothing in the queue is waiting on compute, data access or a vendor.</span></div></div>
+          <div class="f"><span class="n">03</span><div><b>We are already inside that gate.</b><span>Infosys has produced and maintained the model-risk evidence pack for your credit-decisioning estate since 2022.</span></div></div>
+        </div>
+      </div>
+      <div class="panel dark" style="display:flex;flex-direction:column;justify-content:center">
+        <span class="big">389</span>
+        <p style="font-size:15px;line-height:1.5;color:#fff;margin-top:18px">of the four hundred have never reached a production decision.</p>
+        <p style="margin-top:10px">That is not an engineering number. It is a documentation and approval number, and it is the only number in this document that matters.</p>
+      </div>
+    </div>
+    <div class="moves fade">
+      <div class="mv"><span class="n">Act one &middot; 03&ndash;04</span><h3>The situation, in your words</h3><p>Where the queue forms, and why the AI Factory stopped exactly there.</p></div>
+      <div class="mv"><span class="n">Act two &middot; 06&ndash;13</span><h3>The reframe, and our share of it</h3><p>An evidence backlog, some of which we built. Then the pipeline that clears it.</p></div>
+      <div class="mv"><span class="n">Act three &middot; 15&ndash;16</span><h3>Something you can falsify</h3><p>Three models through your existing committee by March. One workstream named in Q1.</p></div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="lock"><img src="images/logos/ing-orange.svg" alt="ING"><span class="bar"></span><span class="inf">Infosys</span></span>
+    <span class="grow"></span>
+    <span>Executive summary</span>
+    <span class="fol">02 / 16</span>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ 03 · QUEUE -->
+<section class="pg" data-fol="03" data-act="Act one" data-name="Where the queue forms">
+  <p class="eyebrow fade">Act one &middot; the situation you recognise</p>
+  <h1 class="h-title fade"><span class="accent">389</span> are waiting on the same desk</h1>
+  <p class="h-sub fade">And it is not engineering&rsquo;s desk. It has not been for eighteen months.</p>
+  <div class="hr fade"></div>
+  <div class="pg-body">
+    <div class="row c2n grow fade" style="margin-bottom:22px">
+      <div class="stack" style="gap:14px">
+        <p class="body">They are not waiting on compute, on data access, or on a vendor. They are waiting on model-risk evidence &mdash; the artefacts your second line expects before anything touches a customer.</p>
+        <p class="body">We can say this with more precision than anyone else bidding, because we operate the evidence pipeline behind your credit-decisioning models. We can see where the queue forms and roughly how long it sits.</p>
+        <p class="pull">Engineering throughput is not your constraint. Adding more of it produces more proofs of concept, which is the thing you already have four hundred of.</p>
+      </div>
+      <div class="figure"><div class="ph fig"><img src="images/ing/x4-queue.jpg" alt="A records wall of white ring binders, one orange spine among them"></div><span class="cap">The queue, as it actually looks</span></div>
+    </div>
+    <div class="path fade">
+      <div class="st"><span class="lbl">Build</span><span class="v">400</span><span class="note">Proofs of concept raised since 2023.</span></div>
+      <div class="st"><span class="lbl">Technical validation</span><span class="v">&mdash;</span><span class="note">Not the constraint. Clears in days.</span></div>
+      <div class="st stall"><span class="lbl">Model-risk evidence</span><span class="v">389</span><span class="note">Where it stops. <span class="flag">[NEEDS SOURCE] queue composition</span></span></div>
+      <div class="st"><span class="lbl">Committee</span><span class="v">&mdash;</span><span class="note">Meets on cadence. Rarely the blocker.</span></div>
+      <div class="st"><span class="lbl">Production</span><span class="v">11</span><span class="note">What has cleared the whole path.</span></div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="lock"><img src="images/logos/ing-orange.svg" alt="ING"><span class="bar"></span><span class="inf">Infosys</span></span>
+    <span class="grow"></span>
+    <span>Where the queue forms</span>
+    <span class="fol">03 / 16</span>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════ 04 · AI FACTORY -->
+<section class="pg" data-fol="04" data-act="Act one" data-name="The AI Factory, without blame">
+  <p class="eyebrow fade">Act one &middot; the prior attempt, without blame</p>
+  <h1 class="h-title fade">The AI Factory didn&rsquo;t fail on technology</h1>
+  <p class="h-sub fade">It was designed without the slowest step in it. That is a different problem, and a fixable one.</p>
+  <div class="hr fade"></div>
+  <div class="pg-body">
+    <div class="row c2 fade" style="margin-bottom:26px">
+      <div class="stack" style="gap:14px">
+        <p class="body">It was stood up in <strong>2023</strong>, it built what it said it would build, and it stopped at approval. The business units then did the rational thing and went back to building their own &mdash; which is where a large share of the four hundred came from.</p>
+        <p class="body">Nobody in that sequence made a mistake. A design that excludes the slowest step will always look fast right up until it ships.</p>
+        <p class="body">We are saying this plainly because the alternative reading &mdash; that the programme or its sponsor underdelivered &mdash; is both wrong and expensive. It is what stops the second attempt getting funded.</p>
+      </div>
+      <div>
+        <span class="big sm">2023</span>
+        <p class="big-cap">Stood up, delivered its scope, and stalled at the same gate that is holding the queue today.</p>
+      </div>
+    </div>
+    <div class="mini fade" style="margin-top:auto">
+      <div class="m"><div class="k">What it was asked for</div><p>A central platform and a centre of excellence, to stop every business unit solving the same problem twice.</p></div>
+      <div class="m"><div class="k">What it delivered</div><p>Exactly that. Platform, patterns, people. On the evidence available, on scope.</p></div>
+      <div class="m"><div class="k">What was not in scope</div><p>The model-risk evidence step, and the throughput of the desk that owns it.</p></div>
+      <div class="m"><div class="k">What happened next</div><p>The business units re-federated. Volume went up, clearances did not.</p></div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="lock"><img src="images/logos/ing-orange.svg" alt="ING"><span class="bar"></span><span class="inf">Infosys</span></span>
+    <span class="grow"></span>
+    <span>The prior attempt</span>
+    <span class="fol">04 / 16</span>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════ 05 · DIVIDER -->
+<section class="pg bleed dark" data-fol="05" data-act="Divider" data-name="The reframe">
+  <div class="ph" aria-hidden="true"><img src="images/ing/x1-reframe.jpg" alt=""></div>
+  <div class="bleed-in">
+    <div class="div-in">
+      <p class="of fade">The reframe &middot; 1 of 3</p>
+      <h1 class="fade">You don&rsquo;t have an AI problem</h1>
+      <p class="sub fade">Pages 06 to 09. What we see that you have not, why it changes what to do next, and the part of it we own.</p>
+    </div>
+    <div class="foot">
+      <span class="lock"><img src="images/logos/ing-orange.svg" alt="ING"><span class="bar"></span><span class="inf">Infosys</span></span>
+      <span class="grow"></span>
+      <span>Act two</span>
+      <span class="fol">05 / 16</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ 06 · THE TURN -->
+<section class="pg" data-fol="06" data-act="Act two" data-name="An evidence backlog">
+  <p class="eyebrow fade">Act two &middot; the turn</p>
+  <div class="hr fade" style="margin-top:16px"></div>
+  <div class="pg-body">
+    <h1 class="claim-xl fade" style="margin-bottom:22px">The four hundred are not experiments. They are production, stuck behind <em class="accent">evidence nobody owns.</em></h1>
+    <div class="row c2 fade" style="margin-bottom:26px">
+      <p class="body">Every conversation about the eleven treats this as a capability question &mdash; better models, more platform, another centre of excellence. It is not a capability question.</p>
+      <p class="body">It is a documentation and approval question wearing a technology costume, and it will not be solved by anything whose output is more models.</p>
+    </div>
+    <div class="vs fill fade">
+      <div class="c dim"><div class="k">What the programme is currently sized against</div><span class="t">A capability gap.</span><p>Answered with platform, models and headcount. Produces more proofs of concept, which is the input you already have in surplus.</p></div>
+      <div class="c"><div class="k">What the numbers actually describe</div><span class="t">An evidence backlog with no owner.</span><p>Answered with artefacts, a named queue and a throughput target. Produces cleared models, which is the output you are short of.</p></div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="lock"><img src="images/logos/ing-orange.svg" alt="ING"><span class="bar"></span><span class="inf">Infosys</span></span>
+    <span class="grow"></span>
+    <span>The reframe</span>
+    <span class="fol">06 / 16</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ 07 · STANDING STILL -->
+<section class="pg" data-fol="07" data-act="Act two" data-name="What standing still costs">
+  <p class="eyebrow fade">Act two &middot; pricing the status quo</p>
+  <h1 class="h-title fade">At the current clearance rate, the queue outlives the board decision</h1>
+  <p class="h-sub fade">This is the strongest page in the document and currently the weakest. Those are the same sentence.</p>
+  <div class="hr fade"></div>
+  <div class="pg-body">
+    <div class="row c2w fade">
+      <div class="stack" style="gap:14px">
+        <p class="body"><span class="flag">[NEEDS SOURCE]</span> This page needs your model-risk throughput for the last four quarters. We do not have it, and we are not going to estimate it inside a document you will take to a board.</p>
+        <p class="body">What we can say is the shape of it. If the rate is unchanged, the high-risk obligations land against a queue still moving at its 2023 pace &mdash; and the gap between those two facts is the number this page is missing.</p>
+        <p class="body">We would rather hand you a page with a hole in it than a page with a modelled figure that your second line can take apart in one question.</p>
+        <p class="pull">Ask us for this page again once we have the four quarters. It is the only page here we cannot write without you.</p>
+      </div>
+      <div class="panel tint">
+        <div class="k">The three numbers we are missing</div>
+        <div class="facts">
+          <div class="f"><span class="n">01</span><div><b>Clearances per quarter, last four quarters.</b><span>Completed model-risk reviews, not submissions. The denominator for everything else on this page.</span></div></div>
+          <div class="f"><span class="n">02</span><div><b>Median time in the evidence step.</b><span>Submission to second-line acceptance. We can see part of this; you can see all of it.</span></div></div>
+          <div class="f"><span class="n">03</span><div><b>Composition of the 389.</b><span>How many are genuinely blocked versus abandoned on business case. This tests our whole argument, and we want it tested.</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="lock"><img src="images/logos/ing-orange.svg" alt="ING"><span class="bar"></span><span class="inf">Infosys</span></span>
+    <span class="grow"></span>
+    <span>Pricing the status quo</span>
+    <span class="fol">07 / 16</span>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════ 08 · OUR SHARE -->
+<section class="pg" data-fol="08" data-act="Act two" data-name="Our share of the bottleneck">
+  <p class="eyebrow fade">Act two &middot; the inconvenient thing, said first</p>
+  <h1 class="h-title fade">We built part of what&rsquo;s slow, and we can show you where</h1>
+  <p class="h-sub fade">Named here, on page eight, rather than found in month four of a programme.</p>
+  <div class="hr fade"></div>
+  <div class="pg-body">
+    <p class="lead fade" style="margin-bottom:22px"><span class="accent">Three</span> of the handoffs in the current approval path are ours. Two of them exist because a 2021 scope was written around a control that no longer applies.</p>
+    <div class="row c3 fade" style="margin-bottom:22px">
+      <div class="panel"><div class="k">Handoff 01 &middot; ours</div><h3>Evidence pack assembly</h3><p>Legitimately ours and legitimately slow. It is manual, it is serial, and it is the single largest addressable block of time in the path.</p></div>
+      <div class="panel tint"><div class="k">Handoff 02 &middot; ours &middot; should not exist</div><h3>Pre-review formatting gate</h3><p>Written into a 2021 scope to satisfy a control that has since been superseded. It adds a full review cycle and protects nothing.</p></div>
+      <div class="panel tint"><div class="k">Handoff 03 &middot; ours &middot; should not exist</div><h3>Second sign-off on unchanged artefacts</h3><p>A duplicate of your own second-line check. We are being paid for a step your team repeats.</p></div>
+    </div>
+    <div class="mini fade" style="margin-top:auto">
+      <div class="m"><div class="k">Why we are saying it now</div><p>An admission on page eight is a proof point. The same admission in month four is an audit finding.</p></div>
+      <div class="m"><div class="k">What it costs us</div><p>Two of these three are billable today. We are proposing to remove them.</p></div>
+      <div class="m"><div class="k">How it is priced</div><p>Separately from the renewal, so you can accept the fix without accepting anything else.</p></div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="lock"><img src="images/logos/ing-orange.svg" alt="ING"><span class="bar"></span><span class="inf">Infosys</span></span>
+    <span class="grow"></span>
+    <span>Our share of the bottleneck</span>
+    <span class="fol">08 / 16</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ 09 · INCUMBENCY -->
+<section class="pg" data-fol="09" data-act="Act two" data-name="The thing only we can say">
+  <p class="eyebrow fade">Act two &middot; the thing only we can say</p>
+  <h1 class="h-title fade">The evidence trail for your credit models already exists. We hold it.</h1>
+  <p class="h-sub fade">Not a claim about capability. A set of documents, in your format, already accepted by your second line.</p>
+  <div class="hr fade"></div>
+  <div class="pg-body">
+    <div class="row c2n grow fade">
+      <div class="stack" style="gap:16px">
+        <p class="body">Since <strong>2022</strong> we have produced and maintained the model-risk evidence pack for your credit-decisioning estate. Every template, every reviewer preference, every reason a pack came back the first time.</p>
+        <div class="row c2" style="gap:22px">
+          <div class="panel white"><div class="k">What exists today</div><p>Accepted artefacts, in ING templates, against ING controls, for a live regulated estate. Not a methodology. Filed documents.</p></div>
+          <div class="panel white"><div class="k">What a challenger can offer</div><p>A commitment to build the same thing, starting from your templates, with reviewers who have never seen their work.</p></div>
+        </div>
+        <p class="body">Rebuilding that elsewhere is not a procurement decision. Inside a regulated bank, with the same reviewers, it is a <span class="accent" style="font-weight:600">two-year</span> decision &mdash; and the two years land on top of the queue, not instead of it.</p>
+      </div>
+      <div class="figure"><div class="ph fig"><img src="images/ing/x6-pipeline.jpg" alt="Two colleagues working at one laptop beside a tall canal-side window"></div><span class="cap">The pipeline, running today</span></div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="lock"><img src="images/logos/ing-orange.svg" alt="ING"><span class="bar"></span><span class="inf">Infosys</span></span>
+    <span class="grow"></span>
+    <span>The thing only we can say</span>
+    <span class="fol">09 / 16</span>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════ 10 · DIVIDER -->
+<section class="pg bleed dark" data-fol="10" data-act="Divider" data-name="Clearing the queue">
+  <div class="ph" aria-hidden="true"><img src="images/ing/x2-clearing.jpg" alt=""></div>
+  <div class="bleed-in">
+    <div class="div-in">
+      <p class="of fade">Clearing the queue &middot; 2 of 3</p>
+      <h1 class="fade">One pipeline, three horizons</h1>
+      <p class="sub fade">Pages 11 to 13. What we would build, how it would be measured, and why your second line loses nothing.</p>
+    </div>
+    <div class="foot">
+      <span class="lock"><img src="images/logos/ing-orange.svg" alt="ING"><span class="bar"></span><span class="inf">Infosys</span></span>
+      <span class="grow"></span>
+      <span>Act two continued</span>
+      <span class="fol">10 / 16</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ 11 · THE PIPELINE -->
+<section class="pg" data-fol="11" data-act="Act two" data-name="The clearance pipeline">
+  <p class="eyebrow fade">Act two &middot; what we would build</p>
+  <h1 class="h-title fade">The clearance pipeline</h1>
+  <p class="h-sub fade">Not a platform, not a centre of excellence. A queue with an owner, and the artefacts that empty it.</p>
+  <div class="hr fade"></div>
+  <div class="pg-body">
+    <p class="lead fade" style="margin-bottom:20px;color:var(--accent)">Stabilise the queue, industrialise the evidence, then make clearance a service the business units can serve themselves &mdash; without moving a single control.</p>
+    <div class="hz fade" style="margin-bottom:20px">
+      <div class="h">
+        <div class="hn">Horizon 1 &middot; 0&ndash;6 months</div>
+        <div class="t">Stabilise the queue</div>
+        <p>Make the backlog visible. One register, one named owner, one weekly number into the forum that already sees delivery. Remove handoffs 02 and 03 from page 08. Clear the oldest ten packs by hand to establish the baseline your second line will accept.</p>
+      </div>
+      <div class="h">
+        <div class="hn">Horizon 2 &middot; 6&ndash;18 months</div>
+        <div class="t">Industrialise the evidence</div>
+        <p>Templated, generated-then-reviewed evidence packs built from the artefacts already accepted for the credit estate. Reviewer feedback written back into the templates, so the second submission starts where the first one finished. Model risk reviews output, not process.</p>
+      </div>
+      <div class="h">
+        <div class="hn">Horizon 3 &middot; 18 months+</div>
+        <div class="t">Clearance as a service</div>
+        <p>Business units submit against a known standard and see their position in the queue. The centre stops being a bottleneck and becomes a standard. The four hundred become a pipeline with a rate, not a number in a review pack.</p>
+      </div>
+    </div>
+    <div class="mini fade" style="margin-top:auto">
+      <div class="m"><div class="k">Our people</div><p>The team already inside your evidence pipeline, plus one accountable queue owner named on day one. No new centre, no new committee.</p></div>
+      <div class="m"><div class="k">Our platform</div><p>Evidence generation and review tooling, run against your templates and your controls. Audit trail by default, because your regulator will ask.</p></div>
+      <div class="m"><div class="k">Your second line</div><p>Unchanged authority, unchanged veto, better inputs. They review packs that already look like the ones they have accepted.</p></div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="lock"><img src="images/logos/ing-orange.svg" alt="ING"><span class="bar"></span><span class="inf">Infosys</span></span>
+    <span class="grow"></span>
+    <span>The clearance pipeline</span>
+    <span class="fol">11 / 16</span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ 12 · THE UNIT -->
+<section class="pg" data-fol="12" data-act="Act two" data-name="Change the unit of measurement">
+  <p class="eyebrow fade">Act two &middot; changing the unit of measurement</p>
+  <h1 class="h-title fade">Stop counting proofs of concept</h1>
+  <p class="h-sub fade">Start counting cleared models per quarter. It is the only number that moves the eleven.</p>
+  <div class="hr fade"></div>
+  <div class="pg-body">
+    <div class="vs fade" style="margin-bottom:22px">
+      <div class="c dim"><div class="k">Counted today</div><span class="t">Proofs of concept raised.</span><p>Rewards volume. Four hundred is a good score on this measure and a bad outcome on every other one.</p></div>
+      <div class="c"><div class="k">Counted instead</div><span class="t">Models cleared per quarter.</span><p>Rewards throughput. Reported weekly into the forum that already sees delivery, owned by one named person.</p></div>
+    </div>
+    <div class="strip-hd fade">Indicative, on the pipeline above</div>
+    <div class="strip fill fade">
+      <div class="s"><span class="v">3&times;</span><p>Clearances per quarter by the end of Horizon 1, from removing our own two redundant handoffs and working the oldest packs by hand.</p><span class="fl flag">[NEEDS SOURCE]</span></div>
+      <div class="s"><span class="v">60&ndash;70%</span><p>Less analyst time per evidence pack once the templates carry accepted reviewer feedback rather than starting blank.</p><span class="fl flag">[NEEDS SOURCE]</span></div>
+      <div class="s"><span class="v">Zero</span><p>New controls, new committees or new gates. Every figure above is achieved inside the governance you have today.</p></div>
+    </div>
+    <p class="body fade" style="margin-top:20px;max-width:104ch">The first two numbers are ours to prove and yours to check. We have marked them rather than presented them, because the throughput data on page 07 is what turns them from indicative into committed &mdash; and we would rather commit late than commit wrong.</p>
+  </div>
+  <div class="foot">
+    <span class="lock"><img src="images/logos/ing-orange.svg" alt="ING"><span class="bar"></span><span class="inf">Infosys</span></span>
+    <span class="grow"></span>
+    <span>Changing the unit of measurement</span>
+    <span class="fol">12 / 16</span>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════ 13 · GOVERNANCE -->
+<section class="pg" data-fol="13" data-act="Act two" data-name="Model risk keeps its veto">
+  <p class="eyebrow fade">Act two &middot; written for your model-risk lead</p>
+  <h1 class="h-title fade">Model risk keeps its veto</h1>
+  <p class="h-sub fade">What changes is that the queue stops being invisible between committee dates.</p>
+  <div class="hr fade"></div>
+  <div class="pg-body">
+    <div class="row c2n grow fade" style="margin-bottom:20px">
+      <div class="gov">
+        <div class="side">
+          <div class="hd">ING Group</div>
+          <div class="r">Model-risk committee<span>Existing cadence &middot; unchanged</span></div>
+          <div class="r">Second-line reviewers<span>Accept or reject &middot; unchanged</span></div>
+          <div class="r">Queue owner &middot; named<span>New &middot; ING-side accountability</span></div>
+          <div class="r">Business-unit sponsors<span>Submit against a known standard</span></div>
+        </div>
+        <div class="mid">
+          <span class="vsub">The veto</span>
+          <span class="vt">Stays exactly where it is</span>
+          <span class="vsub">DNB &middot; ECB cadence</span>
+        </div>
+        <div class="side right">
+          <div class="hd">Infosys</div>
+          <div class="r">Evidence pack production<span>Weekly &middot; existing mandate</span></div>
+          <div class="r">Template maintenance<span>Reviewer feedback written back</span></div>
+          <div class="r">Throughput reporting<span>New &middot; one weekly number</span></div>
+          <div class="r">Handoffs 02 and 03<span>Removed &middot; see page 08</span></div>
+        </div>
+      </div>
+      <div class="figure"><div class="ph fig"><img src="images/ing/x5-govern.jpg" alt="Four colleagues around a small round table, one orange folder open between them"></div><span class="cap">The committee you already have</span></div>
+    </div>
+    <div class="mini fade" style="margin-top:auto">
+      <div class="m"><div class="k">No new gate</div><p>Nothing in this proposal creates an approval step. It removes two and makes the remaining ones countable.</p></div>
+      <div class="m"><div class="k">No change of authority</div><p>Second line accepts or rejects exactly as today. We supply better inputs, not different decisions.</p></div>
+      <div class="m"><div class="k">Visible between dates</div><p>A weekly position, so the committee arrives to a known queue instead of discovering one.</p></div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="lock"><img src="images/logos/ing-orange.svg" alt="ING"><span class="bar"></span><span class="inf">Infosys</span></span>
+    <span class="grow"></span>
+    <span>Governance</span>
+    <span class="fol">13 / 16</span>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════ 14 · DIVIDER -->
+<section class="pg bleed dark" data-fol="14" data-act="Divider" data-name="What happens next">
+  <div class="ph" aria-hidden="true"><img src="images/ing/x3-next.jpg" alt=""></div>
+  <div class="bleed-in">
+    <div class="div-in">
+      <p class="of fade">What happens next &middot; 3 of 3</p>
+      <h1 class="fade">Measure us, don&rsquo;t trust us</h1>
+      <p class="sub fade">Pages 15 and 16. One test you can fail us on by March, and one thing we need from you in Q1.</p>
+    </div>
+    <div class="foot">
+      <span class="lock"><img src="images/logos/ing-orange.svg" alt="ING"><span class="bar"></span><span class="inf">Infosys</span></span>
+      <span class="grow"></span>
+      <span>Act three</span>
+      <span class="fol">14 / 16</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════ 15 · FALSIFIABLE -->
+<section class="pg" data-fol="15" data-act="Act three" data-name="Three models by March">
+  <p class="eyebrow fade">Act three &middot; making it falsifiable</p>
+  <h1 class="h-title fade"><span class="accent">Three</span> models through the new path by March, or we were wrong</h1>
+  <p class="h-sub fade">Not a pilot, and not another proof of concept. Three production models, full evidence pack, through the committee you already have.</p>
+  <div class="hr fade"></div>
+  <div class="pg-body">
+    <div class="quad fade">
+      <div class="q">
+        <div class="k">Today</div>
+        <p>Four hundred proofs of concept, eleven in production. The queue is invisible between committee dates and nobody owns its rate. Volume is measured; clearance is not.</p>
+        <p class="o">We work on submissions, without an owner for the queue.</p>
+      </div>
+      <div class="q">
+        <div class="k">By March &mdash; the test</div>
+        <p>Three production models through the existing committee with a full evidence pack. Handoffs 02 and 03 removed. One weekly throughput number in the delivery forum.</p>
+        <p class="o">If we cannot do this, say so at the Q1 review. This argument was wrong.</p>
+      </div>
+      <div class="q">
+        <div class="k">Year one</div>
+        <p>Templates carry accepted reviewer feedback, so second submissions start where first ones finished. Clearance rate becomes a planning input rather than a surprise.</p>
+        <p class="o">The queue has a rate, and the rate is going up.</p>
+      </div>
+      <div class="q">
+        <div class="k">Year three</div>
+        <p>Business units submit against a known standard and see their position. The centre is a standard, not a bottleneck. The four hundred are a pipeline with a throughput.</p>
+        <p class="o">Scaling AI stops being a programme and becomes a rate.</p>
+      </div>
+      <div class="hub">Clearance,<br>as a service</div>
+    </div>
+    <p class="body fade" style="margin-top:20px;max-width:104ch">We would rather be measured on the March number than be given the benefit of the doubt for another year. The benefit of the doubt is what the last eighteen months were.</p>
+  </div>
+  <div class="foot">
+    <span class="lock"><img src="images/logos/ing-orange.svg" alt="ING"><span class="bar"></span><span class="inf">Infosys</span></span>
+    <span class="grow"></span>
+    <span>Making it falsifiable</span>
+    <span class="fol">15 / 16</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ 16 · THE ASK -->
+<section class="pg" data-fol="16" data-act="Act three" data-name="The ask">
+  <p class="eyebrow fade">Act three &middot; the ask</p>
+  <h1 class="h-title fade">Name the evidence pipeline as a workstream in the Q1 plan</h1>
+  <p class="h-sub fade">That is the whole ask. Everything else in this document can wait until it exists.</p>
+  <div class="hr fade"></div>
+  <div class="pg-body">
+    <div class="row c2n grow fade">
+      <div class="stack" style="gap:16px">
+        <p class="lead"><span class="accent">One</span> named workstream, with a throughput target and an owner, so that the queue has somewhere to be measured.</p>
+        <div class="mini">
+            <div class="m"><div class="k">Not a budget line</div><p>Horizon 1 is inside the existing agreement. The fix to our own handoffs is priced separately and can be declined.</p></div>
+            <div class="m"><div class="k">Not headcount</div><p>One named owner on your side. The team is already in the pipeline.</p></div>
+            <div class="m"><div class="k">Not a renewal decision</div><p>February stands on its own. This does not need to be bundled with it, and should not be.</p></div>
+        </div>
+        <p class="body">If the workstream exists by the end of Q1, the March test on page 15 is measurable and you can hold us to it in front of the board. If it does not, page 15 is an opinion.</p>
+        <p class="pull">Fifteen minutes with your model-risk lead is the only meeting we are asking for. Page 13 was written for that person.</p>
+      </div>
+      <div class="figure"><div class="ph fig"><img src="images/ing/x7-ask.jpg" alt="Two colleagues standing by a canal-side window as a conversation concludes"></div><span class="cap">One workstream &middot; one owner &middot; one number</span></div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="lock"><img src="images/logos/ing-orange.svg" alt="ING"><span class="bar"></span><span class="inf">Infosys</span></span>
+    <span class="grow"></span>
+    <span>The ask</span>
+    <span class="fol">16 / 16</span>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════ 17 · COLOPHON -->
+<section class="pg dark colo" data-fol="&mdash;" data-act="Colophon" data-name="How this was made">
+  <p class="eyebrow fade">How this document was made</p>
+  <div class="hr fade" style="margin-top:16px"></div>
+  <div class="pg-body">
+    <h2 class="fade">Three agents, a person between each, and one brief nobody re-typed.</h2>
+    <div class="rows fade">
+      <div>
+        <h3>find-the-story</h3>
+        <p>Six questions against the account brief. Returned one headline, two alternatives, the facts it rests on, and what the headline costs. Wrote no copy. Flagged its own two gaps &mdash; they are pages 07 and 12.</p>
+      </div>
+      <div>
+        <h3>structure-the-narrative</h3>
+        <p>Took the headline and the state of the deal. Returned three acts and sixteen pages &mdash; the job each page does and the single sentence it must land. Did not reopen the story. Cut a contents page nobody would have missed.</p>
+      </div>
+      <div>
+        <h3>theme-it</h3>
+        <p>Five decisions: territory, colour, type, imagery, motion. Wrote the image prompt below, set the accent rule this document obeys &mdash; once per page, only on the number that is the argument &mdash; and chose one motion, an upward fade.</p>
+      </div>
+    </div>
+    <p class="note fade">Seven frames were generated as one set from the approved cover, at the ratios used here: <em>ING brand campaign lifestyle photography, 50mm f2, high-key natural morning sunlight through tall black-framed windows, Amsterdam canal-side workspace, pale wood and white-painted brick; real candid professionals, unposed; exactly one note of signature orange #FF6200 per frame; palette otherwise #0B0E12, #F4F2ED and desaturated warm neutrals; subject weighted right of frame, clear negative space in the left third; no text, no lettering, no logos, no readable screens.</em> The black, white and orange grade is applied in CSS, not in the prompt, so every frame sits inside the palette rather than beside it.</p>
+    <p class="note fade"><strong>Fictional account brief, written for the Titan Europe Roadshow.</strong> No ING data, documents, contacts or commercial terms were used, and the people named in it do not exist.</p>
+  </div>
+  <div class="foot">
+    <span class="lock"><img src="images/logos/ing-orange.svg" alt="ING"><span class="bar"></span><span class="inf">Infosys</span></span>
+    <span class="grow"></span>
+    <span>Colophon</span>
+  </div>
+</section>
+
+</div></div>
+
+<nav id="nav" aria-label="Page navigation">
+  <button class="prev" type="button" aria-label="Previous page"></button>
+  <button class="next" type="button" aria-label="Next page"></button>
+</nav>
+
+<div id="hud"><span class="hint">&larr; &rarr; &middot; esc for all pages</span><span class="fol"><b id="hudN">01</b> / 17</span></div>
+<div id="bar"><i id="barI"></i></div>
+
+<div id="ov" role="dialog" aria-label="All pages" aria-modal="true">
+  <h2>ING Group &times; Infosys &middot; executive summary &middot; all pages</h2>
+  <div class="grid" id="ovGrid"></div>
+</div>
+
+<script>
+(function(){
+  var stage=document.getElementById('stage'),
+      pages=[].slice.call(stage.querySelectorAll('.pg')),
+      ov=document.getElementById('ov'),
+      grid=document.getElementById('ovGrid'),
+      hudN=document.getElementById('hudN'),
+      barI=document.getElementById('barI'),
+      i=0;
+
+  /* fit the 1600x900 stage to the viewport — nothing reflows, nothing clips */
+  function fit(){
+    var s=Math.min(window.innerWidth/1600,window.innerHeight/900);
+    stage.style.setProperty('--s',s);
+  }
+  window.addEventListener('resize',fit);fit();
+
+  function show(n,push){
+    n=Math.max(0,Math.min(pages.length-1,n));
+    if(pages[i])pages[i].classList.remove('on');
+    i=n;pages[i].classList.add('on');
+    hudN.textContent=pages[i].dataset.fol.replace(/[^0-9]/g,'')||'—';
+    barI.style.width=((i+1)/pages.length*100)+'%';
+    [].forEach.call(grid.children,function(b,x){b.classList.toggle('cur',x===i)});
+    if(push!==false&&location.hash!=='#'+(i+1))history.replaceState(null,'','#'+(i+1));
+  }
+  var go=function(d){show(i+d)};
+
+  /* build the overview */
+  pages.forEach(function(p,x){
+    var b=document.createElement('button');
+    b.type='button';b.className='t';
+    b.innerHTML='<span class="f">'+p.dataset.fol+'</span>'+
+                '<span class="n">'+p.dataset.name+'</span>'+
+                '<span class="a">'+p.dataset.act+'</span>';
+    b.addEventListener('click',function(){closeOv();show(x)});
+    grid.appendChild(b);
+  });
+  function openOv(){ov.classList.add('on')}
+  function closeOv(){ov.classList.remove('on')}
+  function toggleOv(){ov.classList.contains('on')?closeOv():openOv()}
+
+  /* click the page like a deck: left edge back, everywhere else forward */
+  document.querySelector('#nav .prev').addEventListener('click',function(){go(-1)});
+  document.querySelector('#nav .next').addEventListener('click',function(){go(1)});
+
+  document.addEventListener('keydown',function(e){
+    if(e.metaKey||e.ctrlKey||e.altKey)return;
+    switch(e.key){
+      case 'ArrowRight':case 'PageDown':case ' ':case 'Enter':
+        e.preventDefault();closeOv();go(1);break;
+      case 'ArrowLeft':case 'PageUp':case 'Backspace':
+        e.preventDefault();closeOv();go(-1);break;
+      case 'Home':e.preventDefault();closeOv();show(0);break;
+      case 'End':e.preventDefault();closeOv();show(pages.length-1);break;
+      case 'Escape':case 'o':case 'O':e.preventDefault();toggleOv();break;
+    }
+  });
+
+  var h=parseInt((location.hash||'').slice(1),10);
+  show(isNaN(h)?0:h-1);
+})();
+</script>
+</body>
+</html>

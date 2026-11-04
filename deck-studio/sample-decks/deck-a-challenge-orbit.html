@@ -1,0 +1,901 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Danske Bank, Simplified — Infosys</title>
+
+<!-- ============================================================================
+     DECK A — Challenge → Implication → Solution → Value   ·   Theme: ORBIT
+     Reference template for the HTML deck builder.  One of three:
+       deck-a  Challenge → Implication → Solution → Value        · Orbit
+       deck-b  Current State → Future Vision → Path → Outcomes   · Fragments
+       deck-c  Opportunity → Principles → Delivery → Partnership · Ascent
+
+     HOW TO RE-SKIN
+     1. Brand      → the :root block below (client name, two colours) + the
+                     inline logo in each .lockup.
+     2. Content    → every editable string carries data-slot="…".
+     3. Structure  → 5 panels, locked. <section class="slide" data-role="…">
+     4. Atmosphere → .bg = blobs + particles + grain, all driven off --brand-*.
+     5. Motif      → the MOTIF block. Each deck swaps that block and its SVG;
+                     nothing else in the file changes between the three.
+
+     Scroll is vertical and magnetted: one gesture moves exactly one slide, and
+     anything that lands off-centre is pulled to the nearest slide.
+     Figures in these templates are examples, not client data.
+     ========================================================================= -->
+
+<style>
+/* ── 1. BRAND TOKENS ─────────────────────────────────────────────────────── */
+:root{
+  --client-name: "Danske Bank";
+  --brand-primary: #003755;
+  --brand-accent:  #009EDB;
+
+  --ground:  #050505;
+  --ink:     #ffffff;
+  --ink-dim: rgba(255,255,255,.84);   /* body copy — high contrast, David reads at distance */
+  --ink-faint: rgba(255,255,255,.48);
+  --rule:    rgba(255,255,255,.14);
+
+  --font: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --fs-display: clamp(3rem, 7.4vw, 7.2rem);
+  --fs-h2:      clamp(2.4rem, 5.2vw, 5.4rem);
+  --fs-stat:    clamp(3.4rem, 8.4vw, 9rem);
+  --fs-lede:    clamp(1.25rem, 2.05vw, 2.1rem);   /* subheads and body statements */
+  --fs-body:    clamp(1.05rem, 1.5vw, 1.55rem);
+  --fs-label:   clamp(.68rem, .86vw, .88rem);
+
+  --pad-x: clamp(2.2rem, 7vw, 8rem);
+  --pad-y: clamp(3.4rem, 8vh, 6rem);
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+/* ── 2. FRAME — vertical deck ────────────────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--ground)}
+body{font-family:var(--font);color:var(--ink);-webkit-font-smoothing:antialiased;
+  font-size:var(--fs-body);line-height:1.5}
+
+.deck{
+  position:relative; z-index:1;
+  height:100dvh; width:100vw;
+  overflow-y:auto; overflow-x:hidden;
+  /* Snap is only an assist: the script owns the gesture and magnets to the
+     nearest slide when scrolling stops. Mandatory snap plus trackpad momentum
+     is what left the deck stranded between slides. */
+  scroll-snap-type:y proximity;
+  overscroll-behavior:none;
+  scrollbar-width:none;
+}
+.deck::-webkit-scrollbar{display:none}
+
+.slide{
+  position:relative; height:100dvh; width:100%;
+  scroll-snap-align:start;
+  padding:var(--pad-y) var(--pad-x);
+  display:flex; flex-direction:column; justify-content:center;
+  overflow:hidden;
+}
+
+/* ── 3. ATMOSPHERE — blobs + particles + grain, fixed behind every slide ─── */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+
+.blobs,.particles{position:absolute;inset:0;will-change:transform}
+.blob{position:absolute;border-radius:50%;filter:blur(75px);opacity:.42;will-change:transform}
+.b1{width:38vw;height:38vw;top:-6%;left:52%;
+    background:radial-gradient(circle, var(--brand-accent) 0%, transparent 70%);
+    animation:driftA 34s ease-in-out infinite}
+.b2{width:32vw;height:32vw;top:46%;left:66%;
+    background:radial-gradient(circle, var(--brand-primary) 0%, transparent 70%);
+    animation:driftB 42s ease-in-out infinite}
+.b3{width:26vw;height:26vw;top:62%;left:-8%;opacity:.26;
+    background:radial-gradient(circle, var(--brand-accent) 0%, transparent 70%);
+    animation:driftC 38s ease-in-out infinite}
+@keyframes driftA{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-7vw,6vh) scale(1.12)}}
+@keyframes driftB{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(5vw,-8vh) scale(.9)}}
+@keyframes driftC{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(6vw,-5vh) scale(1.15)}}
+
+/* Particles: small drifting motes, placed by script so they never tile. */
+.particle{position:absolute;animation:float linear infinite;will-change:transform,opacity}
+.particle i{display:block;width:100%;height:100%;border-radius:50%;
+  background:var(--brand-accent);will-change:transform}
+@keyframes float{
+  0%{transform:translateY(0) translateX(0);opacity:0}
+  12%{opacity:1} 88%{opacity:1}
+  100%{transform:translateY(-64vh) translateX(3vw);opacity:0}
+}
+
+/* Grain: fractal noise at 5% — same trick as the Day 1 deck. */
+.grain{position:absolute;inset:-120%;opacity:.05;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  animation:grainShift 8s steps(6) infinite}
+@keyframes grainShift{
+  0%{transform:translate(0,0)}     20%{transform:translate(-3%,2%)}
+  40%{transform:translate(2%,-3%)} 60%{transform:translate(-2%,-2%)}
+  80%{transform:translate(3%,3%)}  100%{transform:translate(0,0)}
+}
+
+/* Scrim keeps text legible wherever a blob drifts under it. */
+.scrim{position:absolute;inset:0;
+  background:linear-gradient(to right, rgba(5,5,5,.86) 0%, rgba(5,5,5,.55) 46%, rgba(5,5,5,.2) 100%)}
+
+/* ── 4. CHROME ───────────────────────────────────────────────────────────── */
+.rail{position:fixed;left:0;right:0;z-index:20;display:flex;align-items:center;
+  justify-content:space-between;padding:0 var(--pad-x);
+  font-size:var(--fs-label);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-faint);pointer-events:none}
+.rail--top{top:clamp(1.1rem,2.6vh,1.9rem)}
+.rail--bottom{bottom:clamp(1.1rem,2.6vh,1.9rem);padding-right:calc(var(--pad-x) + 6.4rem)}
+.rail__mark{display:flex;align-items:center;gap:.7rem}
+.rail__mark::before{content:"";width:clamp(18px,2.4vw,30px);height:1px;background:currentColor}
+
+.progress{position:fixed;left:0;top:0;width:2px;z-index:21;
+  background:var(--brand-accent);height:0;transition:height .5s var(--ease)}
+
+.dots{position:fixed;right:calc(var(--pad-x) * .45);top:50%;z-index:22;
+  transform:translateY(-50%);display:grid;gap:.7rem}
+.dots button{width:7px;height:7px;border-radius:50%;border:0;padding:0;cursor:pointer;
+  background:var(--rule);transition:background .3s var(--ease),transform .3s var(--ease)}
+.dots button[aria-current="true"]{background:var(--brand-accent);transform:scale(1.5)}
+.dots button:focus-visible{outline:2px solid var(--brand-accent);outline-offset:3px}
+
+.nav{position:fixed;z-index:22;bottom:clamp(1rem,2.4vh,1.8rem);right:var(--pad-x);
+  display:flex;gap:.5rem}
+.nav button{width:2.6rem;height:2.6rem;border-radius:50%;border:1px solid var(--rule);
+  background:rgba(255,255,255,.03);color:var(--ink);font-size:1rem;cursor:pointer;
+  display:grid;place-items:center;
+  transition:background .2s var(--ease),border-color .2s var(--ease),opacity .2s}
+.nav button:hover:not(:disabled){background:rgba(255,255,255,.12);border-color:var(--ink-dim)}
+.nav button:disabled{opacity:.25;cursor:default}
+.nav button:focus-visible{outline:2px solid var(--brand-accent);outline-offset:3px}
+
+/* ── MOTIF: ORBIT — translucent discs and a turning ring — swap this block and its SVG to re-theme ──────────── */
+.motif{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;
+  -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 34%, #000 88%, transparent 100%);
+          mask-image:linear-gradient(to right, transparent 0%, #000 34%, #000 88%, transparent 100%)}
+.motif svg{position:absolute;top:50%;right:-6%;width:min(58vw,72vh);height:auto;
+  transform:translateY(-50%);opacity:0;transition:opacity .9s var(--ease)}
+.is-live .motif svg{opacity:.9}
+.slide[data-role="internal"] .motif svg{width:min(42vw,56vh)}
+.slide[data-role="internal"].is-live .motif svg{opacity:.5}
+
+/* Each shape arrives on its own beat. */
+.motif svg > g{
+  transform-origin:55% 50%;
+  opacity:0; transform:translateX(9%) scale(.82) rotate(-7deg);
+  transition:opacity 1s var(--ease), transform 1.25s var(--ease);
+}
+.is-live .motif svg > g{opacity:1;transform:none}
+.is-live .motif svg > g:nth-child(1){transition-delay:.10s}
+.is-live .motif svg > g:nth-child(2){transition-delay:.24s}
+.is-live .motif svg > g:nth-child(3){transition-delay:.38s}
+.is-live .motif svg > g:nth-child(4){transition-delay:.52s}
+.is-live .motif svg > g:nth-child(5){transition-delay:.66s}
+/* Once settled, the outer ring keeps turning so the slide is never quite static. */
+.is-live .motif svg > g:last-child{animation:spin 90s linear 1.6s infinite}
+@keyframes spin{from{rotate:0deg}to{rotate:360deg}}
+
+/* ── 6. REVEAL — content rises as the slide lands ────────────────────────── */
+.r{opacity:0;transform:translateY(38px);
+  transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.is-live .r{opacity:1;transform:none;transition-delay:calc(var(--i,0) * 95ms)}
+
+/* Headings animate per line instead, so the mask does the work — not a fade. */
+h1.r,h2.r{opacity:1;transform:none;transition:none}
+.line{display:block;overflow:hidden;padding-bottom:.09em}
+.line__in{display:block;transform:translateY(115%);
+  transition:transform 1s var(--ease)}
+.is-live .line__in{transform:none;
+  transition-delay:calc(var(--i,0) * 95ms + var(--l,0) * 105ms)}
+
+/* Eyebrow draws itself in from the left. */
+.eyebrow.r{transform:none;opacity:0;transition:opacity .7s var(--ease)}
+.is-live .eyebrow.r{opacity:1}
+.eyebrow::after{content:"";display:block;height:1px;width:clamp(30px,4.5vw,64px);
+  margin-top:.6em;background:var(--brand-accent);transform:scaleX(0);transform-origin:left;
+  transition:transform .9s var(--ease)}
+.is-live .eyebrow::after{transform:scaleX(1);transition-delay:.25s}
+
+@media (prefers-reduced-motion:reduce){
+  .r{transition:none;opacity:1;transform:none}
+  .orbit svg{transition:none;opacity:.7;transform:translateY(-50%)}
+  .blob,.grain,.particle,.hint{animation:none}
+  .particle{opacity:.5}
+  .line__in{transform:none;transition:none}
+  .motif svg > g{opacity:1;transform:none;transition:none;animation:none}
+  .eyebrow::after{transform:scaleX(1);transition:none}
+}
+
+/* ── 7. CONTENT ──────────────────────────────────────────────────────────── */
+.wrap{position:relative;z-index:2;max-width:min(1180px,92%)}
+.eyebrow{font-size:var(--fs-label);letter-spacing:.2em;text-transform:uppercase;
+  color:var(--brand-accent);margin-bottom:clamp(.9rem,2vh,1.5rem)}
+h1{font-size:var(--fs-display);line-height:.98;font-weight:700;letter-spacing:-.025em;max-width:14ch}
+h2{font-size:var(--fs-h2);line-height:1.04;font-weight:700;letter-spacing:-.02em;max-width:19ch}
+.lede{margin-top:clamp(1.1rem,2.6vh,2rem);max-width:32ch;color:var(--ink-dim);
+  font-size:var(--fs-lede);line-height:1.34}
+
+/* Lockup: client logo leads, hairline, Infosys endorses. Never merged. */
+.lockup{position:absolute;left:var(--pad-x);bottom:clamp(4.2rem,9vh,6rem);z-index:2;
+  display:flex;align-items:center;gap:clamp(1rem,2vw,1.8rem)}
+.lockup__client{width:clamp(130px,15vw,210px);color:var(--ink);display:block}
+.lockup__client svg{width:100%;height:auto;display:block}
+.lockup__rule{width:1px;height:clamp(22px,3vw,34px);background:var(--rule)}
+.lockup__infosys{width:clamp(52px,5.4vw,72px);color:var(--ink-dim);display:block}
+.lockup__infosys svg{width:100%;height:auto;display:block}
+
+.stats{display:flex;flex-wrap:wrap;gap:clamp(2rem,6vw,6rem);margin-top:clamp(1.6rem,4vh,3rem)}
+.stat__num{font-size:var(--fs-stat);font-weight:700;line-height:.9;letter-spacing:-.045em;color:var(--brand-accent)}
+.stat__cap{margin-top:.8rem;max-width:16ch;color:var(--ink-dim);font-size:var(--fs-body)}
+.footnote{margin-top:clamp(1.4rem,3vh,2.4rem);font-size:var(--fs-label);
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+
+/* Three steps side by side: the slide's content IS the structure. */
+.steps{
+  list-style:none; display:grid; grid-template-columns:repeat(3,1fr);
+  gap:clamp(1.6rem,3.4vw,4rem); margin-top:clamp(2rem,5vh,3.4rem);
+  max-width:1000px;
+}
+.steps li{border-top:1px solid var(--rule);padding-top:clamp(.9rem,2vh,1.4rem)}
+.steps b{
+  display:block; font-size:clamp(1.5rem,2.4vw,2.4rem); font-weight:700;
+  line-height:1; letter-spacing:-.02em; color:var(--brand-accent);
+  margin-bottom:clamp(.5rem,1.4vh,.9rem);
+}
+.steps p{color:var(--ink-dim);font-size:var(--fs-body);line-height:1.38;max-width:22ch}
+
+/* ── LAYOUT LIBRARY ───────────────────────────────────────────────────────
+   Every internal slide in the three decks is built from one of these. Reuse
+   them for any chapter; none of them depends on which motif is loaded.      */
+
+/* Fact row — three short truths under a headline (Current State) */
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.6rem,3.4vw,4rem);
+  margin-top:clamp(2rem,5vh,3.4rem);max-width:1000px}
+.facts li{list-style:none;border-top:1px solid var(--rule);padding-top:clamp(.9rem,2vh,1.4rem);
+  color:var(--ink-dim);font-size:var(--fs-body);line-height:1.38}
+.facts b{display:block;color:var(--ink);font-size:clamp(1.15rem,1.7vw,1.6rem);
+  margin-bottom:.4em;letter-spacing:-.01em}
+
+/* Statement — one line doing all the work (Future Vision) */
+.statement{font-size:clamp(2rem,4.4vw,4.6rem);line-height:1.08;font-weight:700;
+  letter-spacing:-.02em;max-width:24ch}
+.statement em{font-style:normal;color:var(--brand-accent)}
+.attrib{margin-top:clamp(1.2rem,2.8vh,2rem);font-size:var(--fs-label);
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint)}
+
+/* Timeline — phases across, with one marked as where the deal is now */
+.timeline{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;
+  gap:clamp(1.2rem,2.6vw,3rem);margin-top:clamp(2.2rem,5vh,3.6rem);max-width:1060px}
+.timeline li{list-style:none;position:relative;padding-top:clamp(1.5rem,3.4vh,2.2rem)}
+.timeline li::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:var(--rule)}
+.timeline li::after{content:"";position:absolute;top:-4px;left:0;width:9px;height:9px;
+  border-radius:50%;background:var(--ground);border:1px solid var(--rule)}
+.timeline li[data-now]::after{background:var(--brand-accent);border-color:var(--brand-accent)}
+.timeline li[data-now]::before{background:var(--brand-accent)}
+.timeline h3{font-size:clamp(1.1rem,1.7vw,1.6rem);font-weight:700;letter-spacing:-.01em;margin-bottom:.4em}
+.timeline p{color:var(--ink-dim);font-size:var(--fs-body);line-height:1.36;max-width:20ch}
+.timeline span{display:block;font-size:var(--fs-label);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--brand-accent);margin-bottom:.5em}
+
+/* Tiles — outcomes, each a number and a caption (Outcomes) */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2.2vw,2rem);
+  margin-top:clamp(2rem,4.6vh,3.2rem);max-width:1060px}
+.tiles li{list-style:none;border:1px solid var(--rule);border-radius:4px;
+  padding:clamp(1.1rem,2.6vh,1.8rem)}
+.tiles b{display:block;font-size:clamp(2rem,3.6vw,3.6rem);font-weight:700;line-height:.95;
+  letter-spacing:-.04em;color:var(--brand-accent);margin-bottom:.35em}
+.tiles p{color:var(--ink-dim);font-size:var(--fs-body);line-height:1.34}
+
+/* Hero number — one figure carrying the slide (Strategic Opportunity) */
+.hero-num{display:flex;align-items:baseline;gap:clamp(1rem,2.4vw,2.4rem);
+  flex-wrap:wrap;margin-top:clamp(1.6rem,3.6vh,2.6rem)}
+.hero-num b{font-size:clamp(4rem,11vw,12rem);font-weight:700;line-height:.82;
+  letter-spacing:-.05em;color:var(--brand-accent)}
+.hero-num p{color:var(--ink-dim);font-size:var(--fs-lede);line-height:1.3;max-width:20ch}
+
+/* Proof row — three quiet credentials on a closing slide */
+.proof{display:flex;flex-wrap:wrap;gap:clamp(1.4rem,3.4vw,3.6rem);
+  margin-top:clamp(1.8rem,4vh,2.8rem)}
+.proof li{list-style:none;max-width:22ch}
+.proof b{display:block;color:var(--brand-accent);font-size:clamp(1.3rem,2vw,1.9rem);
+  font-weight:700;letter-spacing:-.01em;margin-bottom:.3em}
+.proof p{color:var(--ink-dim);font-size:var(--fs-body);line-height:1.34}
+
+.chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:clamp(1.6rem,3.6vh,2.6rem)}
+.chip{border:1px solid var(--rule);border-radius:100px;padding:.55em 1.15em;
+  font-size:var(--fs-label);letter-spacing:.11em;text-transform:uppercase;color:var(--ink-dim)}
+
+/* Scroll hint on the cover — says the deck moves downward. */
+.hint{position:absolute;left:50%;bottom:clamp(1.6rem,4vh,2.6rem);z-index:3;
+  transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  font-size:var(--fs-label);letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint);
+  animation:bob 2.4s ease-in-out infinite}
+.hint::after{content:"";width:1px;height:26px;background:linear-gradient(var(--ink-faint),transparent)}
+@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,7px)}}
+
+@media (max-width:820px){
+  .steps,.facts,.tiles{grid-template-columns:1fr;gap:clamp(1rem,2.6vh,1.6rem);
+    margin-top:clamp(1.4rem,3vh,2rem)}
+  .timeline{grid-auto-flow:row;grid-auto-columns:auto;gap:clamp(1rem,2.6vh,1.6rem);
+    margin-top:clamp(1.4rem,3vh,2rem)}
+  .steps p,.timeline p,.facts li,.tiles p,.proof p{max-width:34ch}
+  .hero-num{gap:1rem}
+  h1,h2,.statement{max-width:none}
+  .dots{display:none}
+}
+
+/* Phone (the QR-code audience): motif clears the words, chrome stops competing. */
+@media (max-width:560px){
+  :root{--pad-x:1.6rem;--pad-y:2.4rem}
+  .slide{justify-content:flex-end;padding-bottom:9.5rem}
+  .wrap{max-width:100%}
+  .motif{-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 38%,transparent 62%);
+                 mask-image:linear-gradient(to bottom,#000 0%,#000 38%,transparent 62%)}
+  .motif svg{top:20%;right:-26%;width:132vw}
+  .slide[data-role="internal"] .motif svg{width:112vw}
+  .scrim{background:linear-gradient(to bottom, rgba(5,5,5,.35) 0%, rgba(5,5,5,.75) 52%, rgba(5,5,5,.92) 100%)}
+  .rail{font-size:.56rem;letter-spacing:.12em}
+  .rail--top span:last-child,.rail__mark::before{display:none}
+  .rail--bottom{padding-right:var(--pad-x);bottom:.9rem}
+  .rail--bottom > span:first-child{display:none}   /* hide 'Prepared for…', keep the counter */
+  .lockup{position:static;margin-top:2rem}
+  .nav{bottom:2.6rem}
+  .hint{display:none}
+  .stats{gap:1.6rem}
+}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true">
+  <div class="blobs" id="blobs">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+  <div class="particles" id="particles"></div>
+  <div class="grain"></div>
+  <div class="scrim"></div>
+</div>
+<div class="rail rail--top">
+  <span class="rail__mark" data-slot="rail-left">Danske Bank &times; Infosys</span>
+  <span data-slot="rail-right">Bid orals &middot; September 2026</span>
+</div>
+
+<main class="deck" id="deck" tabindex="0" aria-label="Pitch deck, 5 slides">
+
+  <!-- ── 01 · COVER ───────────────────────────────────────────────────── -->
+  <section class="slide" data-role="cover" data-title="Cover" aria-label="Slide 1 of 5">
+    <div class="motif"><svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <radialGradient id="og1" cx="38%" cy="32%" r="72%">
+      <stop offset="0%" stop-color="var(--brand-accent)" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="var(--brand-primary)" stop-opacity=".18"/>
+    </radialGradient>
+    <radialGradient id="og2" cx="62%" cy="70%" r="70%">
+      <stop offset="0%" stop-color="var(--brand-primary)" stop-opacity=".62"/>
+      <stop offset="100%" stop-color="var(--brand-accent)" stop-opacity=".10"/>
+    </radialGradient>
+  </defs>
+  <g><circle cx="318" cy="252" r="236" fill="url(#og1)"/></g>
+  <g><circle cx="388" cy="386" r="158" fill="url(#og2)"/></g>
+  <g><circle cx="214" cy="404" r="92" fill="var(--brand-accent)" opacity=".22"/></g>
+  <g><circle cx="330" cy="300" r="286" fill="none" stroke="var(--brand-accent)" stroke-opacity=".30" stroke-width="1.5"/></g>
+</svg></div>
+    <div class="wrap">
+      <p class="eyebrow r" style="--i:0" data-slot="eyebrow">Core simplification</p>
+      <h1 class="r" style="--i:1" data-slot="headline">Danske Bank,<br>Simplified.</h1>
+      <p class="lede r" style="--i:2" data-slot="subhead">New products in weeks. Not quarters.</p>
+    </div>
+    <div class="lockup r" style="--i:3">
+      <span class="lockup__client"><svg viewBox="0 0 1920 195" xmlns="http://www.w3.org/2000/svg" fill="currentColor" role="img" aria-label="Danske Bank"><path d="M173.286,100.272c0,44.782-6.815,92.241-86.156,92.241H0V8.275h86.4c78.611,0,86.886,42.591,86.886,91.997ZM138.24,100.759c0-41.618-6.084-64.252-54.03-64.252h-50.866v127.774h53.057c48.919,0,51.84-29.449,51.84-63.522Z"/><path d="M354.603,91.267v101.246h-26.772l-2.921-14.603c-11.195,9.735-29.449,16.793-56.221,16.793-42.835,0-59.871-11.926-59.871-47.702,0-35.533,14.603-46.242,64.982-46.242h48.676v-8.032c0-22.147-6.084-29.449-42.348-29.449-24.095,0-28.962,5.841-29.936,11.439l-.974,4.381h-32.613c-2.677-24.581,7.058-40.888,64.252-40.888,68.876,0,73.744,21.904,73.744,53.057ZM241.431,146.027c0,21.174,15.333,23.121,36.75,23.121,24.825,0,44.295-6.815,44.295-18.497v-26.042h-43.078c-26.528,0-37.967,0-37.967,21.417Z"/><path d="M429.563,40.401l2.19,12.899c12.899-7.788,32.856-15.09,53.543-15.09,44.782,0,57.194,17.523,57.194,60.358v93.944h-32.126v-85.183c0-32.126-2.921-42.105-36.02-42.105-13.629,0-28.475,2.19-40.888,6.571v120.716h-32.126V40.401h28.232Z"/><path d="M587.513,149.435h32.369l.487,4.381c.974,8.275,5.111,15.333,35.29,15.333,33.586,0,40.401-4.381,40.401-21.904,0-13.873-5.111-16.55-20.2-17.767l-41.131-3.407c-25.311-2.19-46.972-8.275-46.972-41.131,0-30.422,14.603-46.729,70.823-46.729,60.601,0,68.146,14.603,64.739,40.888h-32.126l-.73-3.894c-.73-6.328-7.545-11.439-32.856-11.439-30.422,0-37.237,4.381-37.237,19.47,0,9.979,4.381,14.603,19.47,15.82l41.131,3.164c28.475,2.19,47.702,10.222,47.702,44.052,0,32.856-14.116,48.432-73.987,48.432-64.495,0-70.337-18.01-67.173-45.269Z"/><path d="M805.578,0v100.759h20.444l52.326-60.358h38.941l-62.305,70.823,64.739,81.289h-40.888l-52.326-67.416h-20.931v67.416h-32.126V0h32.126Z"/><path d="M1082.055,124.61h-112.685c0,37.48,8.518,44.538,44.295,44.538,30.422,0,33.343-4.624,34.56-12.899l.487-4.381h31.639c1.947,17.523.73,42.835-67.416,42.835-56.951,0-76.178-12.656-76.178-76.908,0-59.384,17.28-79.585,74.717-79.585,64.252,0,71.31,29.692,71.31,69.606,0,5.354-.243,11.682-.73,16.793ZM1010.988,63.279c-36.02,0-38.697,13.142-40.644,37.48h79.828c0-23.608-3.407-37.48-39.184-37.48Z"/><path d="M1355.125,139.943c0,40.644-19.957,52.57-67.416,52.57h-93.701V8.275h101.489c33.1,0,53.787,9.005,53.787,46.729,0,22.878-12.412,36.994-35.533,41.374,32.126,4.137,41.374,21.174,41.374,43.565ZM1315.211,58.654c0-20.444-13.629-22.391-31.639-22.391h-56.221v48.676h54.517c27.258,0,33.343-9.005,33.343-26.285ZM1321.052,139.213c0-19.47-9.005-27.258-33.1-27.258h-60.601v52.57h57.437c23.608,0,36.263-3.164,36.263-25.311Z"/><path d="M1537.414,91.267v101.246h-26.772l-2.921-14.603c-11.195,9.735-29.449,16.793-56.221,16.793-42.835,0-59.871-11.926-59.871-47.702,0-35.533,14.603-46.242,64.982-46.242h48.676v-8.032c0-22.147-6.084-29.449-42.348-29.449-24.095,0-28.962,5.841-29.936,11.439l-.974,4.381h-32.613c-2.677-24.581,7.058-40.888,64.252-40.888,68.876,0,73.744,21.904,73.744,53.057ZM1424.243,146.027c0,21.174,15.333,23.121,36.75,23.121,24.825,0,44.295-6.815,44.295-18.497v-26.042h-43.078c-26.528,0-37.967,0-37.967,21.417Z"/><path d="M1612.374,40.401l2.19,12.899c12.899-7.788,32.856-15.09,53.543-15.09,44.782,0,57.194,17.523,57.194,60.358v93.944h-32.126v-85.183c0-32.126-2.921-42.105-36.02-42.105-13.629,0-28.475,2.19-40.888,6.571v120.716h-32.126V40.401h28.232Z"/><path d="M1805.855,0v100.759h20.444l52.326-60.358h38.941l-62.305,70.823,64.739,81.289h-40.888l-52.326-67.416h-20.931v67.416h-32.126V0h32.126Z"/></svg></span>
+      <span class="lockup__rule"></span>
+      <span class="lockup__infosys"><!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg2"
+  
+  
+   width="400"
+   height="160"
+   xml:space="preserve"
+  
+   version="1.0"
+   viewBox="0 0 400 160" fill="currentColor" role="img" aria-label="Infosys"><g
+     id="g11"
+    
+    
+     transform="matrix(1.25,0,0,-1.25,-574.00253,602.94509)"><text
+       transform="matrix(1,0,0,-1,59.7599,63.9)"
+       id="text29"><tspan
+         style="font-size:8px;font-variant:normal;font-weight:500;writing-mode:lr-tb;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:UniversCondensed;-inkscape-font-specification:UniversCondensed-Medium"
+         x="0 3.688 7.3759999 11.064 14.752 17.010401 18.7784 22.0264 24.3864 27.634399 30.586399 33.8344 36.7864 39.0448 42.876801 45.972801 49.068802 52.316799 55.5648 58.812801 60.292801 63.540798 66.788803 68.268799 71.364799 74.316803 76.575203 79.671204 81.151199 86.015198 87.495201 89.855202 92.951202 96.199203 97.967201 100.2256 104.2096 107.4576 110.7056 113.9536 117.2016 118.6816 121.9296 124.1376 127.2336 129.0016 131.25999 133.028 136.276 139.524 141.004 144.252 146.02 148.2784 150.0464 153.2944 155.6544 158.9024 161.8544 165.1024 168.0544 170.31281 173.56081 176.6568 178.1368 179.61681 182.7128 185.80881 188.9048 191.8568 194.1152 196.4752 199.72321 202.8192 205.07761 206.5576 209.8056 212.1656 215.4136 217.6216 222.4856 225.7336 228.0936 229.57359 232.82159 236.0696 238.328 239.808 243.056 245.31441 247.67439 250.92239 252.4024 255.3544 257.61279 260.86081 264.1088 267.35681 268.83679 270.3168 273.41281 276.6608 279.02081 280.50079 283.74881 286.9968 289.25519 290.7352 293.68719 295.94559 299.1936 302.28961 305.38559 308.63361 310.84161 314.0896 316.44958 319.54559 321.80399 325.052 328.004 330.26239 333.51041 335.87039 338.12881 339.6088 341.96881 344.8616 347.12 350.36801 353.616 356.86401 358.34399 359.82401 362.92001 366.168 368.52802 370.008 373.25601 376.504 378.76239 382.01041 385.25839 387.61841 390.71439 392.48239 394.74081 397.69281 400.9408 404.0368 407.28479 409.54321 411.02319 414.27121 416.6312 419.87921 422.08719 426.9512 430.19919 432.5592 434.03922 437.2872 440.53519 442.79361 444.27359 447.22559 449.48401 452.436 455.68399 458.93201 460.41199 463.508 466.604 468.96399 471.22241 473.5824 476.83041 479.08881 482.18481 485.4328 488.68079 491.9288 495.17679"
+         y="0"
+        
+         id="tspan31">2007 Infosys Technologies Limited, Bangalore, India. Infosys believes the information in this publication is accurate as of its publication date; such information is subject to change</tspan><tspan
+         style="font-size:8px;font-variant:normal;font-weight:500;writing-mode:lr-tb;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:UniversCondensed;-inkscape-font-specification:UniversCondensed-Medium"
+         x="-5.7600002 -0.59439999 0.88319999 3.2407999 6.4864001 9.7320004 12.9776 15.3352 17.190399 20.436001 23.681601 26.0392 27.5168 30.610399 33.703999 35.469601 37.324799 39.090401 42.335999 44.6936 47.939201 50.888802 54.134399 57.084 58.939201 62.184799 65.278397 68.524002 71.7696 75.015198 80.180801 81.658401 84.751999 87.997597 91.243202 94.3368 97.2864 99.141602 101.4992 104.7448 107.8384 109.6936 112.9392 115.1448 118.3904 121.636 123.8416 125.3192 128.4128 130.7704 134.01601 136.2216 139.46719 141.3224 143.528 145.0056 148.25121 151.4968 153.8544 156.804 158.65919 161.9048 164.26241 166.1176 168.4752 171.72079 174.81441 176.6696 179.02721 181.2328 184.47839 187.724 190.8176 195.6792 198.9248 201.1304 204.37601 207.32561 209.1808 212.42641 215.672 218.9176 220.7728 224.0184 226.224 229.4696 232.71519 235.9608 239.0544 241.412 243.2672 246.5128 249.75841 254.62 257.71359 260.66321 262.5184 265.76401 268.12161 269.97681 273.22241 275.57999 278.82559 281.91919 284.12479 285.98001 289.07361 292.31921 297.18079 300.42639 303.672 306.9176 308.3952 311.4888 314.43839 316.29361 321.15521 324.24881 327.49438 329.85199 331.32959 334.5752 337.8208 340.9144 344.16 346.0152 347.4928 350.68719 352.54239 354.89999 358.1456 359.6232 362.57281 364.42801 367.67361 370.91919 374.01279 377.25839 382.12 385.21359 388.4592 390.8168"
+         y="9.1800003"
+        
+         id="tspan33">without notice. Infosys acknowledges the proprietary rights of the trademarks and product names of other companies mentioned in this document.</tspan><tspan
+         style="font-size:8px;font-variant:normal;font-weight:500;writing-mode:lr-tb;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:UniversCondensed;-inkscape-font-specification:UniversCondensed-Medium"
+         x="-5.7600002"
+         y="1.08"
+         id="tspan35">©</tspan></text>
+<path
+       d="M 54.36,74.7 L 558,74.7"
+       style="fill:none;stroke:#ffffff;stroke-width:0.23999999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       id="path37" /><g
+       id="g2552"
+       transform="matrix(2.5650071,0,0,2.5650071,-1722.9173,15.11566)"><path
+         id="path161"
+         style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none"
+         d="M 851.813,176.314 L 851.812,176.373 L 851.812,181.096 L 856.525,181.096 L 856.525,146.455 L 856.527,146.347 L 856.527,141.673 L 851.812,141.673 L 851.812,146.396 L 851.813,146.455 L 851.813,176.314" /><path
+         id="path163"
+         style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none"
+         d="M 899.736,156.03 C 899.857,148.865 904.29,143.135 909.638,143.231 C 914.985,143.327 919.221,149.213 919.1,156.378 C 918.978,163.544 914.545,169.274 909.197,169.177 C 903.85,169.081 899.614,163.195 899.736,156.03 z M 938.759,164.693 C 938.882,164.42 938.59,165.101 938.59,165.101 L 938.759,164.693 z M 941.971,135.03 C 942.187,135.4 942.488,135.966 942.846,136.673 L 941.971,135.03 z M 942.248,167.165 C 942.305,167.006 942.371,166.84 942.445,166.665 L 944.032,162.756 L 942.248,167.165 z M 922.5,147.487 C 925.413,144.827 928.036,143.452 931.39,143.452 C 934.823,143.426 937.875,145.115 937.875,148.366 C 937.875,151.079 935.484,152.666 931.212,154.483 C 927.592,156.059 924.898,157.164 923.49,159.445 C 923.662,158.454 923.752,157.43 923.752,156.382 C 923.752,147.583 917.408,140.449 909.582,140.449 C 901.756,140.449 895.412,147.583 895.412,156.382 C 895.412,161.687 897.718,166.386 901.263,169.282 L 891.674,169.282 L 891.674,146.455 L 891.675,146.364 L 891.675,141.673 L 887.416,141.673 L 887.416,146.211 C 887.419,146.291 887.42,146.372 887.42,146.455 L 887.42,169.282 L 883.665,169.282 L 883.665,172.155 L 887.475,172.155 C 887.967,177.951 891.536,181.229 896.477,181.229 C 899.681,181.229 901.44,180.893 902.456,180.42 L 902.456,176.491 C 902.44,176.198 902.44,176.019 902.44,176.019 C 902.396,176.024 902.291,176.026 902.291,176.026 C 900.749,177.457 899.228,178.522 895.675,178.518 C 892.845,178.518 890.973,176.205 891.627,172.155 L 907.567,172.155 C 908.226,172.26 908.898,172.315 909.582,172.315 C 915.259,172.315 920.157,168.561 922.418,163.139 C 922.397,163.44 922.387,163.754 922.387,164.082 C 922.387,169.739 927.83,172.145 933.484,172.133 C 933.7,172.134 933.912,172.133 934.12,172.128 C 936.11,172.16 938.945,171.507 940.676,171.049 L 944.032,162.756 L 948.828,150.988 L 949.391,149.098 L 950.018,150.988 L 956.083,166.093 C 957.202,170.252 961.631,172.052 966.523,172.042 C 968.955,172.053 970.751,171.758 972.905,170.996 L 972.905,166.428 C 970.253,168.367 968.354,169.494 965.345,169.494 C 962.7,169.494 959.521,168.316 959.521,164.4 C 959.47,161.457 961.225,160.919 966.375,158.348 C 970.608,156.499 974.513,154.458 974.536,149.731 C 974.536,141.85 966.818,140.485 963.061,140.473 C 959.707,140.473 956.633,141.306 954.923,142.737 L 954.923,147.94 L 955.198,147.711 C 958.249,144.845 960.945,143.36 964.429,143.36 C 967.863,143.334 970.914,145.024 970.914,148.275 C 970.914,150.988 968.523,152.575 964.251,154.392 C 960.168,156.17 957.489,157.348 956.394,160.293 C 954.729,156.208 946.984,137.233 945.161,133.177 L 940.985,133.177 L 942.875,136.727 C 943.922,138.801 945.445,142.055 946.798,145.168 L 938.759,164.693 C 938.705,164.812 938.573,165.112 938.304,165.727 C 937.687,167.141 937.113,168.447 935.377,169.105 C 934.447,169.42 933.457,169.585 932.306,169.585 C 929.661,169.585 926.278,168.407 926.278,164.491 C 926.227,161.548 928.185,161.01 933.336,158.44 C 937.569,156.59 941.474,154.549 941.497,149.822 C 941.497,141.941 933.778,140.577 930.021,140.564 C 927.039,140.564 924.277,141.223 922.5,142.375 L 922.5,147.487" /><path
+         id="path165"
+         style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none"
+         d="M 865.32,171.861 L 865.372,168.413 L 865.369,168.181 L 865.415,168.182 C 865.47,168.326 865.544,168.448 865.614,168.539 C 867.345,170.406 869.527,172.261 874.713,172.261 C 879.677,172.261 882.89,168.018 883.019,165.347 L 883.024,146.455 L 883.024,146.361 L 883.024,141.673 L 878.77,141.673 L 878.77,147.306 L 878.769,163.389 C 878.769,166.719 875.864,169.127 872.308,169.127 C 869.352,169.127 865.558,166.451 865.432,163.742 L 865.432,146.45 L 865.434,146.323 L 865.434,141.669 L 861.178,141.669 L 861.178,167.891 L 861.179,171.861 L 865.32,171.861" /></g></g></svg></span>
+    </div>
+    <div class="hint" aria-hidden="true">Scroll</div>
+  </section>
+
+  <!-- ── 02 · CHALLENGE — full-bleed statement ────────────────────────── -->
+  <section class="slide" data-role="internal" data-title="Challenge" aria-label="Slide 2 of 5">
+    <div class="motif"><svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <radialGradient id="og1" cx="38%" cy="32%" r="72%">
+      <stop offset="0%" stop-color="var(--brand-accent)" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="var(--brand-primary)" stop-opacity=".18"/>
+    </radialGradient>
+    <radialGradient id="og2" cx="62%" cy="70%" r="70%">
+      <stop offset="0%" stop-color="var(--brand-primary)" stop-opacity=".62"/>
+      <stop offset="100%" stop-color="var(--brand-accent)" stop-opacity=".10"/>
+    </radialGradient>
+  </defs>
+  <g><circle cx="318" cy="252" r="236" fill="url(#og1)"/></g>
+  <g><circle cx="388" cy="386" r="158" fill="url(#og2)"/></g>
+  <g><circle cx="214" cy="404" r="92" fill="var(--brand-accent)" opacity=".22"/></g>
+  <g><circle cx="330" cy="300" r="286" fill="none" stroke="var(--brand-accent)" stroke-opacity=".30" stroke-width="1.5"/></g>
+</svg></div>
+    <div class="wrap">
+      <p class="eyebrow r" style="--i:0" data-slot="chapter">01 &mdash; Challenge</p>
+      <h2 class="r" style="--i:1" data-slot="headline">One new product.<br>Fourteen systems.</h2>
+      <p class="lede r" style="--i:2" data-slot="body">
+        Nothing is broken. Everything is joined to everything else.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── 03 · IMPLICATION — stat pair ─────────────────────────────────── -->
+  <section class="slide" data-role="internal" data-title="Implication" aria-label="Slide 3 of 5">
+    <div class="motif"><svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <radialGradient id="og1" cx="38%" cy="32%" r="72%">
+      <stop offset="0%" stop-color="var(--brand-accent)" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="var(--brand-primary)" stop-opacity=".18"/>
+    </radialGradient>
+    <radialGradient id="og2" cx="62%" cy="70%" r="70%">
+      <stop offset="0%" stop-color="var(--brand-primary)" stop-opacity=".62"/>
+      <stop offset="100%" stop-color="var(--brand-accent)" stop-opacity=".10"/>
+    </radialGradient>
+  </defs>
+  <g><circle cx="318" cy="252" r="236" fill="url(#og1)"/></g>
+  <g><circle cx="388" cy="386" r="158" fill="url(#og2)"/></g>
+  <g><circle cx="214" cy="404" r="92" fill="var(--brand-accent)" opacity=".22"/></g>
+  <g><circle cx="330" cy="300" r="286" fill="none" stroke="var(--brand-accent)" stroke-opacity=".30" stroke-width="1.5"/></g>
+</svg></div>
+    <div class="wrap">
+      <p class="eyebrow r" style="--i:0" data-slot="chapter">02 &mdash; Implication</p>
+      <h2 class="r" style="--i:1" data-slot="headline">That costs time.</h2>
+      <div class="stats">
+        <div class="r" style="--i:2">
+          <div class="stat__num" data-slot="stat-1">9 months</div>
+          <p class="stat__cap" data-slot="stat-1-caption">To launch one product.</p>
+        </div>
+        <div class="r" style="--i:3">
+          <div class="stat__num" data-slot="stat-2">3&times;</div>
+          <p class="stat__cap" data-slot="stat-2-caption">The cost of every change.</p>
+        </div>
+      </div>
+      <p class="footnote r" style="--i:4" data-slot="footnote">Example numbers &mdash; swap in real ones.</p>
+    </div>
+  </section>
+
+  <!-- ── 04 · SOLUTION — three steps across ───────────────────────────── -->
+  <section class="slide" data-role="internal" data-title="Solution" aria-label="Slide 4 of 5">
+    <div class="motif"><svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <radialGradient id="og1" cx="38%" cy="32%" r="72%">
+      <stop offset="0%" stop-color="var(--brand-accent)" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="var(--brand-primary)" stop-opacity=".18"/>
+    </radialGradient>
+    <radialGradient id="og2" cx="62%" cy="70%" r="70%">
+      <stop offset="0%" stop-color="var(--brand-primary)" stop-opacity=".62"/>
+      <stop offset="100%" stop-color="var(--brand-accent)" stop-opacity=".10"/>
+    </radialGradient>
+  </defs>
+  <g><circle cx="318" cy="252" r="236" fill="url(#og1)"/></g>
+  <g><circle cx="388" cy="386" r="158" fill="url(#og2)"/></g>
+  <g><circle cx="214" cy="404" r="92" fill="var(--brand-accent)" opacity=".22"/></g>
+  <g><circle cx="330" cy="300" r="286" fill="none" stroke="var(--brand-accent)" stroke-opacity=".30" stroke-width="1.5"/></g>
+</svg></div>
+    <div class="wrap">
+      <p class="eyebrow r" style="--i:0" data-slot="chapter">03 &mdash; Solution</p>
+      <h2 class="r" style="--i:1" data-slot="headline">One core.<br>Three layers.</h2>
+      <ol class="steps">
+        <li class="r" style="--i:3"><b data-slot="p1-label">01</b><p data-slot="p1">Keep the money system apart from the app.</p></li>
+        <li class="r" style="--i:4"><b data-slot="p2-label">02</b><p data-slot="p2">Move one product at a time.</p></li>
+        <li class="r" style="--i:5"><b data-slot="p3-label">03</b><p data-slot="p3">Undo any step the same day.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ── 05 · VALUE / CLOSING ─────────────────────────────────────────── -->
+  <section class="slide" data-role="closing" data-title="Value" aria-label="Slide 5 of 5">
+    <div class="motif"><svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <radialGradient id="og1" cx="38%" cy="32%" r="72%">
+      <stop offset="0%" stop-color="var(--brand-accent)" stop-opacity=".55"/>
+      <stop offset="100%" stop-color="var(--brand-primary)" stop-opacity=".18"/>
+    </radialGradient>
+    <radialGradient id="og2" cx="62%" cy="70%" r="70%">
+      <stop offset="0%" stop-color="var(--brand-primary)" stop-opacity=".62"/>
+      <stop offset="100%" stop-color="var(--brand-accent)" stop-opacity=".10"/>
+    </radialGradient>
+  </defs>
+  <g><circle cx="318" cy="252" r="236" fill="url(#og1)"/></g>
+  <g><circle cx="388" cy="386" r="158" fill="url(#og2)"/></g>
+  <g><circle cx="214" cy="404" r="92" fill="var(--brand-accent)" opacity=".22"/></g>
+  <g><circle cx="330" cy="300" r="286" fill="none" stroke="var(--brand-accent)" stroke-opacity=".30" stroke-width="1.5"/></g>
+</svg></div>
+    <div class="wrap">
+      <p class="eyebrow r" style="--i:0" data-slot="chapter">04 &mdash; Value</p>
+      <h1 class="r" style="--i:1" data-slot="headline">Weeks,<br>not quarters.</h1>
+      <div class="chips">
+        <span class="chip r" style="--i:2" data-slot="chip-1">Faster to market</span>
+        <span class="chip r" style="--i:3" data-slot="chip-2">Cheaper changes</span>
+        <span class="chip r" style="--i:4" data-slot="chip-3">No big switch-off</span>
+      </div>
+    </div>
+    <div class="lockup r" style="--i:5">
+      <span class="lockup__client"><svg viewBox="0 0 1920 195" xmlns="http://www.w3.org/2000/svg" fill="currentColor" role="img" aria-label="Danske Bank"><path d="M173.286,100.272c0,44.782-6.815,92.241-86.156,92.241H0V8.275h86.4c78.611,0,86.886,42.591,86.886,91.997ZM138.24,100.759c0-41.618-6.084-64.252-54.03-64.252h-50.866v127.774h53.057c48.919,0,51.84-29.449,51.84-63.522Z"/><path d="M354.603,91.267v101.246h-26.772l-2.921-14.603c-11.195,9.735-29.449,16.793-56.221,16.793-42.835,0-59.871-11.926-59.871-47.702,0-35.533,14.603-46.242,64.982-46.242h48.676v-8.032c0-22.147-6.084-29.449-42.348-29.449-24.095,0-28.962,5.841-29.936,11.439l-.974,4.381h-32.613c-2.677-24.581,7.058-40.888,64.252-40.888,68.876,0,73.744,21.904,73.744,53.057ZM241.431,146.027c0,21.174,15.333,23.121,36.75,23.121,24.825,0,44.295-6.815,44.295-18.497v-26.042h-43.078c-26.528,0-37.967,0-37.967,21.417Z"/><path d="M429.563,40.401l2.19,12.899c12.899-7.788,32.856-15.09,53.543-15.09,44.782,0,57.194,17.523,57.194,60.358v93.944h-32.126v-85.183c0-32.126-2.921-42.105-36.02-42.105-13.629,0-28.475,2.19-40.888,6.571v120.716h-32.126V40.401h28.232Z"/><path d="M587.513,149.435h32.369l.487,4.381c.974,8.275,5.111,15.333,35.29,15.333,33.586,0,40.401-4.381,40.401-21.904,0-13.873-5.111-16.55-20.2-17.767l-41.131-3.407c-25.311-2.19-46.972-8.275-46.972-41.131,0-30.422,14.603-46.729,70.823-46.729,60.601,0,68.146,14.603,64.739,40.888h-32.126l-.73-3.894c-.73-6.328-7.545-11.439-32.856-11.439-30.422,0-37.237,4.381-37.237,19.47,0,9.979,4.381,14.603,19.47,15.82l41.131,3.164c28.475,2.19,47.702,10.222,47.702,44.052,0,32.856-14.116,48.432-73.987,48.432-64.495,0-70.337-18.01-67.173-45.269Z"/><path d="M805.578,0v100.759h20.444l52.326-60.358h38.941l-62.305,70.823,64.739,81.289h-40.888l-52.326-67.416h-20.931v67.416h-32.126V0h32.126Z"/><path d="M1082.055,124.61h-112.685c0,37.48,8.518,44.538,44.295,44.538,30.422,0,33.343-4.624,34.56-12.899l.487-4.381h31.639c1.947,17.523.73,42.835-67.416,42.835-56.951,0-76.178-12.656-76.178-76.908,0-59.384,17.28-79.585,74.717-79.585,64.252,0,71.31,29.692,71.31,69.606,0,5.354-.243,11.682-.73,16.793ZM1010.988,63.279c-36.02,0-38.697,13.142-40.644,37.48h79.828c0-23.608-3.407-37.48-39.184-37.48Z"/><path d="M1355.125,139.943c0,40.644-19.957,52.57-67.416,52.57h-93.701V8.275h101.489c33.1,0,53.787,9.005,53.787,46.729,0,22.878-12.412,36.994-35.533,41.374,32.126,4.137,41.374,21.174,41.374,43.565ZM1315.211,58.654c0-20.444-13.629-22.391-31.639-22.391h-56.221v48.676h54.517c27.258,0,33.343-9.005,33.343-26.285ZM1321.052,139.213c0-19.47-9.005-27.258-33.1-27.258h-60.601v52.57h57.437c23.608,0,36.263-3.164,36.263-25.311Z"/><path d="M1537.414,91.267v101.246h-26.772l-2.921-14.603c-11.195,9.735-29.449,16.793-56.221,16.793-42.835,0-59.871-11.926-59.871-47.702,0-35.533,14.603-46.242,64.982-46.242h48.676v-8.032c0-22.147-6.084-29.449-42.348-29.449-24.095,0-28.962,5.841-29.936,11.439l-.974,4.381h-32.613c-2.677-24.581,7.058-40.888,64.252-40.888,68.876,0,73.744,21.904,73.744,53.057ZM1424.243,146.027c0,21.174,15.333,23.121,36.75,23.121,24.825,0,44.295-6.815,44.295-18.497v-26.042h-43.078c-26.528,0-37.967,0-37.967,21.417Z"/><path d="M1612.374,40.401l2.19,12.899c12.899-7.788,32.856-15.09,53.543-15.09,44.782,0,57.194,17.523,57.194,60.358v93.944h-32.126v-85.183c0-32.126-2.921-42.105-36.02-42.105-13.629,0-28.475,2.19-40.888,6.571v120.716h-32.126V40.401h28.232Z"/><path d="M1805.855,0v100.759h20.444l52.326-60.358h38.941l-62.305,70.823,64.739,81.289h-40.888l-52.326-67.416h-20.931v67.416h-32.126V0h32.126Z"/></svg></span>
+      <span class="lockup__rule"></span>
+      <span class="lockup__infosys"><!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg2"
+  
+  
+   width="400"
+   height="160"
+   xml:space="preserve"
+  
+   version="1.0"
+   viewBox="0 0 400 160" fill="currentColor" role="img" aria-label="Infosys"><g
+     id="g11"
+    
+    
+     transform="matrix(1.25,0,0,-1.25,-574.00253,602.94509)"><text
+       transform="matrix(1,0,0,-1,59.7599,63.9)"
+       id="text29"><tspan
+         style="font-size:8px;font-variant:normal;font-weight:500;writing-mode:lr-tb;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:UniversCondensed;-inkscape-font-specification:UniversCondensed-Medium"
+         x="0 3.688 7.3759999 11.064 14.752 17.010401 18.7784 22.0264 24.3864 27.634399 30.586399 33.8344 36.7864 39.0448 42.876801 45.972801 49.068802 52.316799 55.5648 58.812801 60.292801 63.540798 66.788803 68.268799 71.364799 74.316803 76.575203 79.671204 81.151199 86.015198 87.495201 89.855202 92.951202 96.199203 97.967201 100.2256 104.2096 107.4576 110.7056 113.9536 117.2016 118.6816 121.9296 124.1376 127.2336 129.0016 131.25999 133.028 136.276 139.524 141.004 144.252 146.02 148.2784 150.0464 153.2944 155.6544 158.9024 161.8544 165.1024 168.0544 170.31281 173.56081 176.6568 178.1368 179.61681 182.7128 185.80881 188.9048 191.8568 194.1152 196.4752 199.72321 202.8192 205.07761 206.5576 209.8056 212.1656 215.4136 217.6216 222.4856 225.7336 228.0936 229.57359 232.82159 236.0696 238.328 239.808 243.056 245.31441 247.67439 250.92239 252.4024 255.3544 257.61279 260.86081 264.1088 267.35681 268.83679 270.3168 273.41281 276.6608 279.02081 280.50079 283.74881 286.9968 289.25519 290.7352 293.68719 295.94559 299.1936 302.28961 305.38559 308.63361 310.84161 314.0896 316.44958 319.54559 321.80399 325.052 328.004 330.26239 333.51041 335.87039 338.12881 339.6088 341.96881 344.8616 347.12 350.36801 353.616 356.86401 358.34399 359.82401 362.92001 366.168 368.52802 370.008 373.25601 376.504 378.76239 382.01041 385.25839 387.61841 390.71439 392.48239 394.74081 397.69281 400.9408 404.0368 407.28479 409.54321 411.02319 414.27121 416.6312 419.87921 422.08719 426.9512 430.19919 432.5592 434.03922 437.2872 440.53519 442.79361 444.27359 447.22559 449.48401 452.436 455.68399 458.93201 460.41199 463.508 466.604 468.96399 471.22241 473.5824 476.83041 479.08881 482.18481 485.4328 488.68079 491.9288 495.17679"
+         y="0"
+        
+         id="tspan31">2007 Infosys Technologies Limited, Bangalore, India. Infosys believes the information in this publication is accurate as of its publication date; such information is subject to change</tspan><tspan
+         style="font-size:8px;font-variant:normal;font-weight:500;writing-mode:lr-tb;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:UniversCondensed;-inkscape-font-specification:UniversCondensed-Medium"
+         x="-5.7600002 -0.59439999 0.88319999 3.2407999 6.4864001 9.7320004 12.9776 15.3352 17.190399 20.436001 23.681601 26.0392 27.5168 30.610399 33.703999 35.469601 37.324799 39.090401 42.335999 44.6936 47.939201 50.888802 54.134399 57.084 58.939201 62.184799 65.278397 68.524002 71.7696 75.015198 80.180801 81.658401 84.751999 87.997597 91.243202 94.3368 97.2864 99.141602 101.4992 104.7448 107.8384 109.6936 112.9392 115.1448 118.3904 121.636 123.8416 125.3192 128.4128 130.7704 134.01601 136.2216 139.46719 141.3224 143.528 145.0056 148.25121 151.4968 153.8544 156.804 158.65919 161.9048 164.26241 166.1176 168.4752 171.72079 174.81441 176.6696 179.02721 181.2328 184.47839 187.724 190.8176 195.6792 198.9248 201.1304 204.37601 207.32561 209.1808 212.42641 215.672 218.9176 220.7728 224.0184 226.224 229.4696 232.71519 235.9608 239.0544 241.412 243.2672 246.5128 249.75841 254.62 257.71359 260.66321 262.5184 265.76401 268.12161 269.97681 273.22241 275.57999 278.82559 281.91919 284.12479 285.98001 289.07361 292.31921 297.18079 300.42639 303.672 306.9176 308.3952 311.4888 314.43839 316.29361 321.15521 324.24881 327.49438 329.85199 331.32959 334.5752 337.8208 340.9144 344.16 346.0152 347.4928 350.68719 352.54239 354.89999 358.1456 359.6232 362.57281 364.42801 367.67361 370.91919 374.01279 377.25839 382.12 385.21359 388.4592 390.8168"
+         y="9.1800003"
+        
+         id="tspan33">without notice. Infosys acknowledges the proprietary rights of the trademarks and product names of other companies mentioned in this document.</tspan><tspan
+         style="font-size:8px;font-variant:normal;font-weight:500;writing-mode:lr-tb;fill:currentColor;fill-opacity:1;fill-rule:nonzero;stroke:none;font-family:UniversCondensed;-inkscape-font-specification:UniversCondensed-Medium"
+         x="-5.7600002"
+         y="1.08"
+         id="tspan35">©</tspan></text>
+<path
+       d="M 54.36,74.7 L 558,74.7"
+       style="fill:none;stroke:#ffffff;stroke-width:0.23999999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       id="path37" /><g
+       id="g2552"
+       transform="matrix(2.5650071,0,0,2.5650071,-1722.9173,15.11566)"><path
+         id="path161"
+         style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none"
+         d="M 851.813,176.314 L 851.812,176.373 L 851.812,181.096 L 856.525,181.096 L 856.525,146.455 L 856.527,146.347 L 856.527,141.673 L 851.812,141.673 L 851.812,146.396 L 851.813,146.455 L 851.813,176.314" /><path
+         id="path163"
+         style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none"
+         d="M 899.736,156.03 C 899.857,148.865 904.29,143.135 909.638,143.231 C 914.985,143.327 919.221,149.213 919.1,156.378 C 918.978,163.544 914.545,169.274 909.197,169.177 C 903.85,169.081 899.614,163.195 899.736,156.03 z M 938.759,164.693 C 938.882,164.42 938.59,165.101 938.59,165.101 L 938.759,164.693 z M 941.971,135.03 C 942.187,135.4 942.488,135.966 942.846,136.673 L 941.971,135.03 z M 942.248,167.165 C 942.305,167.006 942.371,166.84 942.445,166.665 L 944.032,162.756 L 942.248,167.165 z M 922.5,147.487 C 925.413,144.827 928.036,143.452 931.39,143.452 C 934.823,143.426 937.875,145.115 937.875,148.366 C 937.875,151.079 935.484,152.666 931.212,154.483 C 927.592,156.059 924.898,157.164 923.49,159.445 C 923.662,158.454 923.752,157.43 923.752,156.382 C 923.752,147.583 917.408,140.449 909.582,140.449 C 901.756,140.449 895.412,147.583 895.412,156.382 C 895.412,161.687 897.718,166.386 901.263,169.282 L 891.674,169.282 L 891.674,146.455 L 891.675,146.364 L 891.675,141.673 L 887.416,141.673 L 887.416,146.211 C 887.419,146.291 887.42,146.372 887.42,146.455 L 887.42,169.282 L 883.665,169.282 L 883.665,172.155 L 887.475,172.155 C 887.967,177.951 891.536,181.229 896.477,181.229 C 899.681,181.229 901.44,180.893 902.456,180.42 L 902.456,176.491 C 902.44,176.198 902.44,176.019 902.44,176.019 C 902.396,176.024 902.291,176.026 902.291,176.026 C 900.749,177.457 899.228,178.522 895.675,178.518 C 892.845,178.518 890.973,176.205 891.627,172.155 L 907.567,172.155 C 908.226,172.26 908.898,172.315 909.582,172.315 C 915.259,172.315 920.157,168.561 922.418,163.139 C 922.397,163.44 922.387,163.754 922.387,164.082 C 922.387,169.739 927.83,172.145 933.484,172.133 C 933.7,172.134 933.912,172.133 934.12,172.128 C 936.11,172.16 938.945,171.507 940.676,171.049 L 944.032,162.756 L 948.828,150.988 L 949.391,149.098 L 950.018,150.988 L 956.083,166.093 C 957.202,170.252 961.631,172.052 966.523,172.042 C 968.955,172.053 970.751,171.758 972.905,170.996 L 972.905,166.428 C 970.253,168.367 968.354,169.494 965.345,169.494 C 962.7,169.494 959.521,168.316 959.521,164.4 C 959.47,161.457 961.225,160.919 966.375,158.348 C 970.608,156.499 974.513,154.458 974.536,149.731 C 974.536,141.85 966.818,140.485 963.061,140.473 C 959.707,140.473 956.633,141.306 954.923,142.737 L 954.923,147.94 L 955.198,147.711 C 958.249,144.845 960.945,143.36 964.429,143.36 C 967.863,143.334 970.914,145.024 970.914,148.275 C 970.914,150.988 968.523,152.575 964.251,154.392 C 960.168,156.17 957.489,157.348 956.394,160.293 C 954.729,156.208 946.984,137.233 945.161,133.177 L 940.985,133.177 L 942.875,136.727 C 943.922,138.801 945.445,142.055 946.798,145.168 L 938.759,164.693 C 938.705,164.812 938.573,165.112 938.304,165.727 C 937.687,167.141 937.113,168.447 935.377,169.105 C 934.447,169.42 933.457,169.585 932.306,169.585 C 929.661,169.585 926.278,168.407 926.278,164.491 C 926.227,161.548 928.185,161.01 933.336,158.44 C 937.569,156.59 941.474,154.549 941.497,149.822 C 941.497,141.941 933.778,140.577 930.021,140.564 C 927.039,140.564 924.277,141.223 922.5,142.375 L 922.5,147.487" /><path
+         id="path165"
+         style="fill:currentColor;fill-opacity:1;fill-rule:evenodd;stroke:none"
+         d="M 865.32,171.861 L 865.372,168.413 L 865.369,168.181 L 865.415,168.182 C 865.47,168.326 865.544,168.448 865.614,168.539 C 867.345,170.406 869.527,172.261 874.713,172.261 C 879.677,172.261 882.89,168.018 883.019,165.347 L 883.024,146.455 L 883.024,146.361 L 883.024,141.673 L 878.77,141.673 L 878.77,147.306 L 878.769,163.389 C 878.769,166.719 875.864,169.127 872.308,169.127 C 869.352,169.127 865.558,166.451 865.432,163.742 L 865.432,146.45 L 865.434,146.323 L 865.434,141.669 L 861.178,141.669 L 861.178,167.891 L 861.179,171.861 L 865.32,171.861" /></g></g></svg></span>
+    </div>
+  </section>
+
+</main>
+
+<div class="rail rail--bottom">
+  <span data-slot="footer-left">Prepared for Danske Bank</span>
+  <span><span id="counter">01</span> / 05</span>
+</div>
+<div class="progress" id="progress"></div>
+<nav class="dots" id="dots" aria-label="Jump to slide"></nav>
+
+<nav class="nav" aria-label="Slide navigation">
+  <button id="prev" aria-label="Previous slide">&uarr;</button>
+  <button id="next" aria-label="Next slide">&darr;</button>
+</nav>
+
+<script>
+(function () {
+  var deck = document.getElementById("deck");
+  var slides = Array.prototype.slice.call(deck.querySelectorAll(".slide"));
+  var counter = document.getElementById("counter");
+  var progress = document.getElementById("progress");
+  var dotsWrap = document.getElementById("dots");
+  var prev = document.getElementById("prev");
+  var next = document.getElementById("next");
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var current = 0;
+
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+
+  /* ── Headlines: split on <br> so each line can rise out of its own mask ── */
+  deck.querySelectorAll("h1, h2").forEach(function (h) {
+    var lines = h.innerHTML.split(/<br\s*\/?>/i);
+    h.innerHTML = lines.map(function (line, i) {
+      return '<span class="line"><span class="line__in" style="--l:' + i + '">' + line + "</span></span>";
+    }).join("");
+  });
+
+  /* ── Particles ─────────────────────────────────────────────────────────
+     Outer span drifts on a CSS keyframe; inner <i> is left free for the
+     pointer, so the two transforms never overwrite each other.           */
+  var motes = [];
+  (function buildParticles() {
+    var host = document.getElementById("particles");
+    if (!host) return;
+    var count = window.innerWidth < 560 ? 18 : 42;
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < count; i++) {
+      var p = document.createElement("span");
+      var inner = document.createElement("i");
+      var size = Math.random() * 3 + 1;
+      p.className = "particle";
+      p.style.width = p.style.height = size.toFixed(1) + "px";
+      p.style.left = (Math.random() * 100).toFixed(2) + "%";
+      p.style.top = (Math.random() * 100 + 12).toFixed(2) + "%";
+      p.style.opacity = (Math.random() * 0.45 + 0.15).toFixed(2);
+      p.style.animationDuration = (Math.random() * 26 + 22).toFixed(1) + "s";
+      p.style.animationDelay = "-" + (Math.random() * 30).toFixed(1) + "s";
+      p.appendChild(inner);
+      frag.appendChild(p);
+      // Bigger motes read as nearer, so they answer the pointer more.
+      motes.push({ el: inner, host: p, depth: 0.35 + (size / 4) * 0.9, x: 0, y: 0 });
+    }
+    host.appendChild(frag);
+  })();
+
+  /* ── Pointer: parallax on the layers, gentle push on nearby motes ────── */
+  (function pointer() {
+    if (reduced || !motes.length) return;
+    var blobs = document.getElementById("blobs");
+    var particles = document.getElementById("particles");
+    var pointerX = -1, pointerY = -1;        // page coords, -1 = pointer away
+    var normX = 0, normY = 0;                // -1 … 1 from centre
+    var easeX = 0, easeY = 0;
+    var active = false;
+
+    window.addEventListener("pointermove", function (e) {
+      pointerX = e.clientX; pointerY = e.clientY;
+      normX = (e.clientX / window.innerWidth - 0.5) * 2;
+      normY = (e.clientY / window.innerHeight - 0.5) * 2;
+      active = true;
+    }, { passive: true });
+
+    window.addEventListener("pointerleave", function () { active = false; pointerX = pointerY = -1; });
+
+    var REPEL = 130;   // px — how close before a mote gets out of the way
+    var PUSH  = 34;    // px — how far it moves at the closest point
+
+    function frame() {
+      easeX += (normX - easeX) * 0.06;
+      easeY += (normY - easeY) * 0.06;
+
+      blobs.style.transform = "translate3d(" + (-easeX * 22).toFixed(2) + "px," + (-easeY * 16).toFixed(2) + "px,0)";
+      particles.style.transform = "translate3d(" + (easeX * 30).toFixed(2) + "px," + (easeY * 22).toFixed(2) + "px,0)";
+
+      var live = slides[current] && slides[current].querySelector(".motif");
+      if (live) live.style.transform = "translate3d(" + (easeX * -14).toFixed(2) + "px," + (easeY * -10).toFixed(2) + "px,0)";
+
+      for (var i = 0; i < motes.length; i++) {
+        var m = motes[i];
+        var tx = easeX * 26 * m.depth;
+        var ty = easeY * 20 * m.depth;
+
+        if (active && pointerX >= 0) {
+          var r = m.host.getBoundingClientRect();
+          var dx = (r.left + r.width / 2) - pointerX;
+          var dy = (r.top + r.height / 2) - pointerY;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < REPEL && dist > 0.5) {
+            var force = (1 - dist / REPEL) * PUSH;
+            tx += (dx / dist) * force;
+            ty += (dy / dist) * force;
+          }
+        }
+
+        m.x += (tx - m.x) * 0.12;
+        m.y += (ty - m.y) * 0.12;
+        m.el.style.transform = "translate3d(" + m.x.toFixed(2) + "px," + m.y.toFixed(2) + "px,0)";
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  })();
+
+  /* ── Dots ─────────────────────────────────────────────────────────────── */
+  slides.forEach(function (s, i) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.setAttribute("aria-label", "Slide " + (i + 1) + ": " + (s.dataset.title || ""));
+    b.addEventListener("click", function () { lock(); go(i); });
+    dotsWrap.appendChild(b);
+  });
+  var dots = Array.prototype.slice.call(dotsWrap.children);
+
+  /* ── Reveal. is-live is removed on the way out so every pass replays. ─── */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.intersectionRatio > 0.35) e.target.classList.add("is-live");
+      else if (e.intersectionRatio < 0.12) e.target.classList.remove("is-live");
+      if (e.intersectionRatio > 0.6) setCurrent(slides.indexOf(e.target));
+    });
+  }, { root: deck, threshold: [0.12, 0.35, 0.6] });
+  slides.forEach(function (s) { io.observe(s); });
+
+  function setCurrent(i) {
+    if (i < 0 || i === current) return;
+    current = i;
+    counter.textContent = pad(i + 1);
+    progress.style.height = ((i + 1) / slides.length * 100) + "%";
+    prev.disabled = i === 0;
+    next.disabled = i === slides.length - 1;
+    dots.forEach(function (d, n) { d.setAttribute("aria-current", n === i ? "true" : "false"); });
+  }
+
+  /* ── Movement ──────────────────────────────────────────────────────────
+     The deck drives its own scrolling. Native snap alone let trackpad
+     momentum strand the view between two slides; here every gesture
+     resolves to exactly one slide, and anything that still ends up
+     off-centre gets magnetted to the nearest one.                        */
+  var GLIDE = 720;      // ms for one slide of travel
+  var SETTLE = 110;     // ms of stillness before the magnet decides
+  var locked = false;   // true while a glide is running
+  var lockTimer = null;
+  var settleTimer = null;
+  var accum = 0;        // wheel delta gathered since the last move
+  var raf = null;
+
+  function lock(ms) {
+    locked = true;
+    clearTimeout(lockTimer);
+    lockTimer = setTimeout(function () { locked = false; accum = 0; }, ms || GLIDE);
+  }
+
+  function slideTop(i) { return Math.round(i * deck.clientHeight); }
+
+  function glide(top) {
+    if (raf) cancelAnimationFrame(raf);
+    var start = deck.scrollTop;
+    var delta = top - start;
+    if (reduced || Math.abs(delta) < 2) { deck.scrollTop = top; return; }
+    var t0 = performance.now();
+    (function step(now) {
+      var p = Math.min(1, (now - t0) / GLIDE);
+      // easeInOutCubic — slow out of the old slide, decisive into the new one
+      var e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+      deck.scrollTop = start + delta * e;
+      if (p < 1) raf = requestAnimationFrame(step); else raf = null;
+    })(t0);
+  }
+
+  function go(i) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    setCurrent(i);
+    glide(slideTop(i));
+  }
+
+  /* The magnet: whenever scrolling stops between slides, pull to the nearest. */
+  function settle() {
+    if (locked || raf) return;
+    var h = deck.clientHeight;
+    if (!h) return;
+    var i = Math.round(deck.scrollTop / h);
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    if (Math.abs(deck.scrollTop - slideTop(i)) > 2) { lock(); go(i); }
+  }
+
+  deck.addEventListener("scroll", function () {
+    clearTimeout(settleTimer);
+    settleTimer = setTimeout(settle, SETTLE);
+  }, { passive: true });
+
+  deck.addEventListener("wheel", function (e) {
+    e.preventDefault();                 // this deck owns vertical movement
+    if (locked) {
+      // A flick keeps firing momentum events after the fingers leave. Hold the
+      // lock while those tail off so one gesture never skips two slides.
+      if (Math.abs(e.deltaY) < 24) lock();
+      return;
+    }
+    accum += e.deltaY;
+    if (Math.abs(accum) < 18) return;   // ignore stray nudges
+    var dir = accum > 0 ? 1 : -1;
+    accum = 0;
+    if ((dir > 0 && current === slides.length - 1) || (dir < 0 && current === 0)) return;
+    lock();
+    go(current + dir);
+  }, { passive: false });
+
+  /* Touch: same one-gesture-one-slide rule, since phone momentum is worse. */
+  var touchY = null;
+  deck.addEventListener("touchstart", function (e) { touchY = e.touches[0].clientY; }, { passive: true });
+  deck.addEventListener("touchmove", function (e) { e.preventDefault(); }, { passive: false });
+  deck.addEventListener("touchend", function (e) {
+    if (touchY === null) return;
+    var dy = touchY - e.changedTouches[0].clientY;
+    touchY = null;
+    if (locked || Math.abs(dy) < 40) return;
+    var dir = dy > 0 ? 1 : -1;
+    if ((dir > 0 && current === slides.length - 1) || (dir < 0 && current === 0)) return;
+    lock();
+    go(current + dir);
+  }, { passive: true });
+
+  prev.addEventListener("click", function () { lock(); go(current - 1); });
+  next.addEventListener("click", function () { lock(); go(current + 1); });
+
+  document.addEventListener("keydown", function (e) {
+    var k = e.key;
+    var handled = true;
+    if (k === "ArrowDown" || k === "ArrowRight" || k === "PageDown" || k === " ") { lock(); go(current + 1); }
+    else if (k === "ArrowUp" || k === "ArrowLeft" || k === "PageUp") { lock(); go(current - 1); }
+    else if (k === "Home") { lock(); go(0); }
+    else if (k === "End") { lock(); go(slides.length - 1); }
+    else if (k === "f" || k === "F") {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+    } else handled = false;
+    if (handled) e.preventDefault();
+  });
+
+  // A resized window changes what "one slide" measures, so re-align to the current one.
+  var resizeTimer = null;
+  window.addEventListener("resize", function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () { deck.scrollTop = slideTop(current); }, 150);
+  });
+
+  setCurrent(0);
+  dots[0].setAttribute("aria-current", "true");
+  slides[0].classList.add("is-live");
+  deck.focus();
+})();
+</script>
+</body>
+</html>

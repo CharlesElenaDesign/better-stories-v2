@@ -1,0 +1,3198 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<meta name="color-scheme" content="dark">
+<title>Infosys Deck Studio — HTML</title>
+<meta name="description" content="Co-branded sales presentation builder — Story, Narrative and Theming agents that turn a deal brief into a polished, downloadable HTML deck.">
+<link rel="icon" href="./favicon.ico" sizes="256x256" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Deck Studio (HTML) — builder chrome
+   Design tokens ported verbatim from the Sales Deck Studio
+   build (build-faster/_next/.../08nscdd-vscwn.css) so the two
+   tools read as one product. Do not hand-roll hex values.
+   ============================================================ */
+:root{
+  --ce-black:#000;--ce-white:#fff;
+  --ce-aqua-dark:#193f44;--ce-aqua-medium:#3e94a6;--ce-aqua:#2de1fd;--ce-aqua-light:#c2f3fa;
+  --ce-magenta-dark:#430560;--ce-magenta-medium:#a924b4;--ce-magenta:#fc31bb;--ce-magenta-light:#ffddf8;
+  --ce-orange-dark:#2f1113;--ce-orange-medium:#b05027;--ce-orange:#ff7a00;--ce-orange-light:#ffddc3;
+  --ce-grey-900:#333;--ce-grey-700:#525252;--ce-grey-500:#6f6f6f;--ce-grey-400:#a6a6a6;
+  --ce-grey-300:#a8a8a8;--ce-grey-200:#c6c6c6;--ce-grey-150:#dbdbdb;--ce-grey-100:#e0e0e0;
+  --ce-grey-50:#f5f5f5;--ce-grey-25:#f4f4f4;
+  --ce-brand-gradient:linear-gradient(90deg, var(--ce-aqua) 0%, var(--ce-magenta) 50%, var(--ce-orange) 100%);
+
+  --bg-app:#050505;--bg-raised:#0d0d0d;--bg-card:#ffffff08;--bg-card-hover:#ffffff0f;
+  --fg-on-dark:var(--ce-white);--fg-on-dark-2:#ffffffb8;--fg-on-dark-3:#ffffff80;
+  --border-hairline:#ffffff24;--border-hairline-soft:#ffffff14;--border-hairline-strong:#ffffff52;
+
+  --font-sans:"Roboto","Helvetica Neue",Arial,sans-serif;
+  --fw-light:300;--fw-regular:400;--fw-medium:500;--fw-bold:700;--fw-black:900;
+  --fs-h1:clamp(30px,3.2vw,46px);--fs-h2:clamp(24px,2.2vw,32px);--fs-h3:clamp(20px,1.6vw,24px);
+  --fs-h4:clamp(17px,1.2vw,19px);--fs-body-lg:17px;--fs-body:15px;--fs-body-sm:13.5px;
+  --fs-tag:12.5px;--fs-label-small:11.5px;
+
+  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;
+  --space-8:32px;--space-10:40px;--space-12:48px;--space-16:64px;--space-20:80px;--space-24:96px;
+  --radius-xs:4px;--radius-sm:6px;--radius-md:10px;--radius-lg:16px;--radius-pill:100px;
+  --motion-fast:.12s;--motion-medium:.2s;--motion-slow:.32s;
+  --ease-standard:cubic-bezier(.2,0,0,1);--ease-emphasis:cubic-bezier(.3,0,0,1);
+  --gutter:40px;--header-h:64px;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg-app);color:var(--fg-on-dark);font:var(--fw-regular) var(--fs-body)/1.6 var(--font-sans);
+  -webkit-font-smoothing:antialiased;min-height:100%;display:flex;flex-direction:column}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--ce-aqua);outline-offset:2px;border-radius:var(--radius-xs)}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.hidden{display:none !important}
+
+/* ── app chrome ─────────────────────────────────────────── */
+.app-shell{display:flex;flex-direction:column;min-height:100%}
+.app-header{position:sticky;top:0;z-index:40;height:var(--header-h);flex:none;
+  background:#050505e6;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border-hairline-soft)}
+.app-header-inner{height:100%;max-width:1180px;margin:0 auto;padding:0 var(--gutter);
+  display:flex;align-items:center;justify-content:space-between;gap:var(--space-4)}
+.app-brand{display:flex;align-items:center;gap:var(--space-3);min-width:0}
+.ce-mark{height:15px;width:auto;color:var(--ce-white);display:block;flex:none}
+.brand-bar{width:1px;height:18px;background:var(--border-hairline);flex:none}
+.app-brand-name{font-weight:var(--fw-bold);letter-spacing:-.01em}
+.app-brand-client{white-space:nowrap}
+.app-actions{display:flex;align-items:center;gap:var(--space-2)}
+.app-main{flex:1 1 auto;padding:var(--space-12) 0 var(--space-24)}
+.app-main-inner{max-width:1180px;margin:0 auto;padding:0 var(--gutter)}
+@media (max-width:720px){:root{--gutter:20px}.hide-sm{display:none}}
+
+/* ── type ───────────────────────────────────────────────── */
+.display{font-weight:var(--fw-bold);letter-spacing:-.02em;line-height:1.08}
+.h1{font-size:var(--fs-h1)}.h2{font-size:var(--fs-h2)}.h3{font-size:var(--fs-h3)}.h4{font-size:var(--fs-h4)}
+.subhead{font-size:var(--fs-body-lg);font-weight:var(--fw-light);color:var(--fg-on-dark-2);line-height:1.5}
+.body-copy{color:var(--fg-on-dark-2)}
+.gradient-text{background:var(--ce-brand-gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
+.gradient-underline{height:4px;width:72px;background:var(--ce-brand-gradient);border-radius:2px}
+.eyebrow-label{display:inline-flex;align-items:center;gap:var(--space-3);font-size:var(--fs-label-small);
+  letter-spacing:.15em;text-transform:uppercase;color:var(--fg-on-dark-3);font-weight:var(--fw-medium)}
+.eyebrow-label .tick{width:20px;height:2px;background:var(--ce-brand-gradient);border-radius:2px}
+.field-hint{font-size:var(--fs-body-sm);color:var(--fg-on-dark-3);margin-top:var(--space-2)}
+.field-error{font-size:var(--fs-body-sm);color:var(--ce-orange);margin-top:var(--space-2)}
+.field-label{display:block;font-size:var(--fs-tag);letter-spacing:.06em;text-transform:uppercase;
+  color:var(--fg-on-dark-2);font-weight:var(--fw-medium);margin-bottom:var(--space-2)}
+
+/* ── controls ───────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--space-2);
+  border-radius:var(--radius-pill);padding:11px 22px;font-size:var(--fs-body-sm);font-weight:var(--fw-medium);
+  border:1px solid transparent;transition:background var(--motion-fast) var(--ease-standard),
+  border-color var(--motion-fast) var(--ease-standard),opacity var(--motion-fast)}
+.btn-sm{padding:7px 14px;font-size:var(--fs-label-small)}
+.btn-primary{background:var(--ce-white);color:var(--ce-black)}
+.btn-primary:hover{background:var(--ce-grey-150)}
+.btn-secondary{background:transparent;color:var(--ce-white);border-color:var(--border-hairline-strong)}
+.btn-secondary:hover{background:var(--bg-card-hover)}
+.btn-ghost{background:transparent;color:var(--fg-on-dark-2)}
+.btn-ghost:hover{background:var(--bg-card);color:var(--ce-white)}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.input,.textarea,.select{width:100%;background:var(--bg-card);color:var(--ce-white);
+  border:1px solid var(--border-hairline);border-radius:var(--radius-sm);padding:11px 14px;
+  font:var(--fw-regular) var(--fs-body)/1.5 var(--font-sans);transition:border-color var(--motion-fast)}
+.input:focus,.textarea:focus,.select:focus{border-color:var(--border-hairline-strong);outline:none}
+.textarea{resize:vertical;min-height:120px}
+.textarea-brief{min-height:260px;font-size:var(--fs-body-lg);line-height:1.6;padding:18px 18px}
+.input-error{border-color:var(--ce-orange)}
+/* Client combobox — geometry lifted verbatim from the PPT builder's
+   suggestion list (panel: 6px padding, 320 max-height, 0 16px 40px shadow;
+   rows: 8px/10px padding, 10px gap, 10x10 swatches at 2px radius). */
+.combo{position:relative}
+.combo-panel{position:absolute;z-index:30;left:0;right:0;margin-top:6px;
+  max-height:320px;overflow-y:auto;padding:6px;box-shadow:0 16px 40px rgba(0,0,0,.5);
+  /* Solid black, not .panel's 3% white tint — it floats over the brief
+     field and its own hint, and a translucent panel let both show through. */
+  background:var(--ce-black);border:1px solid var(--border-hairline);
+  border-radius:var(--radius-lg)}
+.combo-group{font-size:var(--fs-body-sm);color:var(--fg-on-dark-3);
+  margin:6px 10px 4px;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--ce-black)}
+.combo-opt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  padding:8px 10px;border-radius:var(--radius-sm);cursor:pointer;background:transparent}
+.combo-opt[data-active="true"]{background:rgba(255,255,255,.08)}
+.combo-sw{display:inline-flex;gap:2px;flex:none}
+.combo-sw i{display:block;width:10px;height:10px;border-radius:2px;border:1px solid rgba(255,255,255,.2)}
+.combo-name{font-size:var(--fs-body-sm);font-weight:500;flex:0 0 auto}
+.combo-dom{font-size:var(--fs-body-sm);color:var(--fg-on-dark-3);margin-left:auto;
+  min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.control-row{display:flex;gap:var(--space-4);flex-wrap:wrap}
+.control-row > *{flex:1 1 220px}
+
+/* ── surfaces ───────────────────────────────────────────── */
+.panel{background:var(--bg-card);border:1px solid var(--border-hairline-soft);border-radius:var(--radius-lg)}
+.panel-pad{padding:var(--space-8)}
+.card{background:var(--bg-card);border:1px solid var(--border-hairline);border-radius:2px;
+  padding:var(--space-6);transition:background var(--motion-medium) var(--ease-standard),
+  border-color var(--motion-medium) var(--ease-standard),transform var(--motion-medium) var(--ease-standard)}
+.card-hover{cursor:pointer;text-align:left;width:100%;display:block}
+.card-hover:hover{background:var(--bg-card-hover);border-color:var(--border-hairline-strong);transform:translateY(-2px)}
+.card-selected{border-color:var(--ce-white);background:var(--bg-card-hover)}
+.card-selected::after{content:"";display:block;height:3px;margin-top:var(--space-5);background:var(--ce-brand-gradient);border-radius:2px}
+.card-grid{display:grid;gap:var(--space-5);grid-template-columns:repeat(auto-fit,minmax(var(--min,260px),1fr))}
+.hairline{height:1px;background:var(--border-hairline-soft);border:0;margin:var(--space-8) 0}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:var(--fs-label-small);letter-spacing:.08em;
+  text-transform:uppercase;padding:4px 10px;border-radius:var(--radius-pill);border:1px solid var(--border-hairline)}
+.badge-live{color:var(--ce-aqua);border-color:#2de1fd55}
+.badge-warn{color:var(--ce-orange);border-color:#ff7a0055}
+
+/* ── landing ────────────────────────────────────────────── */
+.landing-hero{position:relative;z-index:1;text-align:center;padding:var(--space-16) 0 var(--space-8)}
+/* The CE aurora, drifting — same mechanic the Better Stories site uses. */
+/* Full-bleed: the glow is a fixed layer across the whole viewport, faded
+   out at the bottom, so there are no hard edges down the sides. */
+.landing-glow{position:fixed;left:0;right:0;top:0;height:min(760px,86vh);
+  pointer-events:none;overflow:hidden;z-index:0;
+  -webkit-mask-image:linear-gradient(to bottom,#000 58%,transparent 100%);
+          mask-image:linear-gradient(to bottom,#000 58%,transparent 100%)}
+.landing-glow span{position:absolute;border-radius:50%;filter:blur(90px);
+  mix-blend-mode:screen;opacity:.34;will-change:transform}
+.landing-glow .g1{width:44vw;height:44vw;left:-6%;top:-30%;background:radial-gradient(circle,var(--ce-aqua) 0,transparent 70%);animation:driftA 29s ease-in-out infinite}
+.landing-glow .g2{width:40vw;height:40vw;left:34%;top:-38%;background:radial-gradient(circle,var(--ce-magenta) 0,transparent 70%);animation:driftB 35s ease-in-out infinite}
+.landing-glow .g3{width:42vw;height:42vw;right:-4%;top:-32%;background:radial-gradient(circle,var(--ce-orange) 0,transparent 70%);animation:driftC 32s ease-in-out infinite}
+@keyframes driftA{
+  0%{transform:translate(0,0) rotate(0deg) scale(1)}
+  25%{transform:translate(8vw,5vh) rotate(20deg) scale(1.18)}
+  50%{transform:translate(2vw,9vh) rotate(-10deg) scale(.9)}
+  75%{transform:translate(-5vw,4vh) rotate(14deg) scale(1.08)}
+  100%{transform:translate(0,0) rotate(0deg) scale(1)}}
+@keyframes driftB{
+  0%{transform:translate(0,0) rotate(0deg) scale(1)}
+  30%{transform:translate(-9vw,6vh) rotate(-18deg) scale(1.15)}
+  60%{transform:translate(-3vw,-5vh) rotate(12deg) scale(.92)}
+  100%{transform:translate(0,0) rotate(0deg) scale(1)}}
+@keyframes driftC{
+  0%{transform:translate(0,0) rotate(0deg) scale(1)}
+  35%{transform:translate(7vw,-7vh) rotate(16deg) scale(1.12)}
+  65%{transform:translate(-8vw,-3vh) rotate(-14deg) scale(.9)}
+  100%{transform:translate(0,0) rotate(0deg) scale(1)}}
+
+.card-art{position:absolute;inset:0;overflow:hidden;opacity:.5}
+.card-art .blob{position:absolute;width:180px;height:180px;border-radius:50%;filter:blur(46px);
+  opacity:.55;will-change:transform;animation:cardDrift 18s ease-in-out infinite}
+.card-art[data-art="0"] .blob{background:var(--ce-aqua);top:-60px;right:-40px}
+.card-art[data-art="1"] .blob{background:var(--ce-magenta);top:-70px;right:-20px;animation-duration:22s;animation-delay:-6s}
+.card-art[data-art="2"] .blob{background:var(--ce-orange);top:-60px;right:-50px;animation-duration:25s;animation-delay:-12s}
+@keyframes cardDrift{
+  0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(-28px,26px) scale(1.22)}}
+
+@media (prefers-reduced-motion:reduce){
+  .landing-glow span,.card-art .blob{animation:none}
+}
+
+/* ── stepper ────────────────────────────────────────────── */
+.stepper{display:flex;align-items:center;gap:var(--space-2);margin-bottom:var(--space-10);flex-wrap:wrap}
+.stepper-step{display:flex;align-items:center;gap:var(--space-2)}
+.stepper-dot{width:22px;height:22px;border-radius:50%;border:1px solid var(--border-hairline);
+  display:grid;place-items:center;font-size:11px;color:var(--fg-on-dark-3);flex:none}
+.stepper-step[data-state="done"] .stepper-dot{background:var(--ce-white);color:var(--ce-black);border-color:var(--ce-white)}
+.stepper-step[data-state="current"] .stepper-dot{border-color:var(--ce-white);color:var(--ce-white)}
+.stepper-label{font-size:var(--fs-label-small);letter-spacing:.1em;text-transform:uppercase;color:var(--fg-on-dark-3);white-space:nowrap}
+.stepper-step[data-state="current"] .stepper-label{color:var(--ce-white)}
+.stepper-connector{width:28px;height:1px;background:var(--border-hairline-soft)}
+@media (max-width:860px){.stepper-label{display:none}.stepper-connector{width:14px}}
+
+.step-intro{margin-bottom:var(--space-8);max-width:720px}
+.step-actions{display:flex;gap:var(--space-3);align-items:center;flex-wrap:wrap;margin-top:var(--space-10)}
+.step-actions .grow{flex:1}
+/* One control height per row. Size is a signal about what kind of control
+   something is, so a row where Back, Regenerate and Continue are three
+   different heights reads as three different kinds of thing. Only the fill
+   marks the primary action. */
+.step-actions .btn{height:44px;padding:0 22px;font-size:var(--fs-body-sm);line-height:1}
+/* Light or dark is the one thing about a direction you can't read off the
+   swatches, and it decides which version of both logos the deck uses. */
+.mode-pill{display:inline-block;margin-left:var(--space-2);padding:2px 8px;border-radius:var(--radius-pill);
+  font-size:var(--fs-label-small);letter-spacing:.04em;vertical-align:middle;
+  border:1px solid var(--border-hairline-strong)}
+.mode-pill[data-mode="light"]{background:var(--ce-white);color:var(--ce-black);border-color:var(--ce-white)}
+.mode-pill[data-mode="dark"]{background:transparent;color:var(--fg-on-dark-2)}
+
+/* Which build is on screen. Half the confusion in testing has come from a
+   deployed page being a version behind the file on disk, with no way to see
+   it — this makes that answerable from a screenshot. */
+.build-tag{margin-top:0;font-variant-numeric:tabular-nums;opacity:.55;letter-spacing:.04em}
+
+/* A design is chosen on what it looks like, so the card describes it, shows
+   one concrete example of that treatment, and says when to reach for it. */
+.design-character{font-size:var(--fs-body-sm);color:var(--fg-on-dark-2);line-height:1.55;margin:0}
+.design-example{font-size:var(--fs-body-sm);color:var(--fg-on-dark-2);line-height:1.55;
+  margin:var(--space-3) 0 0;padding-left:var(--space-3);border-left:2px solid var(--ce-aqua)}
+.design-example span{display:block;font-size:var(--fs-label-small);letter-spacing:.08em;
+  text-transform:uppercase;color:var(--fg-on-dark-3);margin-bottom:2px}
+.design-best{font-size:var(--fs-label-small);color:var(--fg-on-dark-3);margin:var(--space-3) 0 0}
+
+.brief-foot{display:flex;justify-content:space-between;align-items:center;
+  gap:var(--space-4);flex-wrap:wrap;margin-top:var(--space-3)}
+.brief-foot .btn{height:38px;padding:0 18px;font-size:var(--fs-label-small);line-height:1}
+#briefLead{margin-bottom:var(--space-3)}
+.brief-note{margin-top:var(--space-3)}
+.build-art-note{margin-bottom:var(--space-4);padding:var(--space-4);border-radius:var(--radius-md);
+  background:var(--bg-card);border:1px solid var(--border-hairline-strong)}
+.build-art-note code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;
+  background:rgba(255,255,255,.07);padding:1px 5px;border-radius:3px}
+.card-actions .btn,
+.file-field .btn{height:38px;padding:0 18px;font-size:var(--fs-label-small);line-height:1}
+
+/* ── logo bits ──────────────────────────────────────────── */
+/* One upload control everywhere: the native input is drawn differently by
+   every browser ("Choose File" / "Browse..." / "Choose file", each with its
+   own button), so it is hidden and driven from a styled label. */
+.file-field{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap}
+.file-field label{cursor:pointer}
+.file-field input:focus-visible + label{outline:2px solid var(--ce-aqua);outline-offset:2px}
+.file-name{font-size:var(--fs-body-sm);color:var(--fg-on-dark-3);min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.thumb-pair{display:flex;align-items:center;gap:var(--space-5);flex-wrap:wrap}
+.logo-chip{display:flex;align-items:center;justify-content:center;height:56px;min-width:120px;padding:10px 16px;
+  background:#ffffff0a;border:1px solid var(--border-hairline-soft);border-radius:var(--radius-sm)}
+.logo-chip img{max-height:34px;width:auto}
+.logo-chip.on-dark img{filter:brightness(0) invert(1)}
+/* A mark with an opaque background can't be recoloured — it sits on a
+   white plate instead, the way co-branded decks handle it. */
+.logo-chip.plated{background:#fff;padding:8px 12px}
+.logo-chip .fallback{font-size:var(--fs-body-sm);color:var(--ce-orange)}
+
+/* ── generation ─────────────────────────────────────────── */
+/* Generation progress — the CE gradient with a live percentage, so it is
+   obvious the agents are working rather than the page being stuck. */
+.gen-progress{margin:var(--space-5) 0 0;display:none}
+.gen-progress.on{display:block}
+.gen-bar{height:6px;border-radius:3px;background:var(--bg-card);overflow:hidden}
+.gen-bar i{display:block;height:100%;width:0%;border-radius:3px;
+  background:var(--ce-brand-gradient);background-size:300% 100%;
+  transition:width .45s var(--ease-standard);animation:genShift 3.2s linear infinite}
+@keyframes genShift{0%{background-position:0% 0}100%{background-position:300% 0}}
+.gen-meta{display:flex;justify-content:space-between;gap:var(--space-4);
+  margin-top:var(--space-3);font-size:var(--fs-body-sm);color:var(--fg-on-dark-3)}
+.gen-pct{font-variant-numeric:tabular-nums;color:var(--ce-white);font-weight:var(--fw-medium)}
+@media (prefers-reduced-motion:reduce){.gen-bar i{animation:none}}
+
+.spinner{width:15px;height:15px;border:2px solid #ffffff33;border-top-color:var(--ce-white);
+  border-radius:50%;animation:spin .7s linear infinite;flex:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.progress-list{list-style:none;display:flex;flex-direction:column;gap:var(--space-3)}
+.progress-list li{display:flex;align-items:center;gap:var(--space-3);font-size:var(--fs-body-sm);color:var(--fg-on-dark-3)}
+.progress-list li[data-state="running"]{color:var(--ce-white)}
+.progress-list li[data-state="done"]{color:var(--fg-on-dark-2)}
+.progress-list .mark{width:18px;text-align:center;flex:none}
+.preview-frame{width:100%;aspect-ratio:16/9;border:1px solid var(--border-hairline);border-radius:var(--radius-md);
+  background:#000;display:block}
+/* ── Story Agent cards (build-faster shape) ─────────────── */
+/* Equal-height cards: the grid stretches them so a longer central idea
+   doesn't leave the others short. Once one is expanded that would drag the
+   rest into tall empty boxes, so the grid relaxes while any card is open. */
+.story-grid{display:grid;gap:var(--space-5);align-items:stretch;
+  grid-template-columns:repeat(auto-fit,minmax(330px,1fr))}
+.story-grid > .story-card{height:100%}
+.story-grid.has-open{align-items:start}
+.story-grid.has-open > .story-card{height:auto}
+.story-card{position:relative;overflow:hidden;background:var(--bg-card);
+  border:1px solid var(--border-hairline);border-radius:var(--radius-lg);
+  padding:var(--space-6);display:flex;flex-direction:column;gap:var(--space-4);
+  transition:border-color var(--motion-medium) var(--ease-standard)}
+.story-card > *{position:relative;z-index:1}
+.story-card .art{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.story-card .art span{position:absolute;width:320px;height:320px;border-radius:50%;
+  filter:blur(72px);opacity:.42}
+.story-card[data-art="0"] .art span{background:var(--ce-aqua);top:-160px;left:-70px}
+.story-card[data-art="1"] .art span{background:var(--ce-magenta);top:-170px;left:30px}
+.story-card[data-art="2"] .art span{background:var(--ce-orange);top:-160px;right:-60px}
+.story-card.is-selected{border-color:var(--ce-white)}
+.cat-pill{align-self:flex-start;font-size:var(--fs-label-small);letter-spacing:.12em;
+  text-transform:uppercase;padding:6px 14px;border:1px solid var(--border-hairline);
+  border-radius:var(--radius-pill);color:var(--fg-on-dark-2)}
+.story-card h3{font-size:var(--fs-h3);font-weight:var(--fw-bold);line-height:1.2;letter-spacing:-.01em}
+.story-lead{font-size:var(--fs-body);color:var(--fg-on-dark-2);line-height:1.55}
+.fblock h4{font-size:var(--fs-body-sm);font-weight:var(--fw-bold);margin-bottom:5px}
+.fblock p{font-size:var(--fs-body-sm);color:var(--fg-on-dark-2);line-height:1.55}
+.fblock textarea{margin-top:4px;min-height:84px;font-size:var(--fs-body-sm)}
+.disclose{align-self:flex-start;padding:0;font-size:var(--fs-body-sm);color:var(--fg-on-dark-2)}
+.disclose:hover{color:var(--ce-white)}
+.card-actions{display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap;
+  margin-top:auto;padding-top:var(--space-2)}
+.progression{list-style:none;display:grid;gap:var(--space-3)}
+.progression li{font-size:var(--fs-body-sm);color:var(--fg-on-dark-2);line-height:1.5}
+.progression b{color:var(--fg-on-dark)}
+.assumptions{list-style:none;display:grid;gap:5px}
+.assumptions li{font-size:var(--fs-body-sm);color:var(--fg-on-dark-3);line-height:1.5}
+.nudge-row{display:flex;gap:var(--space-2);margin-top:var(--space-3)}
+.nudge-row .input{font-size:var(--fs-body-sm);padding:8px 12px}
+
+/* ── Narrative Agent: tone + flow ───────────────────────── */
+.sub-h{font-size:var(--fs-h4);font-weight:var(--fw-bold);margin:var(--space-10) 0 var(--space-5)}
+.sub-h:first-of-type{margin-top:var(--space-6)}
+.pick-card{background:var(--bg-card);border:1px solid var(--border-hairline);
+  border-radius:var(--radius-lg);padding:var(--space-6);display:flex;flex-direction:column;
+  gap:var(--space-3);transition:border-color var(--motion-medium) var(--ease-standard)}
+.pick-card.is-selected{border-color:var(--ce-aqua);background:#2de1fd0f}
+.card-grid > .pick-card{height:100%}
+.pick-card h4{font-size:var(--fs-h4);font-weight:var(--fw-bold)}
+.pick-card > p{font-size:var(--fs-body-sm);color:var(--fg-on-dark-2);line-height:1.55}
+.voice-notes{list-style:none;display:grid;gap:5px}
+.voice-notes li{font-size:var(--fs-body-sm);color:var(--fg-on-dark-3)}
+.stage-pills{display:flex;gap:8px;flex-wrap:wrap}
+.stage-pill{font-size:var(--fs-label-small);letter-spacing:.1em;text-transform:uppercase;
+  padding:5px 12px;border:1px solid var(--border-hairline);border-radius:var(--radius-pill);
+  color:var(--fg-on-dark-2);white-space:nowrap}
+.why-suited{font-size:var(--fs-body-sm);color:var(--fg-on-dark-3);line-height:1.5}
+.seq{list-style:none;display:grid;gap:9px;margin-top:var(--space-2)}
+.seq li{display:flex;gap:11px;font-size:var(--fs-body-sm);color:var(--fg-on-dark-2);line-height:1.45}
+.seq .n{color:var(--fg-on-dark-3);font-variant-numeric:tabular-nums;flex:none}
+.seq .role{color:var(--fg-on-dark-3);flex:none;min-width:52px}
+
+.slide-count-toggle{display:inline-flex;border:1px solid var(--border-hairline);border-radius:var(--radius-pill);overflow:hidden}
+.slide-count-toggle button{padding:8px 20px;font-size:var(--fs-body-sm);color:var(--fg-on-dark-3)}
+.slide-count-toggle button[aria-pressed="true"]{background:var(--ce-white);color:var(--ce-black);font-weight:var(--fw-medium)}
+details.advanced{border-top:1px solid var(--border-hairline-soft);padding-top:var(--space-5);margin-top:var(--space-6)}
+details.advanced summary{cursor:pointer;font-size:var(--fs-body-sm);color:var(--fg-on-dark-3);list-style:none}
+details.advanced summary::-webkit-details-marker{display:none}
+details.advanced summary::before{content:"+ ";color:var(--fg-on-dark-3)}
+details.advanced[open] summary::before{content:"– "}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:80;
+  background:var(--ce-white);color:var(--ce-black);padding:10px 18px;border-radius:var(--radius-pill);
+  font-size:var(--fs-body-sm);font-weight:var(--fw-medium);box-shadow:0 12px 40px #000a}
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <header class="app-header">
+    <div class="app-header-inner">
+      <div class="app-brand">
+        <svg class="ce-mark" viewBox="0 0 430 37" xmlns="http://www.w3.org/2000/svg" aria-label="Charles Elena"> <path d="M31.6218 32.9013C27.5326 35.0419 23.2464 36.1688 19.0538 36.1688C14.8612 36.1688 11.387 35.0912 8.22778 33.0588C3.0116 29.6929 0 24.1716 0 17.986C0 13.2865 1.99789 8.69041 5.46714 5.36879C9.1972 1.85033 13.7884 0.118164 19.413 0.118164C24.2208 0.118164 28.0985 1.44681 31.3118 2.92801V8.34595C27.0651 6.04787 23.2366 4.81764 19.413 4.81764C11.0868 4.81764 5.3146 10.6883 5.3146 18.1533C5.3146 25.6184 11.0918 31.43 19.103 31.43C23.1923 31.43 27.321 30.0521 31.612 27.2915V32.9112L31.6218 32.9013Z" fill="currentColor"/> <path d="M39.9189 0.678711H44.8694V15.6974H65.0009V0.678711H69.9513V35.5681H65.0009V20.3919H44.8694V35.5681H39.9189V0.678711Z" fill="currentColor"/> <path d="M98.2709 20.7954L92.7546 8.22741L87.3957 20.7954H98.2808H98.2709ZM91.0224 0.678711H94.6491L109.973 35.5681H104.816L100.318 25.2932H85.4519L81.0034 35.5681H75.8955L91.0224 0.678711Z" fill="currentColor"/> <path d="M125.267 15.7958C129.917 15.7958 132.216 14.0046 132.216 10.3286C132.216 6.3919 129.967 4.9107 125.267 4.9107H121.129V15.7958H125.267ZM116.119 0.678711H126.335C133.485 0.678711 137.373 4.20701 137.373 10.2351C137.373 14.7821 135.375 17.4837 130.833 18.9206C132.363 19.7424 133.333 21.1202 134.459 22.8081L142.938 35.5828H136.91L130.931 26.4447C128.23 22.3062 126.542 20.0081 122.605 20.0081H121.124V35.5927H116.114V0.678711H116.124H116.119Z" fill="currentColor"/> <path d="M148.779 0.678711H153.73V31.0703H170.333V35.5681H148.779V0.678711Z" fill="currentColor"/> <path d="M207.614 26.263C210.625 29.683 213.332 31.3709 216.752 31.3709C220.172 31.3709 222.313 29.6338 222.313 26.8732C222.313 23.9649 220.275 22.5821 216.486 20.1758C210.616 16.3965 207.55 14.3052 207.55 9.29074C207.55 3.98106 211.688 -0.00488281 217.859 -0.00488281C220.561 -0.00488281 223.179 0.816911 225.777 2.39653V8.06543C222.918 5.76736 220.408 4.53713 217.657 4.53713C214.439 4.53713 212.348 6.32834 212.348 8.67562C212.348 11.4363 215.005 12.9125 219.247 15.5748C224.355 18.7438 227.366 21.0911 227.366 26.9716C227.366 32.1779 223.228 36.159 217.057 36.159C213.386 36.159 210.468 35.1895 207.609 32.8423V26.2532L207.614 26.263Z" fill="currentColor"/> <path d="M177.793 0.678711H198.786V5.11738H182.748V15.6875H198.323V20.1852H182.748V31.0703H199.302V35.5681H177.793V0.678711Z" fill="currentColor"/> <path d="M257.418 0.678711H278.411V5.11738H262.368V15.6875H277.953V20.1852H262.368V31.0703H278.922V35.5681H257.418V0.678711Z" fill="currentColor"/> <path d="M287.052 0.678711H292.007V31.0703H308.605V35.5681H287.052V0.678711Z" fill="currentColor"/> <path d="M316.804 0.678711H337.796V5.11738H321.759V15.6875H337.344V20.1852H321.759V31.0703H338.308V35.5681H316.804V0.678711Z" fill="currentColor"/> <path d="M346.394 0.678711H350.734L373.724 27.7536V0.678711H378.675V35.5681H374.226L351.344 8.439V35.5681H346.394V0.678711Z" fill="currentColor"/> <path d="M406.749 20.7954L401.232 8.22741L395.873 20.7954H406.758H406.749ZM399.49 0.678711H403.117L418.441 35.5681H413.284L408.786 25.2932H393.92L389.471 35.5681H384.363L399.49 0.678711Z" fill="currentColor"/> <path d="M430 31.0508H425.482V35.5682H430V31.0508Z" fill="currentColor"/> </svg>
+        <span class="brand-bar" aria-hidden="true"></span>
+        <span class="app-brand-name">Deck Studio</span>
+      </div>
+      <div class="app-actions">
+        <span class="field-hint hide-sm build-tag" id="buildTag" title="Which build of Deck Studio this page is">—</span>
+        <span class="field-hint hide-sm" style="margin-top:0" id="saveState" aria-live="polite">Autosave on</span>
+        <button class="btn btn-ghost btn-sm" id="btnReset" type="button">Start over</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <div class="app-main-inner">
+
+      <!-- ══ LANDING ═══════════════════════════════════════ -->
+      <section id="view-landing">
+        <div style="position:relative;z-index:1">
+          <div aria-hidden="true" class="landing-glow"><span class="g1"></span><span class="g2"></span><span class="g3"></span></div>
+          <div class="landing-hero">
+            <div style="display:flex;justify-content:center">
+              <div class="eyebrow-label"><span class="tick" aria-hidden="true"></span>Co-branded sales presentations</div>
+            </div>
+            <h1 class="display h1" style="font-size:clamp(32px,5vw,58px);margin:var(--space-5) 0">
+              Deck <span class="gradient-text">Studio</span>
+            </h1>
+            <p class="subhead" style="margin:0 auto;max-width:640px">
+              Turn a deal brief into a polished, co-branded HTML deck. Three agents shape the story,
+              narrative and visual direction — then the deck is written for you and downloaded as a
+              single file. Four or five slides. No copy-paste, no PowerPoint.
+            </p>
+            <div style="margin-top:var(--space-8);display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap">
+              <button class="btn btn-primary" id="btnStart" type="button">Start creating →</button>
+              <button class="btn btn-secondary" id="btnResume" type="button" hidden>Resume last deck</button>
+            </div>
+            <p id="modeBadgeWrap" style="margin-top:var(--space-6)"></p>
+          </div>
+
+          <div class="card-grid" style="position:relative;margin-top:var(--space-10);--min:240px">
+            <div class="card" style="position:relative;overflow:hidden">
+              <div class="card-art" data-art="0" aria-hidden="true"><span class="blob"></span></div>
+              <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:var(--space-3)">
+                <span class="field-hint" style="margin-top:0;letter-spacing:.08em">STEP 01</span>
+                <h3 class="h4" style="font-weight:var(--fw-bold)">Story Agent</h3>
+                <p class="body-copy" style="font-size:var(--fs-body-sm)">Reads the brief and proposes three genuinely different strategic angles to sell from.</p>
+              </div>
+            </div>
+            <div class="card" style="position:relative;overflow:hidden">
+              <div class="card-art" data-art="1" aria-hidden="true"><span class="blob"></span></div>
+              <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:var(--space-3)">
+                <span class="field-hint" style="margin-top:0;letter-spacing:.08em">STEP 02</span>
+                <h3 class="h4" style="font-weight:var(--fw-bold)">Narrative Agent</h3>
+                <p class="body-copy" style="font-size:var(--fs-body-sm)">Locks the flow to four or five slides and cuts the copy back to what a presenter can actually say.</p>
+              </div>
+            </div>
+            <div class="card" style="position:relative;overflow:hidden">
+              <div class="card-art" data-art="2" aria-hidden="true"><span class="blob"></span></div>
+              <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:var(--space-3)">
+                <span class="field-hint" style="margin-top:0;letter-spacing:.08em">STEP 03</span>
+                <h3 class="h4" style="font-weight:var(--fw-bold)">Theming Agent</h3>
+                <p class="body-copy" style="font-size:var(--fs-body-sm)">Proposes a visual direction led by the client's own brand, then writes the deck as one HTML file.</p>
+              </div>
+            </div>
+          </div>
+          <p class="field-hint" style="text-align:center;margin-top:var(--space-10)">
+            Sample client names and deal briefs offered in this tool are fictional and for demonstration only.
+          </p>
+        </div>
+      </section>
+
+      <!-- ══ WIZARD ════════════════════════════════════════ -->
+      <section id="view-wizard" hidden>
+        <nav class="stepper" id="stepper" aria-label="Progress"></nav>
+
+        <!-- Step 0 · brief -->
+        <div class="step" data-step="0" hidden>
+          <div class="step-intro">
+            <div class="eyebrow-label"><span class="tick"></span>Step 1 of 4</div>
+            <h2 class="display h2" style="margin:var(--space-4) 0 var(--space-3)">Tell us about the deal</h2>
+            <p class="subhead">One brief, one client. Everything else is optional — the agents fill the gaps.</p>
+          </div>
+
+          <div class="panel panel-pad">
+            <div class="control-row">
+              <div style="flex:2 1 320px">
+                <label class="field-label" for="clientCompany">Client company name</label>
+                <div class="combo" id="clientCombo">
+                  <input class="input" id="clientCompany" autocomplete="off" role="combobox"
+                         aria-expanded="false" aria-autocomplete="list" aria-controls="clientListbox"
+                         placeholder="Type any client name, or pick from the showcase list">
+                  <div class="combo-panel" id="clientListbox" role="listbox" aria-label="Client suggestions" hidden></div>
+                </div>
+                <p class="field-hint" id="clientCompany-hint">Suggestions come from the showcase list; type two letters to search the wider European list. Any other client name works too.</p>
+                <p class="field-error hidden" id="clientCompany-error">Add a client name so the deck can be co-branded.</p>
+              </div>
+              <div>
+                <label class="field-label" for="clientWebsite">Client website <span style="text-transform:none;letter-spacing:0">(optional)</span></label>
+                <input class="input" id="clientWebsite" placeholder="e.g. meridianfinancial.com" autocomplete="off">
+              </div>
+            </div>
+
+            <div style="margin-top:var(--space-6)">
+              <label class="field-label" for="synopsisText">The brief — what is this deal about?</label>
+              <p class="field-hint" id="briefLead">Write it in your own words, or have a first draft written for
+                you and edit from there. Everything after this step is built from what's in this box.</p>
+              <textarea class="textarea textarea-brief" id="synopsisText"
+                placeholder="Who the client is, what they're trying to do, what's in the way, what Infosys is proposing, and what a win looks like. Plain language is fine — the more context you give, the sharper the story."></textarea>
+              <div class="brief-foot">
+                <p class="field-hint" id="synopsisCount">0 words</p>
+                <button type="button" class="btn btn-secondary btn-sm" id="btnPreset">Show me an example</button>
+              </div>
+              <p class="field-hint brief-note" id="briefNote" hidden></p>
+              <p class="field-error hidden" id="synopsis-error">Give the Story Agent something to work with — 30 words or more.</p>
+            </div>
+
+            <div style="margin-top:var(--space-6)">
+              <label class="field-label" for="clientLogo">Client logo <span style="text-transform:none;letter-spacing:0">(optional — SVG or PNG, transparent background)</span></label>
+              <div class="file-field">
+                <input type="file" id="clientLogo" class="visually-hidden"
+                       accept=".svg,.png,.jpg,.jpeg,.webp,image/svg+xml,image/png,image/jpeg,image/webp">
+                <label class="btn btn-secondary btn-sm" for="clientLogo">Choose file</label>
+                <span class="file-name" id="clientLogoName">No file chosen</span>
+                <button class="btn btn-ghost btn-sm" type="button" id="clientLogoClear" hidden>Remove</button>
+              </div>
+              <div class="thumb-pair" style="margin-top:var(--space-4)" id="logoPreview"></div>
+              <p class="field-hint" id="logoHint">Matched automatically from the showcase library where we have it. Dark logos are rendered white on dark slides.</p>
+            </div>
+
+            <details class="advanced">
+              <summary>Presenter details (optional — leave blank and they're left off the deck)</summary>
+              <div class="control-row" style="margin-top:var(--space-5)">
+                <div><label class="field-label" for="presenterName">Presenter name</label><input class="input" id="presenterName" autocomplete="off"></div>
+                <div><label class="field-label" for="presenterEmail">Presenter contact</label><input class="input" id="presenterEmail" placeholder="name@infosys.com" autocomplete="off"></div>
+                <div><label class="field-label" for="presenterDate">Presentation date</label><input class="input" id="presenterDate" type="date"></div>
+              </div>
+            </details>
+
+            <div class="step-actions">
+              <button class="btn btn-secondary" id="btnBackLanding" type="button">← Back</button>
+              <span class="grow"></span>
+              <button class="btn btn-primary" id="btnToStory" type="button">Generate story options →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 1 · story -->
+        <div class="step" data-step="1" hidden>
+          <div class="step-intro">
+            <div class="eyebrow-label"><span class="tick"></span>Step 2 of 4 · Story Agent</div>
+            <h2 class="display h2" style="margin:var(--space-4) 0 var(--space-3)">Choose the strategic story</h2>
+            <p class="subhead">Three strategic directions, drawn from the brief you provided. Select one
+              to carry forward — you can edit the wording at any time.</p>
+          </div>
+          <div id="storyOptions" class="story-grid"></div>
+          <div class="step-actions">
+            <button class="btn btn-secondary" data-back="0" type="button">← Back</button>
+            <span class="grow"></span>
+            <button class="btn btn-secondary btn-sm" id="btnRegenStory" type="button">Regenerate all options</button>
+            <button class="btn btn-primary" id="btnToNarrative" type="button" disabled>Continue to Narrative Agent →</button>
+          </div>
+        </div>
+
+        <!-- Step 2 · narrative -->
+        <div class="step" data-step="2" hidden>
+          <div class="step-intro">
+            <div class="eyebrow-label"><span class="tick"></span>Step 3 of 4 · Narrative Agent</div>
+            <h2 class="display h2" style="margin:var(--space-4) 0 var(--space-3)">Shape the narrative</h2>
+            <p class="subhead" id="narrativeIntro">Choose a tone, then a narrative flow built to fit it.</p>
+          </div>
+
+          <h3 class="sub-h">1. Choose a tone</h3>
+          <div id="toneOptions" class="card-grid" style="--min:300px;align-items:stretch"></div>
+
+          <h3 class="sub-h">2. Choose a narrative flow</h3>
+          <div id="flowOptions" class="card-grid" style="--min:300px;align-items:stretch"></div>
+
+          <div class="step-actions">
+            <button class="btn btn-secondary" data-back="1" type="button">← Back to Story Agent</button>
+            <span class="grow"></span>
+            <button class="btn btn-secondary btn-sm" id="btnRegenNarrative" type="button">Regenerate</button>
+            <button class="btn btn-primary" id="btnToTheme" type="button" disabled>Continue to Theming Agent →</button>
+          </div>
+        </div>
+
+        <!-- Step 3 · theme -->
+        <div class="step" data-step="3" hidden>
+          <div class="step-intro">
+            <div class="eyebrow-label"><span class="tick"></span>Step 4 of 4 · Theming Agent</div>
+            <h2 class="display h2" style="margin:var(--space-4) 0 var(--space-3)">Choose a visual style</h2>
+            <p class="subhead">Led by the client's own identity, held inside the Charles Elena system. Public brand signals only — never the deal brief.</p>
+          </div>
+          <div id="themeOptions" class="card-grid" style="--min:300px"></div>
+
+          <h3 class="sub-h">Deck design</h3>
+          <p class="field-hint" style="margin-bottom:var(--space-4)">The shape the five slides take. Every design
+            carries the colours you chose above — this decides how the argument is laid out, not what it is.</p>
+          <div id="templateOptions" class="card-grid" style="--min:260px"></div>
+
+          <div class="step-actions">
+            <button class="btn btn-secondary" data-back="2" type="button">← Back</button>
+            <span class="grow"></span>
+            <button class="btn btn-secondary btn-sm" id="btnRegenTheme" type="button">Regenerate</button>
+            <button class="btn btn-primary" id="btnBuild" type="button" disabled>Build the deck →</button>
+          </div>
+        </div>
+
+        <!-- Step 4 · build + export -->
+        <div class="step" data-step="4" hidden>
+          <div class="step-intro">
+            <div class="eyebrow-label"><span class="tick"></span>Your deck</div>
+            <h2 class="display h2" style="margin:var(--space-4) 0 var(--space-3)" id="buildHeading">Writing the deck…</h2>
+            <p class="subhead" id="buildSub">Four agents' worth of decisions, one HTML file. Nothing leaves this page.</p>
+          </div>
+
+          <div class="panel panel-pad" id="buildProgressPanel">
+            <ul class="progress-list" id="buildProgress"></ul>
+            <p class="field-error hidden" id="buildError"></p>
+          </div>
+
+          <div id="buildResult" hidden>
+            <p class="field-hint build-art-note" id="buildArtNote" hidden></p>
+            <iframe class="preview-frame" id="previewFrame" title="Deck preview"></iframe>
+            <p class="field-hint" id="editHint">Click <strong>Edit content</strong> to change any wording
+              directly on the slides, then Save.</p>
+            <div class="step-actions">
+              <button class="btn btn-secondary" data-back="3" type="button">← Back</button>
+              <span class="grow"></span>
+              <button class="btn btn-secondary" id="btnEditDeck" type="button">Edit content</button>
+              <button class="btn btn-primary hidden" id="btnSaveDeck" type="button">Save changes</button>
+              <button class="btn btn-ghost hidden" id="btnCancelEdit" type="button">Cancel</button>
+              <button class="btn btn-secondary" id="btnRebuild" type="button">Rebuild</button>
+              <button class="btn btn-secondary" id="btnOpenDeck" type="button">Open full screen</button>
+              <button class="btn btn-primary" id="btnDownload" type="button">Download index.html</button>
+            </div>
+            <hr class="hairline">
+            <div class="card-grid" style="--min:280px">
+              <div class="card">
+                <h3 class="h4" style="font-weight:var(--fw-bold);margin-bottom:var(--space-3)">One file, nothing else</h3>
+                <p class="body-copy" style="font-size:var(--fs-body-sm)">CSS, JavaScript and every logo are inlined. Drop it anywhere, or open it straight off the desktop — it presents offline.</p>
+              </div>
+              <div class="card">
+                <h3 class="h4" style="font-weight:var(--fw-bold);margin-bottom:var(--space-3)">How to present it</h3>
+                <p class="body-copy" style="font-size:var(--fs-body-sm)">Horizontal scroll, or the arrow keys. The footer CTA stays put so you always have somewhere to go next.</p>
+              </div>
+              <div class="card">
+                <h3 class="h4" style="font-weight:var(--fw-bold);margin-bottom:var(--space-3)">Before you send it</h3>
+                <p class="body-copy" style="font-size:var(--fs-body-sm)">Check the client logo renders white on dark, and read the numbers out loud. The agents write fast, not infallibly.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+    </div>
+  </main>
+</div>
+
+<script>
+/* ============================================================
+   Deck Studio (HTML) — application
+   ------------------------------------------------------------
+   Everything below runs in the browser. The only network calls
+   are: (1) logo files from ./logos/, (2) the generation proxy
+   set in Settings. The OpenAI key lives on the proxy, never
+   here — see proxy/README.md.
+   ============================================================ */
+(() => {
+'use strict';
+
+/* ── constants ──────────────────────────────────────────── */
+/* The generation endpoint is baked in — there is no Settings panel to fill
+   in before a demo. A localStorage override still wins if one is ever set. */
+const DEFAULT_API = 'https://k7zizzd3af3tb3jbvpqg4mgs4e0avuqr.lambda-url.us-east-1.on.aws';
+
+const STORAGE_KEY   = 'deckStudioHtml.v1';
+const API_KEY_STORE = 'deckStudioHtml.api';
+const STEPS = ['Brief', 'Story', 'Narrative', 'Theme', 'Deck'];
+
+/* Copy budget. The workshop lesson was that short wins, so the
+   caps are enforced here as well as asked for in the prompt —
+   a model that overruns gets trimmed rather than trusted. */
+const CAP = { headline: 62, standfirst: 130, point: 88, stat: 10, statLabel: 46, kicker: 34 };
+
+/* Client library, carried over from the PPT builder: slug (matches
+   ./logos/<slug>.svg|png), name, domain, brand primary + secondary,
+   and the tier/group the picker groups by — S=showcase, E=extended,
+   F=financial services, M=manufacturing. */
+const CLIENTS = [
+  ['danske','Danske Bank','danskebank.com','#003755','#009EDB','SF',['Danske']],
+  ['ing','ING','ing.com','#FF6200','#000066','SF',['ING Bank','ING Group']],
+  ['rabobank','Rabobank','rabobank.com','#000099','#FD6400','SF',['Rabo']],
+  ['ubs','UBS','ubs.com','#EC0016','#000000','SF',[]],
+  ['commerzbank','Commerzbank','commerzbank.com','#FFCC33','#003E3E','SF',[]],
+  ['deutsche-bank','Deutsche Bank','db.com','#0018A8','#000000','SF',['DB']],
+  ['abn-amro','ABN AMRO','abnamro.com','#009286','#FFD200','SF',['ABN','ABN-AMRO']],
+  ['volkswagen','Volkswagen','volkswagen-group.com','#001E50','#00B0F0','SM',['VW','Volkswagen Group']],
+  ['mercedes-benz','Mercedes-Benz','group.mercedes-benz.com','#000000','#A4AAAE','SM',['Daimler Benz','Daimler','Mercedes']],
+  ['daimler-truck','Daimler Truck','daimlertruck.com','#00677F','#1A1A1A','SM',['Daimler Trucks']],
+  ['bmw','BMW','bmwgroup.com','#1C69D4','#262626','SM',['BMW Group']],
+  ['kone','KONE','kone.com','#0071B9','#6E6E6E','SM',['Kone']],
+  ['toyota-europe','Toyota Motor Europe','toyota-europe.com','#EB0A1E','#58595B','SM',['Toyota','Toyota Europe']],
+  ['metsa','Metsä Group','metsagroup.com','#007B3E','#8CC63F','SM',['Metsa','Metsä']],
+  ['airbus','Airbus','airbus.com','#00205B','#6399AE','SM',[]],
+  ['volvo','Volvo Group','volvogroup.com','#003057','#1F3B5A','SM',['Volvo','Volvo Trucks']],
+  ['siemens','Siemens','siemens.com','#009999','#000028','SM',['Siemens AG']],
+  ['hsbc','HSBC','hsbc.com','#DB0011','#000000','EF',['HSBC Holdings']],
+  ['barclays','Barclays','barclays.com','#00AEEF','#00395D','EF',[]],
+  ['lloyds','Lloyds Banking Group','lloydsbankinggroup.com','#006A4D','#0F3B2B','EF',['Lloyds','Lloyds Bank']],
+  ['standard-chartered','Standard Chartered','sc.com','#0473EA','#38D200','EF',['StanChart','SCB']],
+  ['santander','Santander','santander.com','#EC0000','#1B1B1B','EF',['Banco Santander']],
+  ['bbva','BBVA','bbva.com','#072146','#1973B8','EF',[]],
+  ['caixabank','CaixaBank','caixabank.com','#007EAE','#2F3A44','EF',['Caixa']],
+  ['bnp-paribas','BNP Paribas','group.bnpparibas','#00915A','#1D1D1B','EF',['BNP']],
+  ['societe-generale','Société Générale','societegenerale.com','#E60028','#000000','EF',['Societe Generale','SocGen','SG']],
+  ['credit-agricole','Crédit Agricole','credit-agricole.com','#009597','#E30613','EF',['Credit Agricole','CA']],
+  ['unicredit','UniCredit','unicreditgroup.eu','#E2001A','#000000','EF',[]],
+  ['intesa-sanpaolo','Intesa Sanpaolo','group.intesasanpaolo.com','#007A5E','#F58220','EF',['Intesa']],
+  ['nordea','Nordea','nordea.com','#0000A0','#00005E','EF',[]],
+  ['seb','SEB','sebgroup.com','#60CD18','#007AC7','EF',['Skandinaviska Enskilda Banken']],
+  ['swedbank','Swedbank','swedbank.com','#FF5F00','#3B1E1E','EF',[]],
+  ['dnb','DNB','dnb.no','#007272','#14555A','EF',['DNB Bank']],
+  ['kbc','KBC','kbc.com','#00AEEF','#003665','EF',['KBC Group']],
+  ['erste','Erste Group','erstegroup.com','#2870ED','#143C8C','EF',['Erste','Erste Bank']],
+  ['allianz','Allianz','allianz.com','#003781','#49648C','EF',[]],
+  ['axa','AXA','axa.com','#00008F','#FF1721','EF',[]],
+  ['zurich','Zurich Insurance','zurich.com','#2167AE','#1B365D','EF',['Zurich']],
+  ['generali','Generali','generali.com','#C5281C','#4B4B4B','EF',[]],
+  ['munich-re','Munich Re','munichre.com','#00457C','#7FB2D6','EF',['Munich Reinsurance']],
+  ['aviva','Aviva','aviva.com','#FFD900','#004FB6','EF',[]],
+  ['bosch','Bosch','bosch.com','#E20015','#005691','EM',['Robert Bosch']],
+  ['continental','Continental','continental.com','#FFA500','#000000','EM',['Conti']],
+  ['zf','ZF','zf.com','#0B5DA3','#262626','EM',['ZF Friedrichshafen','ZF Group']],
+  ['schaeffler','Schaeffler','schaeffler.com','#00893D','#1D1D1B','EM',[]],
+  ['stellantis','Stellantis','stellantis.com','#243882','#00A3E0','EM',[]],
+  ['renault','Renault Group','renaultgroup.com','#FFCC33','#000000','EM',['Renault']],
+  ['scania','Scania','scania.com','#041E42','#E30613','EM',[]],
+  ['man','MAN Truck & Bus','man.eu','#E4032E','#303030','EM',['MAN','MAN Trucks']],
+  ['rolls-royce','Rolls-Royce','rolls-royce.com','#10069F','#0E0E0E','EM',['Rolls Royce','Rolls-Royce plc']],
+  ['safran','Safran','safran-group.com','#002F87','#009DE0','EM',[]],
+  ['thales','Thales','thalesgroup.com','#242A75','#00A4E4','EM',['Thales Group']],
+  ['leonardo','Leonardo','leonardo.com','#E31937','#1E1E1E','EM',['Leonardo S.p.A.']],
+  ['abb','ABB','global.abb','#FF000F','#000000','EM',[]],
+  ['schneider-electric','Schneider Electric','se.com','#3DCD58','#1A1A1A','EM',['Schneider']],
+  ['philips','Philips','philips.com','#0B5ED7','#1E1E1E','EM',['Royal Philips']],
+  ['nokia','Nokia','nokia.com','#124191','#001135','EM',[]],
+  ['ericsson','Ericsson','ericsson.com','#0082F0','#002561','EM',[]],
+  ['basf','BASF','basf.com','#21A0D2','#004A96','EM',[]],
+  ['bayer','Bayer','bayer.com','#10384F','#89D329','EM',[]],
+  ['sandvik','Sandvik','home.sandvik','#003473','#6A737B','EM',[]],
+  ['atlas-copco','Atlas Copco','atlascopcogroup.com','#0098DB','#1B365D','EM',['Atlas Copco Group']],
+  ['heidelberg-materials','Heidelberg Materials','heidelbergmaterials.com','#00573F','#A5C400','EM',['HeidelbergCement']],
+  ['orsted','Ørsted','orsted.com','#0A2C5C','#4CA0D9','EM',['Orsted']],
+  ['vestas','Vestas','vestas.com','#00295B','#0C6BB6','EM',[]]
+].map(([slug, name, domain, primary, secondary, tier, aliases]) =>
+  ({ slug, name, domain, primary, secondary, tier, aliases: aliases || [] }));
+
+const CLIENT_GROUPS = [
+  ['SF', 'Financial services — showcase list'],
+  ['SM', 'Manufacturing — showcase list'],
+  ['EF', 'Other European — financial services & insurance'],
+  ['EM', 'Other European — manufacturing & industrial']
+];
+
+const findClient = q => {
+  const n = String(q || '').trim().toLowerCase();
+  if (!n) return null;
+  const slug = slugify(n);
+  const eq = v => String(v).trim().toLowerCase() === n;
+  // "Lloyds" is the natural thing to type; the library calls it "Lloyds
+  // Banking Group". Aliases cover most of that, slug and prefix matching
+  // catch the rest. Without this a real client silently got no logo.
+  return CLIENTS.find(c => eq(c.name) || c.aliases.some(eq))
+      || CLIENTS.find(c => c.slug === slug || c.aliases.some(a => slugify(a) === slug))
+      || (n.length >= 3 && CLIENTS.find(c => c.name.toLowerCase().startsWith(n)))
+      || (n.length >= 3 && CLIENTS.find(c => c.aliases.some(a => a.toLowerCase().startsWith(n))))
+      || null;
+};
+const LOGO_EXT = { ubs:'png', lloyds:'png', metsa:'png' };
+
+const PRESETS = [
+  { sector:'F', client:'Meridian Financial', website:'meridianfinancial.com', text:
+`Meridian Financial is a mid-tier European retail and business bank, roughly 6m customers across five markets. Their core banking platform is 22 years old and three acquisitions deep, so a simple product change takes two quarters and a change request goes through four teams. Customers see it as slow onboarding — eleven days to open a business account against four at the challengers they keep losing to.
+
+The board has funded a three-year modernisation but the last two attempts stalled at the business case. The CIO is under pressure to show something working inside twelve months, not a roadmap. Risk and compliance are nervous about a big-bang migration after a peer's outage last year.
+
+Infosys is proposing a progressive modernisation: carve the highest-friction journeys off the core first, run old and new in parallel, and prove the pattern on business account opening before touching anything that moves money. Target is account opening down to under a day, and a repeatable migration pattern the bank's own teams can run by year two.` },
+  { sector:'M', client:'Northwind Industrial', website:'northwind-industrial.com', text:
+`Northwind Industrial makes drive systems for heavy equipment — €4bn revenue, plants in Germany, Poland and Mexico. Their supply chain was built for stability and is now being asked to absorb volatility: tariff changes, a single-source bearing supplier, and customers who want delivery dates confirmed at the point of order rather than a week later.
+
+Planning still runs on a monthly cycle in spreadsheets stitched to an ageing ERP. When a supplier slips, the first anyone knows is at the line. Last year that cost them a flagship customer's framework agreement.
+
+Infosys is proposing a connected planning layer: live supplier signals, a digital twin of the three plants, and a decision layer that gives sales a committable date at order entry. First value target is the Poland plant inside two quarters, then the pattern lifts to Germany.` }
+];
+
+/* ── state ──────────────────────────────────────────────── */
+const blank = () => ({
+  form: { clientCompany:'', clientWebsite:'', synopsisText:'', presenterName:'', presenterEmail:'', presenterDate:'' },
+  logo: null,                 // { name, dataUri, isDark }
+  clientSlug: null,
+  slideCount: 5,          // fixed — the deck is always five slides
+  templateId: null,
+  storyOptions: [], storyChoice: null, storyNudge:'',
+  tones: [], toneChoice: null,
+  flows: [], flowChoice: null,
+  themeOptions: [], themeChoice: null,
+  deckHtml: null,
+  step: 0
+});
+let S = blank();
+let apiBase = '';
+
+/* ── tiny helpers ───────────────────────────────────────── */
+const $  = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clamp = (s, n) => { s = String(s ?? '').trim(); if (s.length <= n) return s;
+  const cut = s.slice(0, n); const sp = cut.lastIndexOf(' ');
+  return (sp > n * 0.6 ? cut.slice(0, sp) : cut).replace(/[,;:\-–—]$/, '') + '…'; };
+const slugify = s => String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
+  .replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const words = s => (String(s||'').trim().match(/\S+/g) || []).length;
+
+/* A generation pass has no real progress events, so the bar eases toward a
+   ceiling and snaps to 100 when the answer lands. The number is honest about
+   what it is: elapsed progress, not a promise. */
+const Gen = {
+  el: null, t: null, pct: 0,
+  mount(host, label){
+    if (!host) return;
+    let box = host.querySelector('.gen-progress');
+    if (!box) {
+      box = document.createElement('div');
+      box.className = 'gen-progress';
+      box.innerHTML = '<div class="gen-bar"><i></i></div>' +
+        '<div class="gen-meta"><span class="gen-label"></span><span class="gen-pct">0%</span></div>';
+      host.appendChild(box);
+    }
+    this.el = box;
+    box.querySelector('.gen-label').textContent = label || 'Generating…';
+    box.classList.add('on');
+    this.set(0);
+    clearInterval(this.t);
+    const start = Date.now();
+    this.t = setInterval(() => {
+      // Ease toward 92% over roughly twelve seconds, then hold.
+      const k = Math.min(1, (Date.now() - start) / 12000);
+      this.set(Math.min(92, Math.round(92 * (1 - Math.pow(1 - k, 3)))));
+    }, 220);
+  },
+  set(p){
+    this.pct = p;
+    if (!this.el) return;
+    this.el.querySelector('.gen-bar i').style.width = p + '%';
+    this.el.querySelector('.gen-pct').textContent = p + '%';
+  },
+  done(){
+    clearInterval(this.t);
+    this.set(100);
+    const el = this.el;
+    setTimeout(() => { if (el) el.classList.remove('on'); }, 550);
+  },
+  fail(){ clearInterval(this.t); if (this.el) this.el.classList.remove('on'); }
+};
+
+function toast(msg){
+  const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg;
+  document.body.appendChild(t); setTimeout(() => t.remove(), 2600);
+}
+
+/* ── persistence ────────────────────────────────────────── */
+function save(){
+  try {
+    const copy = { ...S, deckHtml: null };  // deck is rebuilt, never stored (quota)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(copy));
+    $('#saveState').textContent = 'Saved';
+    clearTimeout(save._t); save._t = setTimeout(() => { $('#saveState').textContent = 'Autosave on'; }, 1400);
+  } catch (e) { /* private window, quota — autosave is a convenience, not a dependency */ }
+}
+function load(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return (parsed && typeof parsed === 'object') ? { ...blank(), ...parsed } : null;
+  } catch (e) { return null; }
+}
+function loadApi(){ try { return localStorage.getItem(API_KEY_STORE) || DEFAULT_API; } catch (e) { return DEFAULT_API; } }
+function saveApi(v){ try { localStorage.setItem(API_KEY_STORE, v); } catch (e) {} }
+
+/* ============================================================
+   LOGOS
+   The PPT builder shipped the client's name as text when a logo
+   lookup missed, and a few library SVGs (Infosys among them)
+   carry width/height but no viewBox — so they collapsed or blew
+   out wherever they were dropped into a sized box. Both are
+   fixed here: normaliseSvg() injects the missing viewBox, and a
+   miss is reported rather than silently falling back to a name.
+   ============================================================ */
+const INFOSYS_SLUG = 'infosys';
+
+/* The Infosys mark is inlined rather than loaded: the header and the
+   co-branded lockup must never depend on something that can fail. */
+const INFOSYS_DATA_URI = 'data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDAwIDE2MCIgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIiB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIiB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIgaWQ9InN2ZzIiIHdpZHRoPSI0MDAiIGhlaWdodD0iMTYwIiB4bWw6c3BhY2U9InByZXNlcnZlIiB2ZXJzaW9uPSIxLjAiIGlua3NjYXBlOm91dHB1dF9leHRlbnNpb249Im9yZy5pbmtzY2FwZS5vdXRwdXQuc3ZnLmlua3NjYXBlIj48ZGVmcyBpZD0iZGVmczUiPjxpbmtzY2FwZTpwZXJzcGVjdGl2ZSBpbmtzY2FwZTp2cF94PSIwIDogNTI2LjE4MTA5IDogMSIgaW5rc2NhcGU6dnBfeT0iMCA6IDEwMDAgOiAwIiBpbmtzY2FwZTp2cF96PSI3NDQuMDk0NDggOiA1MjYuMTgxMDkgOiAxIiBpbmtzY2FwZTpwZXJzcDNkLW9yaWdpbj0iMzcyLjA0NzI0IDogMzUwLjc4NzM5IDogMSIgaWQ9InBlcnNwZWN0aXZlOSIgLz48L2RlZnM+PGcgaWQ9ImcxMSIgdHJhbnNmb3JtPSJtYXRyaXgoMS4yNSwwLDAsLTEuMjUsLTU3NC4wMDI1Myw2MDIuOTQ1MDkpIj48dGV4dCB0cmFuc2Zvcm09Im1hdHJpeCgxLDAsMCwtMSw1OS43NTk5LDYzLjkpIiBpZD0idGV4dDI5Ij48dHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTo4cHg7Zm9udC12YXJpYW50Om5vcm1hbDtmb250LXdlaWdodDo1MDA7d3JpdGluZy1tb2RlOmxyLXRiO2ZpbGw6I2ZmZmZmZjtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZTtmb250LWZhbWlseTpVbml2ZXJzQ29uZGVuc2VkOy1pbmtzY2FwZS1mb250LXNwZWNpZmljYXRpb246VW5pdmVyc0NvbmRlbnNlZC1NZWRpdW0iIHg9IjAgMy42ODggNy4zNzU5OTk5IDExLjA2NCAxNC43NTIgMTcuMDEwNDAxIDE4Ljc3ODQgMjIuMDI2NCAyNC4zODY0IDI3LjYzNDM5OSAzMC41ODYzOTkgMzMuODM0NCAzNi43ODY0IDM5LjA0NDggNDIuODc2ODAxIDQ1Ljk3MjgwMSA0OS4wNjg4MDIgNTIuMzE2Nzk5IDU1LjU2NDggNTguODEyODAxIDYwLjI5MjgwMSA2My41NDA3OTggNjYuNzg4ODAzIDY4LjI2ODc5OSA3MS4zNjQ3OTkgNzQuMzE2ODAzIDc2LjU3NTIwMyA3OS42NzEyMDQgODEuMTUxMTk5IDg2LjAxNTE5OCA4Ny40OTUyMDEgODkuODU1MjAyIDkyLjk1MTIwMiA5Ni4xOTkyMDMgOTcuOTY3MjAxIDEwMC4yMjU2IDEwNC4yMDk2IDEwNy40NTc2IDExMC43MDU2IDExMy45NTM2IDExNy4yMDE2IDExOC42ODE2IDEyMS45Mjk2IDEyNC4xMzc2IDEyNy4yMzM2IDEyOS4wMDE2IDEzMS4yNTk5OSAxMzMuMDI4IDEzNi4yNzYgMTM5LjUyNCAxNDEuMDA0IDE0NC4yNTIgMTQ2LjAyIDE0OC4yNzg0IDE1MC4wNDY0IDE1My4yOTQ0IDE1NS42NTQ0IDE1OC45MDI0IDE2MS44NTQ0IDE2NS4xMDI0IDE2OC4wNTQ0IDE3MC4zMTI4MSAxNzMuNTYwODEgMTc2LjY1NjggMTc4LjEzNjggMTc5LjYxNjgxIDE4Mi43MTI4IDE4NS44MDg4MSAxODguOTA0OCAxOTEuODU2OCAxOTQuMTE1MiAxOTYuNDc1MiAxOTkuNzIzMjEgMjAyLjgxOTIgMjA1LjA3NzYxIDIwNi41NTc2IDIwOS44MDU2IDIxMi4xNjU2IDIxNS40MTM2IDIxNy42MjE2IDIyMi40ODU2IDIyNS43MzM2IDIyOC4wOTM2IDIyOS41NzM1OSAyMzIuODIxNTkgMjM2LjA2OTYgMjM4LjMyOCAyMzkuODA4IDI0My4wNTYgMjQ1LjMxNDQxIDI0Ny42NzQzOSAyNTAuOTIyMzkgMjUyLjQwMjQgMjU1LjM1NDQgMjU3LjYxMjc5IDI2MC44NjA4MSAyNjQuMTA4OCAyNjcuMzU2ODEgMjY4LjgzNjc5IDI3MC4zMTY4IDI3My40MTI4MSAyNzYuNjYwOCAyNzkuMDIwODEgMjgwLjUwMDc5IDI4My43NDg4MSAyODYuOTk2OCAyODkuMjU1MTkgMjkwLjczNTIgMjkzLjY4NzE5IDI5NS45NDU1OSAyOTkuMTkzNiAzMDIuMjg5NjEgMzA1LjM4NTU5IDMwOC42MzM2MSAzMTAuODQxNjEgMzE0LjA4OTYgMzE2LjQ0OTU4IDMxOS41NDU1OSAzMjEuODAzOTkgMzI1LjA1MiAzMjguMDA0IDMzMC4yNjIzOSAzMzMuNTEwNDEgMzM1Ljg3MDM5IDMzOC4xMjg4MSAzMzkuNjA4OCAzNDEuOTY4ODEgMzQ0Ljg2MTYgMzQ3LjEyIDM1MC4zNjgwMSAzNTMuNjE2IDM1Ni44NjQwMSAzNTguMzQzOTkgMzU5LjgyNDAxIDM2Mi45MjAwMSAzNjYuMTY4IDM2OC41MjgwMiAzNzAuMDA4IDM3My4yNTYwMSAzNzYuNTA0IDM3OC43NjIzOSAzODIuMDEwNDEgMzg1LjI1ODM5IDM4Ny42MTg0MSAzOTAuNzE0MzkgMzkyLjQ4MjM5IDM5NC43NDA4MSAzOTcuNjkyODEgNDAwLjk0MDggNDA0LjAzNjggNDA3LjI4NDc5IDQwOS41NDMyMSA0MTEuMDIzMTkgNDE0LjI3MTIxIDQxNi42MzEyIDQxOS44NzkyMSA0MjIuMDg3MTkgNDI2Ljk1MTIgNDMwLjE5OTE5IDQzMi41NTkyIDQzNC4wMzkyMiA0MzcuMjg3MiA0NDAuNTM1MTkgNDQyLjc5MzYxIDQ0NC4yNzM1OSA0NDcuMjI1NTkgNDQ5LjQ4NDAxIDQ1Mi40MzYgNDU1LjY4Mzk5IDQ1OC45MzIwMSA0NjAuNDExOTkgNDYzLjUwOCA0NjYuNjA0IDQ2OC45NjM5OSA0NzEuMjIyNDEgNDczLjU4MjQgNDc2LjgzMDQxIDQ3OS4wODg4MSA0ODIuMTg0ODEgNDg1LjQzMjggNDg4LjY4MDc5IDQ5MS45Mjg4IDQ5NS4xNzY3OSIgeT0iMCIgaWQ9InRzcGFuMzEiPjIwMDcgSW5mb3N5cyBUZWNobm9sb2dpZXMgTGltaXRlZCwgQmFuZ2Fsb3JlLCBJbmRpYS4gSW5mb3N5cyBiZWxpZXZlcyB0aGUgaW5mb3JtYXRpb24gaW4gdGhpcyBwdWJsaWNhdGlvbiBpcyBhY2N1cmF0ZSBhcyBvZiBpdHMgcHVibGljYXRpb24gZGF0ZTsgc3VjaCBpbmZvcm1hdGlvbiBpcyBzdWJqZWN0IHRvIGNoYW5nZTwvdHNwYW4+PHRzcGFuIHN0eWxlPSJmb250LXNpemU6OHB4O2ZvbnQtdmFyaWFudDpub3JtYWw7Zm9udC13ZWlnaHQ6NTAwO3dyaXRpbmctbW9kZTpsci10YjtmaWxsOiNmZmZmZmY7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmU7Zm9udC1mYW1pbHk6VW5pdmVyc0NvbmRlbnNlZDstaW5rc2NhcGUtZm9udC1zcGVjaWZpY2F0aW9uOlVuaXZlcnNDb25kZW5zZWQtTWVkaXVtIiB4PSItNS43NjAwMDAyIC0wLjU5NDM5OTk5IDAuODgzMTk5OTkgMy4yNDA3OTk5IDYuNDg2NDAwMSA5LjczMjAwMDQgMTIuOTc3NiAxNS4zMzUyIDE3LjE5MDM5OSAyMC40MzYwMDEgMjMuNjgxNjAxIDI2LjAzOTIgMjcuNTE2OCAzMC42MTAzOTkgMzMuNzAzOTk5IDM1LjQ2OTYwMSAzNy4zMjQ3OTkgMzkuMDkwNDAxIDQyLjMzNTk5OSA0NC42OTM2IDQ3LjkzOTIwMSA1MC44ODg4MDIgNTQuMTM0Mzk5IDU3LjA4NCA1OC45MzkyMDEgNjIuMTg0Nzk5IDY1LjI3ODM5NyA2OC41MjQwMDIgNzEuNzY5NiA3NS4wMTUxOTggODAuMTgwODAxIDgxLjY1ODQwMSA4NC43NTE5OTkgODcuOTk3NTk3IDkxLjI0MzIwMiA5NC4zMzY4IDk3LjI4NjQgOTkuMTQxNjAyIDEwMS40OTkyIDEwNC43NDQ4IDEwNy44Mzg0IDEwOS42OTM2IDExMi45MzkyIDExNS4xNDQ4IDExOC4zOTA0IDEyMS42MzYgMTIzLjg0MTYgMTI1LjMxOTIgMTI4LjQxMjggMTMwLjc3MDQgMTM0LjAxNjAxIDEzNi4yMjE2IDEzOS40NjcxOSAxNDEuMzIyNCAxNDMuNTI4IDE0NS4wMDU2IDE0OC4yNTEyMSAxNTEuNDk2OCAxNTMuODU0NCAxNTYuODA0IDE1OC42NTkxOSAxNjEuOTA0OCAxNjQuMjYyNDEgMTY2LjExNzYgMTY4LjQ3NTIgMTcxLjcyMDc5IDE3NC44MTQ0MSAxNzYuNjY5NiAxNzkuMDI3MjEgMTgxLjIzMjggMTg0LjQ3ODM5IDE4Ny43MjQgMTkwLjgxNzYgMTk1LjY3OTIgMTk4LjkyNDggMjAxLjEzMDQgMjA0LjM3NjAxIDIwNy4zMjU2MSAyMDkuMTgwOCAyMTIuNDI2NDEgMjE1LjY3MiAyMTguOTE3NiAyMjAuNzcyOCAyMjQuMDE4NCAyMjYuMjI0IDIyOS40Njk2IDIzMi43MTUxOSAyMzUuOTYwOCAyMzkuMDU0NCAyNDEuNDEyIDI0My4yNjcyIDI0Ni41MTI4IDI0OS43NTg0MSAyNTQuNjIgMjU3LjcxMzU5IDI2MC42NjMyMSAyNjIuNTE4NCAyNjUuNzY0MDEgMjY4LjEyMTYxIDI2OS45NzY4MSAyNzMuMjIyNDEgMjc1LjU3OTk5IDI3OC44MjU1OSAyODEuOTE5MTkgMjg0LjEyNDc5IDI4NS45ODAwMSAyODkuMDczNjEgMjkyLjMxOTIxIDI5Ny4xODA3OSAzMDAuNDI2MzkgMzAzLjY3MiAzMDYuOTE3NiAzMDguMzk1MiAzMTEuNDg4OCAzMTQuNDM4MzkgMzE2LjI5MzYxIDMyMS4xNTUyMSAzMjQuMjQ4ODEgMzI3LjQ5NDM4IDMyOS44NTE5OSAzMzEuMzI5NTkgMzM0LjU3NTIgMzM3LjgyMDggMzQwLjkxNDQgMzQ0LjE2IDM0Ni4wMTUyIDM0Ny40OTI4IDM1MC42ODcxOSAzNTIuNTQyMzkgMzU0Ljg5OTk5IDM1OC4xNDU2IDM1OS42MjMyIDM2Mi41NzI4MSAzNjQuNDI4MDEgMzY3LjY3MzYxIDM3MC45MTkxOSAzNzQuMDEyNzkgMzc3LjI1ODM5IDM4Mi4xMiAzODUuMjEzNTkgMzg4LjQ1OTIgMzkwLjgxNjgiIHk9IjkuMTgwMDAwMyIgaWQ9InRzcGFuMzMiPndpdGhvdXQgbm90aWNlLiBJbmZvc3lzIGFja25vd2xlZGdlcyB0aGUgcHJvcHJpZXRhcnkgcmlnaHRzIG9mIHRoZSB0cmFkZW1hcmtzIGFuZCBwcm9kdWN0IG5hbWVzIG9mIG90aGVyIGNvbXBhbmllcyBtZW50aW9uZWQgaW4gdGhpcyBkb2N1bWVudC48L3RzcGFuPjx0c3BhbiBzdHlsZT0iZm9udC1zaXplOjhweDtmb250LXZhcmlhbnQ6bm9ybWFsO2ZvbnQtd2VpZ2h0OjUwMDt3cml0aW5nLW1vZGU6bHItdGI7ZmlsbDojZmZmZmZmO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lO2ZvbnQtZmFtaWx5OlVuaXZlcnNDb25kZW5zZWQ7LWlua3NjYXBlLWZvbnQtc3BlY2lmaWNhdGlvbjpVbml2ZXJzQ29uZGVuc2VkLU1lZGl1bSIgeD0iLTUuNzYwMDAwMiIgeT0iMS4wOCIgaWQ9InRzcGFuMzUiPsKpPC90c3Bhbj48L3RleHQ+PHBhdGggZD0iTSA1NC4zNiw3NC43IEwgNTU4LDc0LjciIHN0eWxlPSJmaWxsOm5vbmU7c3Ryb2tlOiNmZmZmZmY7c3Ryb2tlLXdpZHRoOjAuMjM5OTk5OTk7c3Ryb2tlLWxpbmVjYXA6YnV0dDtzdHJva2UtbGluZWpvaW46bWl0ZXI7c3Ryb2tlLW1pdGVybGltaXQ6MTA7c3Ryb2tlLWRhc2hhcnJheTpub25lO3N0cm9rZS1vcGFjaXR5OjEiIGlkPSJwYXRoMzciIC8+PGcgaWQ9ImcyNTUyIiB0cmFuc2Zvcm09Im1hdHJpeCgyLjU2NTAwNzEsMCwwLDIuNTY1MDA3MSwtMTcyMi45MTczLDE1LjExNTY2KSI+PHBhdGggaWQ9InBhdGgxNjEiIHN0eWxlPSJmaWxsOiMzNzgxYzI7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOmV2ZW5vZGQ7c3Ryb2tlOm5vbmUiIGQ9Ik0gODUxLjgxMywxNzYuMzE0IEwgODUxLjgxMiwxNzYuMzczIEwgODUxLjgxMiwxODEuMDk2IEwgODU2LjUyNSwxODEuMDk2IEwgODU2LjUyNSwxNDYuNDU1IEwgODU2LjUyNywxNDYuMzQ3IEwgODU2LjUyNywxNDEuNjczIEwgODUxLjgxMiwxNDEuNjczIEwgODUxLjgxMiwxNDYuMzk2IEwgODUxLjgxMywxNDYuNDU1IEwgODUxLjgxMywxNzYuMzE0IiAvPjxwYXRoIGlkPSJwYXRoMTYzIiBzdHlsZT0iZmlsbDojMzc4MWMyO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpldmVub2RkO3N0cm9rZTpub25lIiBkPSJNIDg5OS43MzYsMTU2LjAzIEMgODk5Ljg1NywxNDguODY1IDkwNC4yOSwxNDMuMTM1IDkwOS42MzgsMTQzLjIzMSBDIDkxNC45ODUsMTQzLjMyNyA5MTkuMjIxLDE0OS4yMTMgOTE5LjEsMTU2LjM3OCBDIDkxOC45NzgsMTYzLjU0NCA5MTQuNTQ1LDE2OS4yNzQgOTA5LjE5NywxNjkuMTc3IEMgOTAzLjg1LDE2OS4wODEgODk5LjYxNCwxNjMuMTk1IDg5OS43MzYsMTU2LjAzIHogTSA5MzguNzU5LDE2NC42OTMgQyA5MzguODgyLDE2NC40MiA5MzguNTksMTY1LjEwMSA5MzguNTksMTY1LjEwMSBMIDkzOC43NTksMTY0LjY5MyB6IE0gOTQxLjk3MSwxMzUuMDMgQyA5NDIuMTg3LDEzNS40IDk0Mi40ODgsMTM1Ljk2NiA5NDIuODQ2LDEzNi42NzMgTCA5NDEuOTcxLDEzNS4wMyB6IE0gOTQyLjI0OCwxNjcuMTY1IEMgOTQyLjMwNSwxNjcuMDA2IDk0Mi4zNzEsMTY2Ljg0IDk0Mi40NDUsMTY2LjY2NSBMIDk0NC4wMzIsMTYyLjc1NiBMIDk0Mi4yNDgsMTY3LjE2NSB6IE0gOTIyLjUsMTQ3LjQ4NyBDIDkyNS40MTMsMTQ0LjgyNyA5MjguMDM2LDE0My40NTIgOTMxLjM5LDE0My40NTIgQyA5MzQuODIzLDE0My40MjYgOTM3Ljg3NSwxNDUuMTE1IDkzNy44NzUsMTQ4LjM2NiBDIDkzNy44NzUsMTUxLjA3OSA5MzUuNDg0LDE1Mi42NjYgOTMxLjIxMiwxNTQuNDgzIEMgOTI3LjU5MiwxNTYuMDU5IDkyNC44OTgsMTU3LjE2NCA5MjMuNDksMTU5LjQ0NSBDIDkyMy42NjIsMTU4LjQ1NCA5MjMuNzUyLDE1Ny40MyA5MjMuNzUyLDE1Ni4zODIgQyA5MjMuNzUyLDE0Ny41ODMgOTE3LjQwOCwxNDAuNDQ5IDkwOS41ODIsMTQwLjQ0OSBDIDkwMS43NTYsMTQwLjQ0OSA4OTUuNDEyLDE0Ny41ODMgODk1LjQxMiwxNTYuMzgyIEMgODk1LjQxMiwxNjEuNjg3IDg5Ny43MTgsMTY2LjM4NiA5MDEuMjYzLDE2OS4yODIgTCA4OTEuNjc0LDE2OS4yODIgTCA4OTEuNjc0LDE0Ni40NTUgTCA4OTEuNjc1LDE0Ni4zNjQgTCA4OTEuNjc1LDE0MS42NzMgTCA4ODcuNDE2LDE0MS42NzMgTCA4ODcuNDE2LDE0Ni4yMTEgQyA4ODcuNDE5LDE0Ni4yOTEgODg3LjQyLDE0Ni4zNzIgODg3LjQyLDE0Ni40NTUgTCA4ODcuNDIsMTY5LjI4MiBMIDg4My42NjUsMTY5LjI4MiBMIDg4My42NjUsMTcyLjE1NSBMIDg4Ny40NzUsMTcyLjE1NSBDIDg4Ny45NjcsMTc3Ljk1MSA4OTEuNTM2LDE4MS4yMjkgODk2LjQ3NywxODEuMjI5IEMgODk5LjY4MSwxODEuMjI5IDkwMS40NCwxODAuODkzIDkwMi40NTYsMTgwLjQyIEwgOTAyLjQ1NiwxNzYuNDkxIEMgOTAyLjQ0LDE3Ni4xOTggOTAyLjQ0LDE3Ni4wMTkgOTAyLjQ0LDE3Ni4wMTkgQyA5MDIuMzk2LDE3Ni4wMjQgOTAyLjI5MSwxNzYuMDI2IDkwMi4yOTEsMTc2LjAyNiBDIDkwMC43NDksMTc3LjQ1NyA4OTkuMjI4LDE3OC41MjIgODk1LjY3NSwxNzguNTE4IEMgODkyLjg0NSwxNzguNTE4IDg5MC45NzMsMTc2LjIwNSA4OTEuNjI3LDE3Mi4xNTUgTCA5MDcuNTY3LDE3Mi4xNTUgQyA5MDguMjI2LDE3Mi4yNiA5MDguODk4LDE3Mi4zMTUgOTA5LjU4MiwxNzIuMzE1IEMgOTE1LjI1OSwxNzIuMzE1IDkyMC4xNTcsMTY4LjU2MSA5MjIuNDE4LDE2My4xMzkgQyA5MjIuMzk3LDE2My40NCA5MjIuMzg3LDE2My43NTQgOTIyLjM4NywxNjQuMDgyIEMgOTIyLjM4NywxNjkuNzM5IDkyNy44MywxNzIuMTQ1IDkzMy40ODQsMTcyLjEzMyBDIDkzMy43LDE3Mi4xMzQgOTMzLjkxMiwxNzIuMTMzIDkzNC4xMiwxNzIuMTI4IEMgOTM2LjExLDE3Mi4xNiA5MzguOTQ1LDE3MS41MDcgOTQwLjY3NiwxNzEuMDQ5IEwgOTQ0LjAzMiwxNjIuNzU2IEwgOTQ4LjgyOCwxNTAuOTg4IEwgOTQ5LjM5MSwxNDkuMDk4IEwgOTUwLjAxOCwxNTAuOTg4IEwgOTU2LjA4MywxNjYuMDkzIEMgOTU3LjIwMiwxNzAuMjUyIDk2MS42MzEsMTcyLjA1MiA5NjYuNTIzLDE3Mi4wNDIgQyA5NjguOTU1LDE3Mi4wNTMgOTcwLjc1MSwxNzEuNzU4IDk3Mi45MDUsMTcwLjk5NiBMIDk3Mi45MDUsMTY2LjQyOCBDIDk3MC4yNTMsMTY4LjM2NyA5NjguMzU0LDE2OS40OTQgOTY1LjM0NSwxNjkuNDk0IEMgOTYyLjcsMTY5LjQ5NCA5NTkuNTIxLDE2OC4zMTYgOTU5LjUyMSwxNjQuNCBDIDk1OS40NywxNjEuNDU3IDk2MS4yMjUsMTYwLjkxOSA5NjYuMzc1LDE1OC4zNDggQyA5NzAuNjA4LDE1Ni40OTkgOTc0LjUxMywxNTQuNDU4IDk3NC41MzYsMTQ5LjczMSBDIDk3NC41MzYsMTQxLjg1IDk2Ni44MTgsMTQwLjQ4NSA5NjMuMDYxLDE0MC40NzMgQyA5NTkuNzA3LDE0MC40NzMgOTU2LjYzMywxNDEuMzA2IDk1NC45MjMsMTQyLjczNyBMIDk1NC45MjMsMTQ3Ljk0IEwgOTU1LjE5OCwxNDcuNzExIEMgOTU4LjI0OSwxNDQuODQ1IDk2MC45NDUsMTQzLjM2IDk2NC40MjksMTQzLjM2IEMgOTY3Ljg2MywxNDMuMzM0IDk3MC45MTQsMTQ1LjAyNCA5NzAuOTE0LDE0OC4yNzUgQyA5NzAuOTE0LDE1MC45ODggOTY4LjUyMywxNTIuNTc1IDk2NC4yNTEsMTU0LjM5MiBDIDk2MC4xNjgsMTU2LjE3IDk1Ny40ODksMTU3LjM0OCA5NTYuMzk0LDE2MC4yOTMgQyA5NTQuNzI5LDE1Ni4yMDggOTQ2Ljk4NCwxMzcuMjMzIDk0NS4xNjEsMTMzLjE3NyBMIDk0MC45ODUsMTMzLjE3NyBMIDk0Mi44NzUsMTM2LjcyNyBDIDk0My45MjIsMTM4LjgwMSA5NDUuNDQ1LDE0Mi4wNTUgOTQ2Ljc5OCwxNDUuMTY4IEwgOTM4Ljc1OSwxNjQuNjkzIEMgOTM4LjcwNSwxNjQuODEyIDkzOC41NzMsMTY1LjExMiA5MzguMzA0LDE2NS43MjcgQyA5MzcuNjg3LDE2Ny4xNDEgOTM3LjExMywxNjguNDQ3IDkzNS4zNzcsMTY5LjEwNSBDIDkzNC40NDcsMTY5LjQyIDkzMy40NTcsMTY5LjU4NSA5MzIuMzA2LDE2OS41ODUgQyA5MjkuNjYxLDE2OS41ODUgOTI2LjI3OCwxNjguNDA3IDkyNi4yNzgsMTY0LjQ5MSBDIDkyNi4yMjcsMTYxLjU0OCA5MjguMTg1LDE2MS4wMSA5MzMuMzM2LDE1OC40NCBDIDkzNy41NjksMTU2LjU5IDk0MS40NzQsMTU0LjU0OSA5NDEuNDk3LDE0OS44MjIgQyA5NDEuNDk3LDE0MS45NDEgOTMzLjc3OCwxNDAuNTc3IDkzMC4wMjEsMTQwLjU2NCBDIDkyNy4wMzksMTQwLjU2NCA5MjQuMjc3LDE0MS4yMjMgOTIyLjUsMTQyLjM3NSBMIDkyMi41LDE0Ny40ODciIC8+PHBhdGggaWQ9InBhdGgxNjUiIHN0eWxlPSJmaWxsOiMzNzgxYzI7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOmV2ZW5vZGQ7c3Ryb2tlOm5vbmUiIGQ9Ik0gODY1LjMyLDE3MS44NjEgTCA4NjUuMzcyLDE2OC40MTMgTCA4NjUuMzY5LDE2OC4xODEgTCA4NjUuNDE1LDE2OC4xODIgQyA4NjUuNDcsMTY4LjMyNiA4NjUuNTQ0LDE2OC40NDggODY1LjYxNCwxNjguNTM5IEMgODY3LjM0NSwxNzAuNDA2IDg2OS41MjcsMTcyLjI2MSA4NzQuNzEzLDE3Mi4yNjEgQyA4NzkuNjc3LDE3Mi4yNjEgODgyLjg5LDE2OC4wMTggODgzLjAxOSwxNjUuMzQ3IEwgODgzLjAyNCwxNDYuNDU1IEwgODgzLjAyNCwxNDYuMzYxIEwgODgzLjAyNCwxNDEuNjczIEwgODc4Ljc3LDE0MS42NzMgTCA4NzguNzcsMTQ3LjMwNiBMIDg3OC43NjksMTYzLjM4OSBDIDg3OC43NjksMTY2LjcxOSA4NzUuODY0LDE2OS4xMjcgODcyLjMwOCwxNjkuMTI3IEMgODY5LjM1MiwxNjkuMTI3IDg2NS41NTgsMTY2LjQ1MSA4NjUuNDMyLDE2My43NDIgTCA4NjUuNDMyLDE0Ni40NSBMIDg2NS40MzQsMTQ2LjMyMyBMIDg2NS40MzQsMTQxLjY2OSBMIDg2MS4xNzgsMTQxLjY2OSBMIDg2MS4xNzgsMTY3Ljg5MSBMIDg2MS4xNzksMTcxLjg2MSBMIDg2NS4zMiwxNzEuODYxIiAvPjwvZz48L2c+PC9zdmc+';
+
+/* Client logos live in ./logos.js as data URIs, injected as a plain
+   <script> the first time one is needed.
+
+   They are NOT fetched. fetch() is blocked on file:// — the page's origin
+   is "null" and the browser refuses outright — so a builder opened by
+   double-clicking index.html could never load a logo. A script tag has no
+   such restriction, so this works served or straight off disk.
+   Regenerate the pack with tools/build-logos.py after changing ./logos/. */
+const LOGO_PACK_SRC = './logos.js?v=6';
+let logoPackPromise = null;
+
+function loadLogoPack(){
+  if (window.DECK_LOGOS) return Promise.resolve(window.DECK_LOGOS);
+  if (logoPackPromise) return logoPackPromise;
+  logoPackPromise = new Promise(resolve => {
+    const el = document.createElement('script');
+    el.src = LOGO_PACK_SRC;
+    el.onload  = () => resolve(window.DECK_LOGOS || {});
+    el.onerror = () => { console.warn('Deck Studio: could not load ' + LOGO_PACK_SRC); resolve({}); };
+    document.head.appendChild(el);
+  });
+  return logoPackPromise;
+}
+
+async function fetchLibraryLogo(slug){
+  if (!slug) return null;
+  const pack = await loadLogoPack();
+  const e = pack && pack[slug];
+  // Infosys is also inlined in this file, because the very first version of
+  // the builder had no pack at all and a deck with no Infosys mark is not a
+  // co-branded deck. But the inline copy is the reversed artwork only — it
+  // has no version for a light deck — so the pack wins whenever it loaded.
+  if (!e && slug === INFOSYS_SLUG) return { dataUri: INFOSYS_DATA_URI, isDark: true, whiten: true };
+  if (!e) return null;
+  // Older packs stored a bare string; the current one carries the flags and,
+  // for rasters, a real white cut-out (uw) — a CSS filter can only recolour
+  // what is already on transparency.
+  if (typeof e === 'string') return { dataUri: e, isDark: true, whiten: true };
+  // `ud` is the version for a light deck, carried only by the few marks
+  // supplied already reversed — white artwork that would vanish on paper.
+  return { dataUri: e.u, white: e.uw || null, darkVer: e.ud || null,
+           isDark: true, whiten: e.w !== false };
+}
+
+function normaliseSvg(svgText){
+  // Uploads still need this: an SVG with width/height but no viewBox
+  // collapses or blows out inside a height-constrained box.
+  if (/viewBox\s*=/.test(svgText)) return svgText;
+  const w = (svgText.match(/\swidth\s*=\s*"(\d+(?:\.\d+)?)/) || [])[1];
+  const h = (svgText.match(/\sheight\s*=\s*"(\d+(?:\.\d+)?)/) || [])[1];
+  if (!w || !h) return svgText;
+  return svgText.replace(/<svg\b/, `<svg viewBox="0 0 ${w} ${h}"`);
+}
+
+function blobToDataUri(blob){
+  return new Promise((res, rej) => {
+    const fr = new FileReader();
+    fr.onload = () => res(fr.result); fr.onerror = rej; fr.readAsDataURL(blob);
+  });
+}
+
+/* Pull the two strongest brand colours out of a logo, the way build-faster
+   kept a primary and a secondary per client. Used when the client isn't in
+   the library — an upload still drives the deck's background. */
+function logoColours(dataUri){
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const n = 64, c = document.createElement('canvas');
+        c.width = c.height = n;
+        const ctx = c.getContext('2d', { willReadFrequently: true });
+        ctx.clearRect(0, 0, n, n);
+        ctx.drawImage(img, 0, 0, n, n);
+        const d = ctx.getImageData(0, 0, n, n).data;
+        const bins = new Map();
+        for (let i = 0; i < n * n; i++) {
+          const a = d[i*4+3];
+          if (a < 40) continue;
+          const r = d[i*4], g = d[i*4+1], b = d[i*4+2];
+          const mx = Math.max(r,g,b), mn = Math.min(r,g,b);
+          if (mx - mn < 28) continue;                  // skip greys, black, white
+          const key = `${r>>5},${g>>5},${b>>5}`;       // coarse buckets
+          const e = bins.get(key) || { n: 0, r: 0, g: 0, b: 0 };
+          e.n++; e.r += r; e.g += g; e.b += b;
+          bins.set(key, e);
+        }
+        const hex = e => '#' + [e.r, e.g, e.b]
+          .map(v => Math.round(v / e.n).toString(16).padStart(2, '0')).join('');
+        const top = [...bins.values()].sort((x, y) => y.n - x.n).slice(0, 2);
+        resolve(top.length ? { primary: hex(top[0]), secondary: hex(top[1] || top[0]) } : null);
+      } catch (e) { resolve(null); }
+    };
+    img.onerror = () => resolve(null);
+    img.src = dataUri;
+  });
+}
+
+/* Probe an uploaded logo: is it dark enough to need whitening on a dark
+   ground, and can it be whitened at all? A mark on an opaque background
+   turns into a solid white block under brightness(0) invert(1), so those
+   get a white plate instead. */
+function probeLogo(dataUri){
+  return new Promise(resolve => {
+    const done = (dark, whiten) => resolve({ dark: dark, whiten: whiten });
+    const img = new Image();
+    img.onload = () => {
+      try {
+        const n = 48, c = document.createElement('canvas');
+        c.width = c.height = n;
+        const ctx = c.getContext('2d', { willReadFrequently: true });
+        ctx.clearRect(0, 0, n, n);
+        ctx.drawImage(img, 0, 0, n, n);
+        const d = ctx.getImageData(0, 0, n, n).data;
+        const a = i => d[i * 4 + 3];
+        const corners = [0, n - 1, n * (n - 1), n * n - 1];
+        const opaqueBg = corners.some(i => a(i) > 40);
+        let lum = 0, seen = 0, clear = 0;
+        for (let i = 0; i < n * n; i++) {
+          if (a(i) < 24) { clear++; continue; }
+          lum += 0.2126*d[i*4] + 0.7152*d[i*4+1] + 0.0722*d[i*4+2];
+          seen++;
+        }
+        const transparent = clear / (n * n);
+        done(seen === 0 ? true : (lum / seen) < 150, !opaqueBg && transparent >= 0.10);
+      } catch (e) { done(true, true); }
+    };
+    img.onerror = () => done(true, true);
+    img.src = dataUri;
+  });
+}
+
+async function resolveClientLogo(){
+  if (S.logo && S.logo.dataUri) return S.logo;
+  const match = findClient(S.form.clientCompany);
+  const lib = await fetchLibraryLogo(match && match.slug);
+  // Carry `whiten` through — dropping it here is what put a white block
+  // where the Lloyds mark should have been.
+  if (lib) return { name: match ? match.name : S.form.clientCompany,
+                    dataUri: lib.dataUri, white: lib.white || null,
+                    darkVer: lib.darkVer || null,
+                    isDark: true, whiten: lib.whiten !== false };
+  return null;
+}
+
+async function renderLogoPreview(){
+  const host = $('#logoPreview'); host.innerHTML = '';
+  const infosys = await fetchLibraryLogo(INFOSYS_SLUG);
+  const client  = await resolveClientLogo();
+
+  const chip = (label, logo) => {
+    const d = document.createElement('div');
+    const hasWhite = logo && logo.white;
+    d.className = 'logo-chip'
+      + (logo && logo.isDark && !hasWhite && logo.whiten !== false ? ' on-dark' : '')
+      + (logo && !hasWhite && logo.whiten === false ? ' plated' : '');
+    if (logo && logo.dataUri) {
+      const img = document.createElement('img');
+      img.src = hasWhite ? logo.white : logo.dataUri;   // show it as the deck will
+      img.alt = label + ' logo';
+      d.appendChild(img);
+    } else {
+      const span = document.createElement('span'); span.className = 'fallback';
+      span.textContent = 'No ' + label + ' logo';
+      d.appendChild(span);
+    }
+    return d;
+  };
+  host.appendChild(chip('Infosys', infosys));
+  const bar = document.createElement('div');
+  bar.style.cssText = 'width:1px;height:34px;background:var(--border-hairline)';
+  host.appendChild(bar);
+  host.appendChild(chip(S.form.clientCompany || 'client', client));
+
+  $('#logoHint').textContent = client
+    ? (S.logo ? `Using your upload — rendered ${S.logo.isDark ? 'white' : 'as supplied'} on dark slides.`
+              : 'Matched from the showcase logo library.')
+    : 'No logo found for this client. Upload an SVG or transparent PNG, or the deck runs Infosys-only.';
+}
+
+/* ============================================================
+   AGENTS
+   Each call posts {stage, payload} to the proxy, which adds the
+   OpenAI key server-side and returns parsed JSON. With no proxy
+   configured we fall back to worked demo content so the tool
+   still presents with no network at all.
+   ============================================================ */
+let offlineFallback = false;
+
+function markOffline(why){
+  if (offlineFallback) return;
+  offlineFallback = true;
+  const el = $('#modeBadgeWrap');
+  if (el) el.innerHTML = '<span class="badge badge-warn">Offline — sample content</span>';
+  console.warn('Deck Studio: falling back to sample content —', why);
+}
+
+/* Artwork is asked for separately from the writing. A background that fails
+   to arrive costs that slide its picture and nothing else, so it must never
+   flip the whole session onto sample content the way a failed agent does. */
+async function callImage(payload){
+  if (!apiBase) return { image: '', error: 'no proxy endpoint set' };
+  try {
+    const res = await fetch(apiBase.replace(/\/+$/, '') + '/generate', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ stage: 'image', payload })
+    });
+    const text = await res.text();
+    let data = null;
+    try { data = JSON.parse(text); } catch (e) {}
+    if (!res.ok) {
+      const why = (data && data.error) || text.slice(0, 160) || res.statusText;
+      console.warn('Deck Studio: no background —', res.status, why);
+      return { image: '', error: `${res.status} · ${why}` };
+    }
+    if (data && data.image) return { image: data.image, error: '' };
+    return { image: '', error: (data && data.error) || 'the proxy answered without an image' };
+  } catch (e) {
+    console.warn('Deck Studio: no background —', e.message);
+    return { image: '', error: e.message };
+  }
+}
+
+async function callAgent(stage, payload){
+  if (!apiBase) { await new Promise(r => setTimeout(r, 650)); return demoAgent(stage, payload); }
+  const url = apiBase.replace(/\/+$/, '') + '/generate';
+
+  // If the proxy can't be reached, keep going on worked sample content
+  // rather than dead-ending. A venue with bad wifi shouldn't end the demo.
+  let res;
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ stage, payload })
+    });
+  } catch (e) {
+    markOffline(e.message);
+    return demoAgent(stage, payload);
+  }
+
+  if (!res.ok) {
+    let detail = '';
+    try { detail = (await res.json()).error || ''; } catch (e) { detail = await res.text().catch(() => ''); }
+    // 5xx and CORS-ish failures fall back; a 4xx is our own bad request and
+    // should be surfaced so it gets fixed.
+    if (res.status >= 500 || res.status === 0) {
+      markOffline(`${res.status} ${detail}`.trim());
+      return demoAgent(stage, payload);
+    }
+    throw new Error(`Generation failed (${res.status})${detail ? ' — ' + String(detail).slice(0, 200) : ''}`);
+  }
+
+  let data;
+  try { data = await res.json(); }
+  catch (e) { markOffline('bad JSON from the proxy'); return demoAgent(stage, payload); }
+  if (data && data.error) throw new Error(String(data.error).slice(0, 200));
+  return data;
+}
+
+function briefPayload(){
+  // Hand the agents what we actually know about this company, so a sample
+  // brief doesn't end up describing a business the client isn't in.
+  const c = findClient(S.form.clientCompany);
+  return {
+    client: S.form.clientCompany,
+    website: S.form.clientWebsite || (c ? c.domain : ''),
+    known: c ? {
+      name: c.name,
+      domain: c.domain,
+      sector: c.tier[1] === 'F' ? 'financial services / insurance' : 'manufacturing / industrial',
+      aliases: c.aliases,
+      brand: { primary: c.primary, secondary: c.secondary }
+    } : null,
+    brief: S.form.synopsisText,
+    briefIsSample: PRESETS.some(x => S.form.synopsisText.includes(x.text.slice(60, 140))),
+    slideCount: S.slideCount,
+    caps: CAP
+  };
+}
+
+/* ── demo fallback ──────────────────────────────────────── */
+function demoAgent(stage, payload){
+  const c = (payload && payload.client) || 'the client';
+  const n = payload && payload.slideCount === 4 ? 4 : 5;
+
+  if (stage === 'story') {
+    const all = [
+      { category:'Transformation', name:`${c}: The Next Chapter`,
+        centralIdea:`Move ${c} from a constrained, aging foundation to one built for the next decade — without putting today's business at risk.`,
+        challenge:`The core is two decades old and three acquisitions deep. Ageing foundations slow every subsequent change, and the constraints described in the brief are the starting point for this story, not a general industry claim.`,
+        change:'A staged move to a modern foundation, sequenced so the current book of business stays stable throughout.',
+        valueOutcome:'A foundation that can absorb future change quickly, instead of treating every change as a project of its own.',
+        progression:[
+          {title:'What the foundation costs today', description:'Name the specific delays and workarounds the current core creates.'},
+          {title:'A foundation built for the decade ahead', description:'Show what a modern core makes possible that the current one cannot.'},
+          {title:'Getting there without standing still', description:'Sequence the move so nothing that earns money is put at risk.'},
+          {title:'Compounding returns', description:'Explain how each wave makes the next one cheaper and faster.'}],
+        relevance:`Given the two stalled business cases described, a staged story gives ${c} a way to say yes to the first wave without committing to everything at once.`,
+        assumptions:[`The specific systems named are illustrative until confirmed with ${c}.`,
+          'No client-specific cost or timeline figures are available yet — validate before quoting any numbers.',
+          'Assumes appetite for staged replacement rather than continued patching.'] },
+      { category:'Speed', name:`${c}: Built for Speed`,
+        centralIdea:`Make speed ${c}'s default setting, not a special project.`,
+        challenge:'Lag of this kind usually comes from dependencies and handoffs stacking up across teams, not from any one team working slowly — worth confirming where the specific delay sits.',
+        change:'Reduce the number of handoffs between idea and launch, and give teams a repeatable path to ship rather than a bespoke project each time.',
+        valueOutcome:`Speed fast enough to change how ${c} competes, not just how it ships.`,
+        progression:[
+          {title:'Where the time actually goes', description:'Map the wait states between idea and launch, not the work itself.'},
+          {title:'A repeatable path to ship', description:'Replace bespoke projects with one route teams can follow.'},
+          {title:'Proving it on one journey', description:'Pick the highest-friction journey and run the new path end to end.'},
+          {title:'Speed as the default', description:'Describe what holds the pace once the first wave is done.'}],
+        relevance:`Speed is the measure the market already applies to ${c}, so the story is told in the client's own currency.`,
+        assumptions:['The delay is assumed to sit between teams rather than within one — confirm before presenting.',
+          'No benchmark timings have been shared; any comparison should be validated.',
+          'Assumes leadership will accept a single-journey proof before a wider rollout.'] },
+      { category:'Simplification', name:`${c}, Simplified`,
+        centralIdea:`Strip out the complexity holding ${c} back and make simplicity the new default, not an exception.`,
+        challenge:'Fragmented tools and manual workarounds slow decisions and quietly multiply effort across teams — the specific scale of that drag should be confirmed before it is quantified.',
+        change:'Rather than adding another layer on top, consolidate around a smaller number of well-integrated capabilities and retire what is redundant.',
+        valueOutcome:'A dramatically leaner estate that turns complexity from a liability into a non-issue.',
+        progression:[
+          {title:'Where complexity lives', description:'Name the specific systems, handoffs and workarounds that create drag today.'},
+          {title:'One coherent core', description:'Show the smaller, integrated footprint that replaces the patchwork.'},
+          {title:'A simpler way of working', description:'Describe how day-to-day work changes once the core is in place.'},
+          {title:'Keeping complexity out', description:'Explain the operating model that stops complexity creeping back in.'}],
+        relevance:`Simplification gives ${c} a concrete, low-drama way to free up capacity before layering on anything new.`,
+        assumptions:[`The systems named are illustrative until confirmed with ${c}.`,
+          'No cost or effort figures are available yet — validate before quoting any numbers.',
+          'Assumes appetite for consolidation rather than incremental patching.'] }
+    ];
+    if (payload && payload.replaceOne) {
+      const avoid = payload.avoid || [];
+      return { options: [all.find(o => !avoid.includes(o.name)) || all[0]] };
+    }
+    return { options: all };
+  }
+
+  if (stage === 'narrative') {
+    const story = (payload && payload.story) || {};
+    const sn = story.name || 'the story';
+    return {
+      tones: [
+        { name:'Bold and Transformational',
+          description:'Ambitious framing that treats this as a step-change, not a maintenance project.',
+          voiceNotes:['Use future-facing language', "Contrast 'what was built for' vs. 'what's needed now'"] },
+        { name:'Executive and Assured',
+          description:'Board-ready tone focused on risk management and long-term positioning.',
+          voiceNotes:['Lead with governance and continuity', "Quantify nothing that isn't confirmed"] },
+        { name:'Pragmatic and Sequenced',
+          description:'Emphasises careful staging over big-bang ambition.',
+          voiceNotes:['Name phases explicitly', 'Reassure on continuity at every step'] }
+      ],
+      flows: [
+        { structureLabels:['Challenge','Implication','Solution','Value'],
+          description:`Opens on the problem, makes the cost of inaction concrete, then introduces "${sn}" as the resolution and closes on outcome.`,
+          whySuited:`A direct, problem-first structure suits the "${sn}" story because it builds urgency before proposing change.` },
+        { structureLabels:['Current State','Future Vision','Transformation Path','Outcomes'],
+          description:`Grounds the audience in today's reality, paints the destination that "${sn}" points to, then makes the path there concrete before naming outcomes.`,
+          whySuited:`This structure works well for "${sn}" when the audience needs to see the destination before they'll trust the path.` },
+        { structureLabels:['Strategic Opportunity','Design Principles','Delivery Model','Partnership Value'],
+          description:`Leads with the opportunity behind "${sn}", sets the principles guiding the approach, shows how delivery actually works, then closes on why this partnership specifically.`,
+          whySuited:`Best suited to "${sn}" when the differentiator is how the work gets delivered and by whom, not just what changes.` }
+      ]
+    };
+  }
+
+  if (stage === 'theme') return { options: [
+    { name:'Institutional contrast', palette:['#050505','#FFFFFF','#2DE1FD'], accent:'#2DE1FD', mode:'dark',
+      typography:'Roboto throughout — Black for the claim, Light for the lead-in.',
+      imagery:'No photography. Type, rule and one number per slide.',
+      why:'Reads as audited rather than sold. Holds up on a big screen in a bright room.' },
+    { name:'Client-led warm', palette:['#0B0E12','#F4F2ED','#FF7A00'], accent:'#FF7A00', mode:'dark',
+      typography:'Roboto, generous leading, claims set large and quiet.',
+      imagery:'Full-bleed abstract gradient washes behind the cover and close only.',
+      why:"Picks up the client's own warm accent without borrowing their brand outright." },
+    { name:'Paper and rule', palette:['#F4F2ED','#0B0E12','#FC31BB'], accent:'#FC31BB', mode:'light',
+      typography:'Roboto Light for body, Bold for the claim. Three sizes, no more.',
+      imagery:'Hairline rules and whitespace do the work.',
+      why:'Print-room calm. Best when the deck will also be read, not just presented.' }
+  ]};
+
+  if (stage === 'deck') {
+    // What goes in a slot is decided by what the slot IS in the design —
+    // a kicker, a headline, a card heading, a supporting line, a figure —
+    // never by guessing from its name. templates.js carries that
+    // classification, measured in a real browser by tools/annotate-kinds.mjs.
+    // Names lie: `p1-label` is a 38px card heading in one design and
+    // `t1-label` is a 14px uppercase kicker in another.
+    const story    = (payload && payload.story) || {};
+    const flow     = (payload && payload.flow) || {};
+    const prog     = story.progression || [];
+    const stages   = flow.structureLabels || [];
+    const sections = (payload.template && payload.template.sections) || [];
+
+    // Fifteen distinct card lines — three per slide — so no two slots ever
+    // land on the same words. The old filler reused one progression step
+    // across a whole grid and then appended "(2)" to tell the copies apart,
+    // which is exactly what a reader should never see.
+    const CARDS = [
+      { t:'Order entry',      n:'Where the handoffs sit today, and what each one costs.', s:'Every handoff, and its cost.' },
+      { t:'Manual rework',    n:'The corrections nobody has put in a budget.', s:'Unbudgeted corrections.' },
+      { t:'Time to confirm',  n:'How long a customer waits before anything is certain.', s:'How long the customer waits.' },
+      { t:'One source',       n:'A single record both sides can agree on.', s:'One record, agreed.' },
+      { t:'Decision layer',   n:'Judgement applied while the order is still open.', s:'Judgement, while it matters.' },
+      { t:'Sales in step',    n:'Sales sees the same state operations does.', s:'One view for both teams.' },
+      { t:'First market',     n:'One market, one quarter, one number to beat.', s:'One market, one quarter.' },
+      { t:'Measured wave',    n:'Enough scope to matter, small enough to stop.', s:'Big enough. Stoppable.' },
+      { t:'Cost to serve',    n:'What the current shape costs on every transaction.', s:'The cost per transaction.' },
+      { t:'Data you trust',   n:'Numbers the board will not argue about.', s:'Numbers nobody argues with.' },
+      { t:'Fewer handoffs',   n:'Every hop removed is a day returned.', s:'A hop removed is a day back.' },
+      { t:'Clear ownership',  n:'One name against each decision.', s:'One name per decision.' },
+      { t:'Proof in 90 days', n:'A result you can show before the next budget.', s:'A result before the budget.' },
+      { t:'Scale what works', n:'The second market costs a fraction of the first.', s:'The second costs far less.' },
+      { t:'Kept in-house',    n:'The team holds the capability afterwards.', s:'The team keeps it.' }
+    ];
+    const HEADS = ['Where it stands today', 'What has to change', 'How it gets done',
+                   'What it returns', 'Where to start'];
+    const LEDES = ['The current shape works. It just costs more each quarter than anyone planned.',
+                   'One change, in a sentence a sponsor can repeat without notes.',
+                   'Sequenced so nothing that earns money is exposed while the work runs.',
+                   'The outcome stated as a number the client would recognise as a win.',
+                   'A first wave small enough to approve and big enough to settle the argument.'];
+    const FIGS  = ['90 days', '3 waves', '1 market', '2×', 'Q1'];
+    const STAGE = ['The case', 'The change', 'The plan', 'The return', 'Next step'];
+
+    // Fallback classification, only for a templates.js built before the
+    // annotator existed. The measured kinds win whenever they are there.
+    const guessKind = (name, role) => {
+      if (/^(eyebrow|chapter|footnote|attrib)$/.test(name)) return 'kicker';
+      if (/^(headline|statement)$/.test(name)) return 'display';
+      if (/^(subhead|body|lede)$/.test(name) || /caption$/.test(name) && /hero/.test(name)) return 'lede';
+      if (/hero-number$/.test(name) || /^stat-\d+$/.test(name)) return 'figure';
+      if (/(label|title)$/.test(name)) return 'heading';
+      if (/caption$/.test(name)) return 'note';
+      return 'note';
+    };
+    const groupOf = n => n.replace(/-(label|title|caption)$/, '');
+    const nthOf   = n => { const m = groupOf(n).match(/(\d+)/); return m ? Number(m[1]) : 1; };
+
+    const slots = {};
+    const used  = new Set();
+    // Each slot is offered candidates longest-first and takes the first one
+    // that fits its own box whole. Truncation is the last resort, not the
+    // first, and a repeat is dropped rather than renumbered.
+    const put = (k, cap, ...cands) => {
+      const list = cands.flat().map(v => String(v == null ? '' : v).trim()).filter(Boolean);
+      let out = list.find(v => v.length <= (cap || 200));
+      if (!out) out = clamp(list[0] || '', cap || 200);
+      if (!out) return;
+      // A standing footnote is meant to read the same on every slide it
+      // appears on; everything else earns its place by being different.
+      const standing = /:(footnote|attrib)$/.test(k);
+      if (!standing) {
+        if (used.has(out.toLowerCase())) return;
+        used.add(out.toLowerCase());
+      }
+      slots[k] = out;
+    };
+    // The lockup already carries the client's name, so a cover headline that
+    // opens with it again is spending its whole width saying nothing.
+    const shortHead = h => String(h || '').replace(/^[^:—-]{2,40}[:—-]\s*/, '').trim() || String(h || '');
+
+    sections.forEach((sec, i) => {
+      const kinds = sec.kinds || {};
+      const caps  = sec.caps  || {};
+      const cards = [CARDS[(i * 3) % CARDS.length],
+                     CARDS[(i * 3 + 1) % CARDS.length],
+                     CARDS[(i * 3 + 2) % CARDS.length]];
+      const step  = prog[i] || {};
+      const head  = sec.role === 'cover'
+        ? (story.name || `${c}: the next chapter`)
+        : (step.title || HEADS[i % HEADS.length]);
+      const lede  = sec.role === 'cover'
+        ? (story.centralIdea || LEDES[0])
+        : (step.description || LEDES[i % LEDES.length]);
+      const stage = stages[i] || STAGE[i % STAGE.length];
+
+      // Which numbered groups in this section have more than one member?
+      // A lone numbered kicker (chip-1) wants a label; one that sits above a
+      // heading (t1-label) wants the step number, so it can't echo the heading.
+      const members = {};
+      sec.slots.forEach(n => { const g = groupOf(n); members[g] = (members[g] || 0) + 1; });
+
+      sec.slots.forEach(name => {
+        const key  = `${i}:${name}`;
+        const kind = kinds[name] || guessKind(name, sec.role);
+        const cap  = caps[name] || capFor(name, sec.role);
+        const nth  = nthOf(name);
+        const card = cards[(nth - 1) % cards.length];
+
+        if (kind === 'kicker') {
+          if (/^footnote$/.test(name))      put(key, cap, 'Indicative, to be validated', 'Indicative');
+          else if (/^attrib$/.test(name))   put(key, cap, c, 'The client');
+          else if (/\d/.test(groupOf(name)))
+            put(key, cap, members[groupOf(name)] > 1 ? String(nth).padStart(2, '0') : card.t);
+          else                              put(key, cap, sec.role === 'cover' ? [`For ${c}`, 'A proposal'] : [stage]);
+        }
+        else if (kind === 'display')
+          put(key, cap, sec.role === 'cover' ? [head, shortHead(head)] : [head]);
+        else if (kind === 'lede')    put(key, cap, lede, LEDES[i % LEDES.length], card.s);
+        else if (kind === 'figure')  put(key, cap, FIGS[(nth - 1) % FIGS.length]);
+        else if (kind === 'heading') put(key, cap, card.t);
+        else                         put(key, cap, card.n, card.s);
+      });
+    });
+    return { slots };
+  }
+
+  return {};
+}
+
+/* Exposed so the slot filler can be checked design-by-design without
+   walking the whole wizard five times. Reads nothing, changes nothing. */
+window.__sampleSlots = (payload) => demoAgent('deck', payload);
+
+/* ── normalisation: enforce the copy budget ─────────────── */
+function normaliseSlides(raw, count){
+  const list = Array.isArray(raw) ? raw : [];
+  const out = list.slice(0, count).map(s => ({
+    kicker:     clamp(s.kicker || s.eyebrow || '', CAP.kicker),
+    headline:   clamp(s.headline || s.title || '', CAP.headline),
+    standfirst: clamp(s.standfirst || s.subhead || s.summary || '', CAP.standfirst),
+    points:     (Array.isArray(s.points) ? s.points : []).slice(0, 3).map(p => clamp(p, CAP.point)).filter(Boolean),
+    stat:       s.stat ? clamp(String(s.stat), CAP.stat) : '',
+    statLabel:  s.statLabel ? clamp(s.statLabel, CAP.statLabel) : ''
+  })).filter(s => s.headline);
+  return out;
+}
+
+/* ============================================================
+   DECK TEMPLATES
+   ------------------------------------------------------------
+   The decks in sample-decks/ are the designs. Each is a finished,
+   self-contained HTML deck whose text nodes carry data-slot and whose
+   :root carries --client-name / --brand-primary / --brand-accent.
+   We fill the slots and retint the tokens; nothing else is touched,
+   so the generated deck is the sample design with our content in it.
+   Regenerate the pack with tools/build-templates.py.
+   ============================================================ */
+const TEMPLATE_PACK_SRC = './templates.js?v=1';
+let templatePromise = null;
+
+function loadTemplates(){
+  if (window.DECK_TEMPLATES) return Promise.resolve(window.DECK_TEMPLATES);
+  if (templatePromise) return templatePromise;
+  templatePromise = new Promise(resolve => {
+    const el = document.createElement('script');
+    el.src = TEMPLATE_PACK_SRC;
+    el.onload  = () => resolve(window.DECK_TEMPLATES || []);
+    el.onerror = () => { console.warn('Deck Studio: could not load ' + TEMPLATE_PACK_SRC); resolve([]); };
+    document.head.appendChild(el);
+  });
+  return templatePromise;
+}
+
+/* ── legibility ─────────────────────────────────────────────
+   The accent is the client's own brand colour, and plenty of them are very
+   dark — ING's secondary is #000066, Siemens' is #000028. The templates use
+   the accent for eyebrow text, so on a near-black ground those came out
+   unreadable. Lift (or drop) it until it clears WCAG AA before injecting. */
+const relLum = ([r, g, b]) => {
+  const f = v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+  return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+};
+function contrastRatio(a, b){
+  const L1 = relLum(a), L2 = relLum(b);
+  return (Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05);
+}
+function readableOn(rgb, bg, target){
+  target = target || 4.5;
+  let c = rgb.slice();
+  const lighten = relLum(bg) < 0.5;
+  for (let i = 0; i < 30 && contrastRatio(c, bg) < target; i++) {
+    c = lighten
+      ? c.map(v => Math.min(255, Math.round(v + (255 - v) * 0.14 + 8)))
+      : c.map(v => Math.max(0, Math.round(v * 0.86 - 8)));
+  }
+  return c;
+}
+
+/* ── slot copy budget ───────────────────────────────────────
+   Keeps generated text inside the design. A slide is a fixed frame; an
+   over-long line pushes content off the screen whatever the palette. */
+const SLOT_CAPS = [
+  [/^(eyebrow|chapter)$/,                 34],
+  [/^(headline|statement)$/,              66],
+  [/^(subhead|lede|body)$/,              155],
+  [/(hero-number|^stat-\d+$)/,            12],
+  [/caption$/,                            46],
+  [/^(footnote|attrib)$/,                115],
+  [/(label|title)$/,                      30],
+  [/^rail-(left|right)$/,                 54]
+];
+const capFor = (slot, role, sec) => {
+  // A measured cap beats a guessed one: it is how many characters actually
+  // fit that slot's own box at that slot's own size.
+  if (sec && sec.caps && sec.caps[slot]) return sec.caps[slot];
+  // The cover headline is set at display size — four or five words is a
+  // whole screen. Anything longer pushed the subhead under the lockup.
+  if (role === 'cover' && /^(headline|statement)$/.test(slot)) return 38;
+  if (role === 'cover' && /^(subhead|lede|body)$/.test(slot)) return 110;
+  for (const [rx, n] of SLOT_CAPS) if (rx.test(slot)) return n;
+  return 95;                                   // panels, facts, tiles, proofs
+};
+
+/* The slots a template needs, as a flat list the deck agent can answer. */
+function templateSlotSpec(t){
+  const out = [];
+  t.sections.forEach((sec, i) => sec.slots.forEach(slot =>
+    out.push({ key: `${i}:${slot}`, role: sec.role, slot, index: i,
+               kind: (sec.kinds && sec.kinds[slot]) || '',
+               cap: capFor(slot, sec.role, sec) })));
+  return out;
+}
+
+/* Escape for injection as text. The template owns the markup; we only ever
+   replace the text content of a slot, never its structure. */
+const slotText = v => esc(String(v == null ? '' : v)).replace(/\n/g, '<br>');
+
+function fillTemplate(t, data){
+  const { client, brand, logos, rail, values, light, backgrounds } = data;
+  let html = t.html;
+  const safeName = client.name.replace(/"/g, '');
+
+  // 0 · the samples carry their own client's name in a few places that have
+  //     no data-slot — a footer line, an aria-label, a line of body copy.
+  //     Swap every occurrence before anything else, or the finished deck
+  //     still says "Prepared for Danske Bank" in the corner.
+  const original = (t.html.match(/--client-name:\s*"([^"]*)"/) || [])[1];
+  if (original && original !== safeName) {
+    const rx = new RegExp(original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+    html = html.replace(rx, m => m === m.toUpperCase() ? safeName.toUpperCase() : safeName);
+  }
+
+  // 1 · retint the brand tokens the whole design is driven from
+  html = html.replace(/--client-name:\s*"[^"]*"/, `--client-name: "${safeName}"`);
+
+  // 1a · a light direction flips the deck's ground, not just its accent.
+  //      The designs are entirely token-driven — every surface, rule and
+  //      line of type reads --ground / --ink — so swapping those two turns
+  //      the same layout into a paper deck. Without this, choosing the
+  //      light direction changed nothing but which logo was used, and the
+  //      coloured mark landed on a black slide.
+  let groundHex = (t.html.match(/--ground:\s*(#[0-9A-Fa-f]{3,8})/) || [])[1] || '#050505';
+  if (light) {
+    const pal = (data.palette || []);
+    const paper = /^#[0-9A-Fa-f]{6}$/.test(pal[0] || '') ? pal[0] : '#F4F2ED';
+    const ink   = /^#[0-9A-Fa-f]{6}$/.test(pal[1] || '') ? pal[1] : '#0B0E12';
+    const inkRgb = hexToRgb(ink, [11, 14, 18]).join(',');
+    groundHex = paper;
+    html = html.replace(/--ground:\s*#[0-9A-Fa-f]{3,8}/, `--ground: ${paper}`)
+               .replace(/--ink:\s*#[0-9A-Fa-f]{3,8}/, `--ink: ${ink}`)
+               .replace(/--ink-dim:\s*rgba\([^)]*\)/, `--ink-dim: rgba(${inkRgb},.82)`)
+               .replace(/--ink-faint:\s*rgba\([^)]*\)/, `--ink-faint: rgba(${inkRgb},.5)`)
+               .replace(/--rule:\s*rgba\([^)]*\)/, `--rule: rgba(${inkRgb},.16)`);
+  }
+  const groundRgb = hexToRgb(groundHex, [5, 5, 5]);
+  if (brand && brand.primary) {
+    // Primary drives the decorative blobs — leave its hue alone.
+    html = html.replace(/--brand-primary:\s*#[0-9A-Fa-f]{3,8}/, `--brand-primary: ${brand.primary}`);
+  }
+  if (brand && brand.accent) {
+    const lifted = readableOn(hexToRgb(brand.accent, [0, 158, 219]), groundRgb, 4.5);
+    html = html.replace(/--brand-accent:\s*#[0-9A-Fa-f]{3,8}/,
+      `--brand-accent: ${'#' + lifted.map(v => v.toString(16).padStart(2, '0')).join('')}`);
+  }
+
+  // 2 · the persistent rail
+  html = html.replace(/(<[^>]*data-slot="rail-left"[^>]*>)[\s\S]*?(<\/)/,
+    (m, open, close) => open + slotText(rail.left) + close);
+  html = html.replace(/(<[^>]*data-slot="rail-right"[^>]*>)[\s\S]*?(<\/)/,
+    (m, open, close) => open + slotText(rail.right) + close);
+
+  // 3 · the content slots, section by section so repeated slot names on
+  //     different slides don't collide
+  const parts = html.split(/(<section\b[^>]*data-role="[^"]*"[^>]*>)/);
+  const art = [];
+  let sectionIdx = -1;
+  for (let i = 0; i < parts.length; i++) {
+    if (/^<section\b/.test(parts[i])) {
+      const role = (parts[i].match(/data-role="([^"]*)"/) || [])[1] || '';
+      if (!role.startsWith('…') && role) sectionIdx++;
+      // 3a · the generated background, as the slide's own first child. It
+      //      sits on z-index -1 inside the slide's stacking context, so it
+      //      covers the design's ground and still passes under every word.
+      const img = backgrounds && backgrounds[sectionIdx];
+      if (img && sectionIdx >= 0) {
+        art.push(`.slide-art-${sectionIdx}{background-image:url("${img}")}`);
+        parts[i] = parts[i] + `<i class="slide-art slide-art-${sectionIdx}" aria-hidden="true"></i>`;
+      }
+      continue;
+    }
+    if (sectionIdx < 0) continue;
+    const idx = sectionIdx;
+    parts[i] = parts[i].replace(/(<([a-z0-9]+)\b[^>]*data-slot="([^"]+)"[^>]*>)([\s\S]*?)(<\/\2>)/gi,
+      (m, open, tag, slot, inner, close) => {
+        const v = values[`${idx}:${slot}`];
+        return v == null ? m : open + slotText(v) + close;
+      });
+  }
+  html = parts.join('');
+
+  // 4 · the co-branded lockups. Both marks follow the deck, not the other
+  //     way round: white artwork on a dark ground, the logo's own colours on
+  //     a light one. A handful of marks — Infosys's included — are supplied
+  //     already reversed, so their light-deck version is `darkVer`; for
+  //     everything else the supplied file IS the coloured version.
+  //     brightness/invert is the last resort, for a logo the user uploaded
+  //     themselves, which has no reversed version to reach for.
+  const markFor = (logo) => {
+    if (!logo) return null;
+    const src = light ? (logo.darkVer || logo.dataUri)
+                      : (logo.white || logo.dataUri);
+    const reversedAvailable = light ? Boolean(logo.darkVer) : Boolean(logo.white);
+    return { src, filter: !light && !reversedAvailable && /^data:image\/svg/.test(src) };
+  };
+  const put = (cls, logo, alt) => {
+    const m = markFor(logo);
+    if (!m) return;
+    const rx = new RegExp(`(<span class="${cls}">)[\\s\\S]*?(</span>)`, 'g');
+    html = html.replace(rx, (_, open, close) => open +
+      // No inline width/height: the lockup stylesheet below sizes both
+      // marks by cap height, and an inline style would outrank it — which
+      // is how a raster mark ended up three times the Infosys wordmark.
+      `<img src="${m.src}" alt="${esc(alt)}"` +
+      (m.filter ? ` style="filter:brightness(0) invert(1)"` : '') + `>` + close);
+  };
+  put('lockup__client', logos.client, client.name);
+  put('lockup__infosys', logos.infosys, 'Infosys');
+  // Every slot becomes an edit target for the preview.
+  html = html.replace(/data-slot="/g, 'data-f-slot="');
+
+  // The builder's preview talks to the deck over postMessage; the sample
+  // decks know nothing about that, so the bridge is appended here.
+  // The scrim is not decoration: it is what keeps the copy at full contrast
+  // over an image nobody has seen yet. It leans on --ground so a light theme
+  // gets a light veil and a dark one a dark veil, and it keeps the reading
+  // third of the slide almost opaque while letting the far side breathe.
+  const artCss = art.length ? `
+<style>
+.slide{isolation:isolate}
+.slide-art{position:absolute;inset:0;z-index:-1;display:block;pointer-events:none;
+  background-size:cover;background-position:center;background-repeat:no-repeat;
+  opacity:${light ? '.5' : '.72'}}
+.slide-art::after{content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(90deg,
+      var(--ground) 0%,
+      color-mix(in srgb, var(--ground) 94%, transparent) 20%,
+      color-mix(in srgb, var(--ground) 68%, transparent) 46%,
+      color-mix(in srgb, var(--ground) 26%, transparent) 78%,
+      color-mix(in srgb, var(--ground) 8%,  transparent) 100%),
+    linear-gradient(0deg, var(--ground) 0%,
+      color-mix(in srgb, var(--ground) 52%, transparent) 22%, transparent 55%)}
+/* Safari before 16.2 has no color-mix; there the veil can't be graded, so
+   the image is simply dimmed far enough that the copy is safe anywhere. */
+@supports not (color: color-mix(in srgb, red 50%, transparent)){
+  .slide-art{opacity:${light ? '.2' : '.26'}}
+  .slide-art::after{background:linear-gradient(90deg, var(--ground), transparent)}
+}
+${art.join('\n')}
+</style>` : '';
+
+  // The sample designs size both marks by WIDTH, which is why a tall mark
+  // like ING's lion came out two and a half times the height of the Infosys
+  // wordmark beside it. A lockup reads as one pair only when the two marks
+  // share a cap height, so both are sized by height here, with a width
+  // ceiling so a very wide wordmark can't run across the slide. (A wordmark
+  // wide enough to hit that ceiling does sit shorter — at 19:1 it cannot be
+  // both 29px tall and under 240px wide, and length is what balances it.)
+  const lockupCss = `
+<style>
+.lockup{align-items:center}
+.lockup__client,.lockup__infosys{width:auto;display:flex;align-items:center}
+.lockup__client{max-width:clamp(150px,17vw,240px)}
+.lockup__infosys{max-width:clamp(90px,10vw,140px)}
+.lockup__client svg,.lockup__client img,
+.lockup__infosys svg,.lockup__infosys img{
+  height:clamp(22px,2.05vw,30px);width:auto;max-width:100%;
+  object-fit:contain;object-position:left center;display:block}
+</style>`;
+
+  const bridge = artCss + lockupCss + `
+<style>
+body.ds-editing [data-f-slot]{outline:1px dashed rgba(255,255,255,.35);outline-offset:4px;border-radius:2px;cursor:text}
+body.ds-editing [data-f-slot]:hover{outline-color:var(--brand-accent)}
+body.ds-editing [data-f-slot]:focus{outline:2px solid var(--brand-accent);outline-offset:4px}
+</style>
+<script>
+(function(){
+  /* ── fit guard ──────────────────────────────────────────
+     A slide is a fixed frame. If the copy runs long — or the viewport is
+     1280 rather than 1920 — step the slide's type scale down until the
+     content clears the lockup and the bottom edge. Runs on load, on resize,
+     and after an edit. */
+  function fitSlide(sec){
+    // The flow content is the tallest non-absolute child — the design's own
+    // wrapper. Scaling it is the only thing that always works: the type is
+    // only part of the height, the rest is fixed padding and gaps.
+    var flow = null, fh = -1;
+    for (var i = 0; i < sec.children.length; i++) {
+      var el = sec.children[i];
+      if (getComputedStyle(el).position === 'absolute') continue;
+      var h = el.getBoundingClientRect().height;
+      if (h > fh) { fh = h; flow = el; }
+    }
+    if (!flow) return;
+
+    flow.style.transform = '';
+    flow.style.transformOrigin = 'center center';
+
+    var box = sec.getBoundingClientRect(), cs = getComputedStyle(sec);
+    var top   = box.top + parseFloat(cs.paddingTop || 0);
+    var floor = box.bottom - parseFloat(cs.paddingBottom || 0);
+    var left  = box.left + parseFloat(cs.paddingLeft || 0);
+    var right = box.right - parseFloat(cs.paddingRight || 0);
+
+    // Anything absolutely placed in the lower half (the lockup) is a ceiling.
+    Array.prototype.forEach.call(sec.querySelectorAll('*'), function(el){
+      if (getComputedStyle(el).position !== 'absolute') return;
+      var r = el.getBoundingClientRect();
+      if (r.height && r.top > box.top + box.height * 0.55 && r.top < floor) floor = r.top - 8;
+    });
+
+    var r = flow.getBoundingClientRect();
+    var availH = floor - top, availW = right - left;
+    if (availH <= 0 || availW <= 0 || !r.height) return;
+
+    // Scaling happens about the centre, so a box that is merely sitting too
+    // low needs more than a height fit: shrinking by k lifts the bottom edge
+    // by (1-k)*h/2, and that has to cover the overflow. Solve for both ends
+    // and for the width, then take the tightest.
+    var ks = [1];
+    if (r.height > availH) ks.push(availH / r.height);
+    if (r.width  > availW) ks.push(availW / r.width);
+    var overBottom = r.bottom - floor;
+    var overTop    = top - r.top;
+    if (overBottom > 0) ks.push(1 - (2 * (overBottom + 4)) / r.height);
+    if (overTop    > 0) ks.push(1 - (2 * (overTop + 4)) / r.height);
+
+    var k = Math.min.apply(null, ks);
+    k = Math.max(0.5, Math.floor(k * 100) / 100);
+    if (k < 1) flow.style.transform = 'scale(' + k + ')';
+  }
+
+  function fitAll(){
+    Array.prototype.forEach.call(document.querySelectorAll('section.slide, section[data-role]'), fitSlide);
+  }
+  window.__deckFit = fitAll;
+  if (document.readyState === 'complete') fitAll();
+  else window.addEventListener('load', fitAll);
+  window.addEventListener('resize', function(){ clearTimeout(window.__fitT); window.__fitT = setTimeout(fitAll, 120); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
+
+  function slotKey(el){
+    var sec = el.closest('section[data-role]'), i = -1;
+    var all = Array.prototype.filter.call(document.querySelectorAll('section[data-role]'),
+      function(s){ var r = s.getAttribute('data-role'); return r && r.indexOf('\u2026') !== 0; });
+    i = all.indexOf(sec);
+    return i < 0 ? null : i + ':' + el.getAttribute('data-f-slot');
+  }
+  window.addEventListener('message', function(ev){
+    var d = ev.data || {};
+    if (d.type === 'edit') {
+      document.body.classList.toggle('ds-editing', !!d.on);
+      Array.prototype.forEach.call(document.querySelectorAll('[data-f-slot]'), function(el){
+        if (d.on) el.setAttribute('contenteditable', 'true');
+        else el.removeAttribute('contenteditable');
+      });
+      if (!d.on && window.__deckFit) window.__deckFit();
+    }
+    if (d.type === 'collect') {
+      var out = [];
+      Array.prototype.forEach.call(document.querySelectorAll('[data-f-slot]'), function(el){
+        var k = slotKey(el);
+        if (k) out.push({ key: k, v: el.innerText.trim() });
+      });
+      parent.postMessage({ type: 'collected', fields: out }, '*');
+    }
+  });
+})();
+<\/script>`;
+  html = html.replace(/<\/body>/i, bridge + '</body>');
+  return html;
+}
+
+/* ============================================================
+   DECK ASSEMBLY
+   Produces one self-contained HTML document: inline CSS, inline
+   JS, logos as data URIs. Google Fonts is the only external
+   reference, with a system stack behind it so the file still
+   presents offline.
+   ============================================================ */
+/* Cross-browser colour helpers. The generated deck must not depend on
+   color-mix() — Safari only shipped it in 16.2 — so every derived tone is
+   resolved here and written into the file as plain rgba(). */
+function hexToRgb(hex, fallback){
+  const h = String(hex || '').trim().replace('#', '');
+  const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  if (!/^[0-9a-f]{6}$/i.test(full)) return fallback;
+  return [parseInt(full.slice(0,2),16), parseInt(full.slice(2,4),16), parseInt(full.slice(4,6),16)];
+}
+const rgba = (rgb, a) => `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`;
+const solid = rgb => `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+
+function buildDeckHtml(deck){
+  const { client, presenter, theme, story, slides, logos } = deck;
+  const light = theme.mode === 'light';
+  const bg    = light ? (theme.palette[0] || '#F4F2ED') : (theme.palette[0] || '#050505');
+  const fg    = light ? (theme.palette[1] || '#0B0E12') : (theme.palette[1] || '#FFFFFF');
+  const accent= theme.accent || '#2DE1FD';
+  const title = `${client.name} × Infosys — ${story.title}`;
+
+  const bgRgb  = hexToRgb(bg,  light ? [244,242,237] : [5,5,5]);
+  const fgRgb  = hexToRgb(fg,  light ? [11,14,18]   : [255,255,255]);
+  const acRgb  = hexToRgb(accent, [45,225,253]);
+
+  /* The drifting background takes the client's own brand colours where we
+     know them, so the motion reads as theirs rather than as CE house style
+     dropped on top. Falls back to the theme accent, fanned with hue-rotate. */
+  const brand = deck.brand || {};
+  const p1 = brand.primary   ? hexToRgb(brand.primary,   acRgb) : null;
+  const p2 = brand.secondary ? hexToRgb(brand.secondary, acRgb) : null;
+  const blob = (rgb, rotate) => rgb
+    ? `background:radial-gradient(circle, ${solid(rgb)} 0%, transparent 70%);filter:blur(${light ? 86 : 75}px)`
+    : `filter:blur(${light ? 86 : 75}px) hue-rotate(${rotate}deg)`;
+
+  const logoImg = (l, cls, key) => {
+    if (!l || !l.dataUri) return '';
+    // On a dark ground prefer a real white cut-out; fall back to the filter
+    // for vector marks, and only plate when neither is possible.
+    const hasWhite = Boolean(l.white) && !light;
+    const canWhiten = l.whiten !== false;
+    const cls2 = cls + (!hasWhite && l.isDark && !light && canWhiten ? ' whiten' : '');
+    const img = `<img class="${cls2}" data-logo="${key}" alt="">`;
+    return (hasWhite || canWhiten) ? img : `<span class="plate">${img}</span>`;
+  };
+
+  /* cover + content + close */
+  const cover = `
+    <section class="sl sl-cover" aria-label="Cover">
+      <div class="sl-in">
+        <div class="lockup">
+          ${logoImg(logos.infosys, 'lg', 'infosys')}
+          ${logos.client ? '<span class="bar"></span>' : ''}
+          ${logoImg(logos.client, 'lg', 'client')}
+        </div>
+        <p class="kicker" data-f="kicker" data-i="cover">${esc(story.kicker || 'A proposal for ' + client.name)}</p>
+        <h1 class="claim" data-f="headline" data-i="cover">${esc(story.title)}</h1>
+        <p class="lead" data-f="standfirst" data-i="cover">${esc(story.angle)}</p>
+        <div class="rule"></div>
+        ${presenter.line ? `<p class="meta">${esc(presenter.line)}</p>` : ''}
+      </div>
+    </section>`;
+
+  const body = slides.map((s, i) => `
+    <section class="sl" aria-label="Slide ${i + 2}">
+      <div class="sl-mark" aria-hidden="true">
+        ${logoImg(logos.infosys, 'sm', 'infosys')}
+        ${logos.client ? '<span class="bar"></span>' : ''}
+        ${logoImg(logos.client, 'sm', 'client')}
+      </div>
+      <div class="sl-in">
+        <p class="kicker" data-f="kicker" data-i="${i}">${esc(s.kicker)}</p>
+        <h2 class="claim" data-f="headline" data-i="${i}">${esc(s.headline)}</h2>
+        <p class="lead" data-f="standfirst" data-i="${i}">${esc(s.standfirst)}</p>
+        <div class="rule"></div>
+        <div class="cols">
+          ${s.points.length ? `<ul class="pts">${s.points.map((p, q) =>
+            `<li data-f="point" data-i="${i}" data-q="${q}">${esc(p)}</li>`).join('')}</ul>` : ''}
+          ${s.stat ? `<div class="stat"><span class="fig" data-f="stat" data-i="${i}">${esc(s.stat)}</span><span class="lab" data-f="statLabel" data-i="${i}">${esc(s.statLabel)}</span></div>` : ''}
+        </div>
+      </div>
+    </section>`).join('');
+
+  const close = `
+    <section class="sl sl-close" aria-label="Close">
+      <div class="sl-in">
+        <p class="kicker" data-f="kicker" data-i="close">Where this goes next</p>
+        <h2 class="claim" data-f="headline" data-i="close">${esc(deck.close.headline)}</h2>
+        <p class="lead" data-f="standfirst" data-i="close">${esc(deck.close.standfirst)}</p>
+        <div class="rule"></div>
+        <div class="lockup sm">
+          ${logoImg(logos.infosys, 'md', 'infosys')}
+          ${logos.client ? '<span class="bar"></span>' : ''}
+          ${logoImg(logos.client, 'md', 'client')}
+        </div>
+        ${presenter.contact ? `<p class="meta">${esc(presenter.contact)}</p>` : ''}
+      </div>
+    </section>`;
+
+  const total = slides.length + 2;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="${bg}">
+<title>${esc(title)}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:${solid(bgRgb)}; --fg:${solid(fgRgb)}; --accent:${solid(acRgb)};
+  --fg-2:${rgba(fgRgb, .72)};
+  --fg-3:${rgba(fgRgb, .46)};
+  --rule:${rgba(fgRgb, .18)};
+  --sans:"Roboto","Helvetica Neue",Arial,system-ui,sans-serif;
+  --pad:clamp(28px, 5.4vw, 96px);
+  --foot:76px;
+  --ease:cubic-bezier(.2,0,0,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
+img{display:block;max-width:100%}
+.whiten{filter:brightness(0) invert(${light ? 0 : 1})}
+.sl-mark img.whiten{filter:brightness(0) invert(${light ? 0 : 1})}
+
+/* ── the track: full-viewport slides, horizontal snap ───── */
+.deck{position:relative;z-index:1;display:flex;height:100vh;height:100svh;overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x mandatory;scrollbar-width:none}
+.deck::-webkit-scrollbar{display:none}
+.sl{flex:0 0 100vw;height:100vh;height:100svh;scroll-snap-align:start;scroll-snap-stop:always;
+  display:grid;place-items:center;padding:var(--pad);padding-bottom:calc(var(--pad) + var(--foot));
+  position:relative;overflow:hidden}
+.sl:not(.sl-cover):not(.sl-close){padding-top:calc(var(--pad) + 46px)}
+.sl-in{width:min(1320px,100%);max-width:100%}
+
+/* animated states — each slide plays on arrival, once */
+.sl-in > *{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.sl.on .sl-in > *{opacity:1;transform:none}
+.sl.on .sl-in > *:nth-child(1){transition-delay:.05s}
+.sl.on .sl-in > *:nth-child(2){transition-delay:.13s}
+.sl.on .sl-in > *:nth-child(3){transition-delay:.21s}
+.sl.on .sl-in > *:nth-child(4){transition-delay:.29s}
+.sl.on .sl-in > *:nth-child(5){transition-delay:.37s}
+.sl.on .sl-in > *:nth-child(6){transition-delay:.45s}
+
+/* ── slide furniture ────────────────────────────────────── */
+.kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--fg-3);font-weight:500}
+.claim{font-weight:900;letter-spacing:-.03em;line-height:1.02;
+  font-size:clamp(34px, 6.4vw, 92px);margin-top:18px;max-width:17ch}
+.sl-cover .claim{max-width:15ch}
+.lead{font-size:clamp(16px, 1.55vw, 23px);font-weight:300;line-height:1.45;color:var(--fg-2);
+  margin-top:20px;max-width:52ch}
+.rule{height:5px;width:104px;margin-top:34px;border-radius:3px;
+  background:linear-gradient(90deg,var(--accent) 0%, ${rgba(acRgb, .3)} 100%)}
+.meta{margin-top:26px;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-3)}
+
+.cols{display:flex;gap:clamp(28px,5vw,80px);margin-top:36px;align-items:flex-start;flex-wrap:wrap;width:100%}
+.pts{list-style:none;display:flex;flex-direction:column;gap:14px;flex:1 1 320px;max-width:56ch}
+.pts li{position:relative;padding-left:24px;font-size:clamp(15px,1.25vw,18px);color:var(--fg-2);line-height:1.45}
+.pts li::before{content:"";position:absolute;left:0;top:.62em;width:11px;height:2px;background:var(--accent)}
+.stat{flex:0 0 auto;margin-left:auto;display:flex;flex-direction:column;gap:6px;padding-left:clamp(0px,2vw,28px);align-items:flex-start}
+.stat .fig{font-weight:900;font-size:clamp(56px,8vw,128px);line-height:.9;letter-spacing:-.05em;color:var(--accent)}
+.stat .lab{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-3);max-width:20ch}
+
+/* Persistent co-branded mark, top-left of every internal slide. The cover
+   and close carry their own larger lockup instead. */
+.sl-mark{position:absolute;top:var(--pad);left:var(--pad);z-index:2;
+  display:flex;align-items:center;gap:14px;opacity:.72}
+.sl-mark img{height:19px;width:auto}
+.plate{display:inline-flex;align-items:center;background:#fff;
+  padding:5px 9px;border-radius:2px}
+.sl-mark .plate img{height:15px}
+.sl-mark .bar{width:1px;height:16px;background:var(--rule)}
+
+.lockup{display:flex;align-items:center;gap:22px;margin-bottom:8px}
+.lockup .bar{width:1px;height:30px;background:var(--rule)}
+.lockup .lg{height:clamp(26px,2.6vw,38px);width:auto}
+.lockup.sm{margin-top:32px;margin-bottom:0}
+.lockup .md{height:26px;width:auto}
+
+/* ── aurora: drifting gradient blobs behind every slide ───
+   Ported from the Better Stories site's .aurora layer. The blobs take
+   the theme's own accent and fan out from it with hue-rotate, so the
+   motion stays client-led rather than dropping the CE palette on top
+   of someone else's brand. Slowed well down from the site's 10-13s —
+   this sits behind live copy for the length of a pitch. */
+.aurora{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:var(--bg)}
+.aurora-drift{position:absolute;inset:-10%}
+.aurora .blob{position:absolute;border-radius:50%;
+  background:radial-gradient(circle, var(--accent) 0%, transparent 70%);
+  mix-blend-mode:${light ? 'multiply' : 'screen'};
+  filter:blur(${light ? 86 : 75}px);opacity:${light ? '.13' : '.40'};
+  will-change:transform}
+.aurora .b1{width:54vw;height:54vw;left:-14%;top:-12%;animation:driftA 27s ease-in-out infinite}
+.aurora .b2{width:48vw;height:48vw;right:-12%;top:4%;animation:driftB 33s ease-in-out infinite;
+  ${blob(p1, 40)}}
+.aurora .b3{width:52vw;height:52vw;left:18%;bottom:-22%;animation:driftC 36s ease-in-out infinite;
+  ${blob(p2, -34)}}
+.aurora .b4{width:34vw;height:34vw;left:38%;top:30%;animation:driftD 24s ease-in-out infinite;
+  opacity:${light ? '.09' : '.26'}}
+@keyframes driftA{
+  0%{transform:translate(0,0) rotate(0deg) scale(1)}
+  25%{transform:translate(22vw,14vh) rotate(20deg) scale(1.18)}
+  50%{transform:translate(6vw,26vh) rotate(-10deg) scale(.9)}
+  75%{transform:translate(-14vw,10vh) rotate(14deg) scale(1.08)}
+  100%{transform:translate(0,0) rotate(0deg) scale(1)}}
+@keyframes driftB{
+  0%{transform:translate(0,0) rotate(0deg) scale(1)}
+  30%{transform:translate(-24vw,18vh) rotate(-18deg) scale(1.15)}
+  60%{transform:translate(-8vw,-16vh) rotate(12deg) scale(.92)}
+  100%{transform:translate(0,0) rotate(0deg) scale(1)}}
+@keyframes driftC{
+  0%{transform:translate(0,0) rotate(0deg) scale(1)}
+  35%{transform:translate(18vw,-20vh) rotate(16deg) scale(1.12)}
+  65%{transform:translate(-20vw,-8vh) rotate(-14deg) scale(.9)}
+  100%{transform:translate(0,0) rotate(0deg) scale(1)}}
+@keyframes driftD{
+  0%,100%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(-16vw,-18vh) scale(1.3)}}
+
+/* the gradient hairline under each claim breathes with the aurora */
+.rule{background-size:200% 100%;animation:ruleShift 14s ease-in-out infinite}
+@keyframes ruleShift{0%,100%{background-position:0% 0}50%{background-position:100% 0}}
+
+/* ── sticky footer: CTA stays above the fold, always ────── */
+.foot{position:fixed;left:0;right:0;bottom:0;height:var(--foot);z-index:10;
+  display:flex;align-items:center;gap:20px;padding:0 var(--pad);
+  background:${rgba(bgRgb, .88)};
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-top:1px solid var(--rule)}
+.foot .dots{display:flex;gap:8px;align-items:center}
+.foot .dot{width:7px;height:7px;border-radius:50%;background:var(--rule);border:0;padding:0;cursor:pointer;
+  transition:background .2s var(--ease),transform .2s var(--ease)}
+.foot .dot[aria-current="true"]{background:var(--accent);transform:scale(1.5)}
+.foot .grow{flex:1}
+.foot .count{font-size:12px;letter-spacing:.14em;color:var(--fg-3);font-variant-numeric:tabular-nums}
+.cta{display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;
+  background:var(--fg);color:var(--bg);font:500 14px/1 var(--sans);
+  padding:13px 24px;border-radius:100px;transition:opacity .2s var(--ease)}
+.cta:hover{opacity:.84}
+.cta[data-end="true"]{background:var(--accent);color:${light ? '#fff' : '#000'}}
+/* Safari < 16.4 has no svh; the vh value above it is the fallback. */
+.bar-progress{position:fixed;left:0;top:0;height:2px;z-index:11;background:var(--accent);
+  width:0;transition:width .35s var(--ease)}
+@media (max-width:700px){ .foot .count{display:none} .claim{max-width:none} }
+/* editing affordances, only while the builder turns them on */
+body.editing [data-f]{outline:1px dashed var(--fg-3);outline-offset:5px;border-radius:2px;cursor:text}
+body.editing [data-f]:hover{outline-color:var(--accent)}
+body.editing [data-f]:focus{outline:2px solid var(--accent);outline-offset:5px}
+
+@media (prefers-reduced-motion:reduce){
+  .sl-in > *{transition:opacity .01s;transform:none}
+  .aurora .blob,.rule{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="aurora" aria-hidden="true">
+  <div class="aurora-drift">
+    <span class="blob b1"></span><span class="blob b2"></span>
+    <span class="blob b3"></span><span class="blob b4"></span>
+  </div>
+</div>
+<div class="bar-progress" id="prog"></div>
+<div class="deck" id="deck" tabindex="0">
+${cover}${body}${close}
+</div>
+<footer class="foot">
+  <div class="dots" id="dots" role="tablist" aria-label="Slides"></div>
+  <span class="count" id="count">01 / ${String(total).padStart(2,'0')}</span>
+  <span class="grow"></span>
+  <button class="cta" id="cta" type="button">Continue the narrative <span aria-hidden="true">→</span></button>
+</footer>
+<script>
+(function(){
+  // Logos, defined once and assigned to every lockup that uses them.
+  var L = ${JSON.stringify({
+    infosys: (logos.infosys && ((!light && logos.infosys.white) || logos.infosys.dataUri)) || '',
+    client:  (logos.client  && ((!light && logos.client.white)  || logos.client.dataUri))  || ''
+  })};
+  Array.prototype.forEach.call(document.querySelectorAll('[data-logo]'), function(el){
+    var u = L[el.getAttribute('data-logo')];
+    if (u) el.src = u; else el.remove();
+  });
+
+  var deck = document.getElementById('deck');
+  var sls  = Array.prototype.slice.call(deck.querySelectorAll('.sl'));
+  var dots = document.getElementById('dots');
+  var cta  = document.getElementById('cta');
+  var count= document.getElementById('count');
+  var prog = document.getElementById('prog');
+  var at = 0, target = 0, settle;
+
+  sls.forEach(function(s, i){
+    var b = document.createElement('button');
+    b.className = 'dot'; b.type = 'button'; b.setAttribute('role','tab');
+    b.setAttribute('aria-label', 'Slide ' + (i+1));
+    b.addEventListener('click', function(){ go(i); });
+    dots.appendChild(b);
+  });
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var tween = null;
+
+  function tweenTo(to){
+    if (tween) cancelAnimationFrame(tween);
+    var from = deck.scrollLeft, dist = to - from;
+    if (Math.abs(dist) < 2) return;
+    if (reduce) { deck.scrollLeft = to; return; }
+    var t0 = null, dur = 440, snap = deck.style.scrollSnapType;
+    deck.style.scrollSnapType = 'none';
+    function step(ts){
+      if (t0 === null) t0 = ts;
+      var k = Math.min(1, (ts - t0) / dur);
+      deck.scrollLeft = from + dist * (1 - Math.pow(1 - k, 3));  // ease-out cubic
+      if (k < 1) { tween = requestAnimationFrame(step); }
+      else { tween = null; deck.style.scrollSnapType = snap; }
+    }
+    tween = requestAnimationFrame(step);
+  }
+
+  function go(i){
+    target = Math.max(0, Math.min(sls.length - 1, i));
+    sls[target].classList.add('on');
+    tweenTo(target * deck.clientWidth);
+  }
+
+  function paint(i){
+    at = i;
+    Array.prototype.forEach.call(dots.children, function(d, n){
+      d.setAttribute('aria-current', n === i ? 'true' : 'false');
+    });
+    count.textContent = String(i+1).padStart(2,'0') + ' / ' + String(sls.length).padStart(2,'0');
+    prog.style.width = ((i+1) / sls.length * 100) + '%';
+    var last = i === sls.length - 1;
+    cta.firstChild.nodeValue = last ? 'Start the conversation ' : 'Continue the narrative ';
+    cta.setAttribute('data-end', last ? 'true' : 'false');
+  }
+
+  cta.addEventListener('click', function(){
+    if (target === sls.length - 1) { go(0); } else { go(target + 1); }
+  });
+
+  // Reveal animation only — state comes from scroll position below.
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) e.target.classList.add('on'); });
+    }, { root: deck, threshold: 0.25 });
+    sls.forEach(function(s){ io.observe(s); });
+  } else {
+    sls.forEach(function(s){ s.classList.add('on'); });
+  }
+
+  var ticking = false;
+  deck.addEventListener('scroll', function(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      ticking = false;
+      var w = deck.clientWidth || 1;
+      var i = Math.max(0, Math.min(sls.length - 1, Math.round(deck.scrollLeft / w)));
+      if (i !== at) { sls[i].classList.add('on'); paint(i); }
+      // Once the scroll lands, the keyboard resumes from wherever we are.
+      clearTimeout(settle);
+      settle = setTimeout(function(){ target = at; }, 150);
+    });
+  }, { passive: true });
+
+  sls[0].classList.add('on'); paint(0);
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(target + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(target - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); go(0); }
+    else if (e.key === 'End')  { e.preventDefault(); go(sls.length - 1); }
+  });
+
+  // Trackpad/wheel: let a vertical gesture drive the horizontal track.
+  deck.addEventListener('wheel', function(e){
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { deck.scrollLeft += e.deltaY; e.preventDefault(); }
+  }, { passive: false });
+
+  /* The builder switches this on. Fields become editable in place; the
+     parent reads them back when Save is pressed. */
+  window.addEventListener('message', function(ev){
+    var d = ev.data || {};
+    if (d.type === 'edit') {
+      document.body.classList.toggle('editing', !!d.on);
+      Array.prototype.forEach.call(document.querySelectorAll('[data-f]'), function(el){
+        if (d.on) el.setAttribute('contenteditable', 'true');
+        else el.removeAttribute('contenteditable');
+      });
+    }
+    if (d.type === 'collect') {
+      var out = [];
+      Array.prototype.forEach.call(document.querySelectorAll('[data-f]'), function(el){
+        out.push({ i: el.getAttribute('data-i'), f: el.getAttribute('data-f'),
+                   q: el.getAttribute('data-q'), v: el.textContent.trim() });
+      });
+      parent.postMessage({ type: 'collected', fields: out }, '*');
+    }
+  });
+
+  window.addEventListener('resize', function(){
+    if (tween) { cancelAnimationFrame(tween); tween = null; deck.style.scrollSnapType = ''; }
+    deck.scrollLeft = target * deck.clientWidth;
+  });
+  deck.focus();
+})();
+<\/script>
+</body>
+</html>`;
+}
+
+/* ============================================================
+   CLIENT COMBOBOX
+   The PPT builder's picker, carried over: brand swatches, the
+   company name, and its domain, grouped by showcase tier. A
+   plain <datalist> can't show any of that, so this is a real
+   combobox — filterable, keyboard-navigable, and it fills the
+   website field on pick so the theming agent gets the domain.
+   ============================================================ */
+let comboAt = -1, comboRows = [];
+
+let comboShowAll = false;
+
+function comboMatches(q){
+  const n = String(q || '').trim().toLowerCase();
+  if (!n) return CLIENTS;
+  // Once a client is chosen the field holds their exact name, which would
+  // filter the list down to just them. Reopening should still offer the
+  // others, so an exact match shows everything until you type again.
+  if (comboShowAll && findClient(n)) return CLIENTS;
+  return CLIENTS.filter(c => c.name.toLowerCase().includes(n) || c.domain.includes(n)
+    || c.slug.includes(n) || c.aliases.some(a => a.toLowerCase().includes(n)));
+}
+
+function renderCombo(){
+  const panel = $('#clientListbox');
+  const list = comboMatches($('#clientCompany').value);
+  panel.innerHTML = '';
+  comboRows = []; comboAt = -1;
+
+  // No matches: no panel at all, same as the PPT builder. The hint
+  // under the field already says any other client name works.
+  if (!list.length) { panel.hidden = true; return; }
+
+  CLIENT_GROUPS.forEach(([tier, label]) => {
+    const rows = list.filter(c => c.tier === tier);
+    if (!rows.length) return;
+    const h = document.createElement('p');
+    h.className = 'combo-group'; h.textContent = label;
+    panel.appendChild(h);
+    rows.forEach(c => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'combo-opt'; b.setAttribute('role', 'option');
+      b.innerHTML = `<span class="combo-sw" aria-hidden="true"><i style="background:${esc(c.primary)}"></i><i style="background:${esc(c.secondary)}"></i></span>` +
+                    `<span class="combo-name">${esc(c.name)}</span>` +
+                    `<span class="combo-dom">${esc(c.domain)}</span>`;
+      b.setAttribute('aria-selected', String(S.clientSlug === c.slug));
+      b.addEventListener('mousedown', e => { e.preventDefault(); pickClient(c); });
+      b.addEventListener('mouseenter', () => setActive(comboRows.indexOf(b)));
+      panel.appendChild(b);
+      comboRows.push(b);
+    });
+  });
+}
+
+function setActive(n){
+  if (comboAt >= 0 && comboRows[comboAt]) comboRows[comboAt].removeAttribute('data-active');
+  comboAt = n;
+  if (n >= 0 && comboRows[n]) comboRows[n].setAttribute('data-active', 'true');
+}
+
+function openCombo(){
+  renderCombo();
+  if (!comboRows.length) return;
+  $('#clientListbox').hidden = false;
+  $('#clientCompany').setAttribute('aria-expanded', 'true');
+}
+function closeCombo(){
+  $('#clientListbox').hidden = true;
+  $('#clientCompany').setAttribute('aria-expanded', 'false');
+  comboAt = -1;
+}
+function moveCombo(d){
+  if ($('#clientListbox').hidden) { openCombo(); return; }
+  if (!comboRows.length) return;
+  setActive((comboAt + d + comboRows.length) % comboRows.length);
+  comboRows[comboAt].scrollIntoView({ block: 'nearest' });
+}
+
+/* The hint mirrors the PPT builder's: it tells you the pick landed and
+   that the website and reference brand colours came with it. */
+function updateClientHint(){
+  const c = findClient(S.form.clientCompany);
+  $('#clientCompany-hint').textContent = c
+    ? (c.tier[0] === 'S'
+        ? `${c.name} is on the showcase list — website and reference brand colours are pre-filled.`
+        : `${c.name} is on the extended European list — website and reference brand colours are pre-filled.`)
+    : 'Suggestions come from the showcase list; type two letters to search the wider European list. Any other client name works too.';
+}
+
+/* The website follows the client. It is replaced when it's empty, when it
+   still holds the previous client's domain, or when it holds one borrowed
+   from the worked-example library — otherwise a brief drafted for ING sat
+   next to northwind-industrial.com while the hint claimed the website was
+   pre-filled. Anything the user typed themselves is left alone. */
+function alignWebsiteToClient(){
+  const site = $('#clientWebsite');
+  const c = findClient(($('#clientCompany').value || '').trim());
+  if (!site || !c) return;
+  const v = site.value.trim().toLowerCase();
+  const borrowed = !v
+    || v === c.domain.toLowerCase()
+    || PRESETS.some(p => String(p.website || '').toLowerCase() === v)
+    || CLIENTS.some(x => x.domain.toLowerCase() === v);
+  if (borrowed && site.value.trim().toLowerCase() !== c.domain.toLowerCase()) site.value = c.domain;
+}
+
+/* First time through, nobody knows what "a preset brief" is. The button
+   says what pressing it will do right now: with a client chosen it writes
+   one about THEM, and with the field empty it fills in a worked example so
+   the tool can be walked through without inventing a deal first. */
+function updatePresetLabel(){
+  const btn = $('#btnPreset');
+  if (!btn || btn.dataset.busy === '1') return;
+  const c = findClient(S.form.clientCompany);
+  const typed = (S.form.clientCompany || '').trim();
+  btn.textContent = c ? `Draft a brief for ${c.name}`
+                      : typed ? `Draft a brief for ${clamp(typed, 26)}`
+                              : 'Show me an example';
+  btn.title = c || typed
+    ? 'Writes a first draft about this client. You can edit every word of it.'
+    : 'Fills the form with a worked example so you can see the whole flow.';
+}
+
+function pickClient(c){
+  const site = $('#clientWebsite');
+  const prev = findClient(S.form.clientCompany);
+  // Fill the website if it's empty, or if it still holds the previously
+  // picked client's domain — same rule the PPT builder uses.
+  if (!site.value.trim() || (prev && site.value.trim() === prev.domain)) site.value = c.domain;
+  $('#clientCompany').value = c.name;
+  comboShowAll = false;
+  closeCombo();
+  syncFormToState(); updateClientHint(); updatePresetLabel(); renderLogoPreview(); save();
+}
+
+function initCombo(){
+  const input = $('#clientCompany');
+  // focus alone isn't enough: after picking, the field usually still has
+  // focus, so clicking it again fires no focus event and the list stayed
+  // filtered to the one company already chosen.
+  const reopen = () => { comboShowAll = true; openCombo(); };
+  input.addEventListener('focus', reopen);
+  input.addEventListener('mousedown', () => setTimeout(reopen, 0));
+  input.addEventListener('input', () => {
+    comboShowAll = false;                       // typing filters again
+    if ($('#clientListbox').hidden) openCombo(); else renderCombo();
+  });
+  input.addEventListener('blur', () => setTimeout(closeCombo, 120));
+  input.addEventListener('keydown', e => {
+    if (e.key === 'ArrowDown') { e.preventDefault(); moveCombo(1); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); moveCombo(-1); }
+    else if (e.key === 'Enter' && comboAt >= 0) { e.preventDefault(); comboRows[comboAt].dispatchEvent(new MouseEvent('mousedown')); }
+    else if (e.key === 'Escape') { closeCombo(); }
+  });
+}
+
+/* ============================================================
+   VIEWS
+   ============================================================ */
+function show(view){
+  ['landing','wizard'].forEach(v => { $('#view-' + v).hidden = (v !== view); });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function showStep(n){
+  S.step = n;
+  $$('.step').forEach(el => { el.hidden = Number(el.dataset.step) !== n; });
+  renderStepper();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  save();
+}
+function renderStepper(){
+  const host = $('#stepper'); host.innerHTML = '';
+  STEPS.forEach((label, i) => {
+    if (i) { const c = document.createElement('span'); c.className = 'stepper-connector'; host.appendChild(c); }
+    const step = document.createElement('div');
+    step.className = 'stepper-step';
+    step.dataset.state = i < S.step ? 'done' : (i === S.step ? 'current' : 'todo');
+    step.innerHTML = `<span class="stepper-dot">${i < S.step ? '✓' : i + 1}</span><span class="stepper-label">${esc(label)}</span>`;
+    host.appendChild(step);
+  });
+}
+
+function optionCard(o, selected, onPick, body){
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'card card-hover' + (selected ? ' card-selected' : '');
+  b.innerHTML = body;
+  b.addEventListener('click', onPick);
+  return b;
+}
+
+/* The 12 strategic categories build-faster works from. The model picks
+   one per option; the pill on the card shows which. */
+const STORY_CATEGORIES = ['Transformation','Simplification','Resilience','Customer Experience',
+  'Speed','Cost Optimisation','Innovation','Growth','Security & Trust','Talent & Culture',
+  'Sustainability','Data & Intelligence'];
+
+let openStories = new Set(), editingStories = new Set(), nudgingStories = new Set();
+
+function fieldBlock(o, key, label, editing){
+  const v = o[key] || '';
+  return `<div class="fblock">
+    <h4>${esc(label)}</h4>
+    ${editing
+      ? `<textarea class="textarea" data-edit="${key}">${esc(v)}</textarea>`
+      : `<p>${esc(v)}</p>`}
+  </div>`;
+}
+
+function renderStory(){
+  const host = $('#storyOptions'); host.innerHTML = '';
+  host.classList.toggle('has-open', openStories.size > 0 || editingStories.size > 0);
+  if (!S.storyOptions.length) { host.innerHTML = '<p class="body-copy">No options yet.</p>'; return; }
+
+  S.storyOptions.forEach((o, i) => {
+    const open = openStories.has(i), editing = editingStories.has(i), nudging = nudgingStories.has(i);
+    const selected = S.storyChoice === i;
+    const card = document.createElement('article');
+    card.className = 'story-card' + (selected ? ' is-selected' : '');
+    card.dataset.art = String(i % 3);
+    card.innerHTML = `
+      <div class="art" aria-hidden="true"><span></span></div>
+      <span class="cat-pill">${esc(o.category || 'Strategy')}</span>
+      ${editing
+        ? `<input class="input" data-edit="name" value="${esc(o.name)}">`
+        : `<h3>${esc(o.name)}</h3>`}
+      ${editing
+        ? `<textarea class="textarea" data-edit="centralIdea">${esc(o.centralIdea || '')}</textarea>`
+        : `<p class="story-lead">${esc(o.centralIdea || '')}</p>`}
+      <button class="btn btn-ghost btn-sm disclose" type="button" data-act="toggle">
+        ${open ? 'Hide full story ▲' : 'See full story ▼'}</button>
+      ${open ? `
+        ${fieldBlock(o, 'challenge',    'Business challenge', editing)}
+        ${fieldBlock(o, 'change',       'Proposed change',    editing)}
+        ${fieldBlock(o, 'valueOutcome', 'Value / outcome',    editing)}
+        <div class="fblock">
+          <h4>Four-part story progression</h4>
+          <ol class="progression">
+            ${(o.progression || []).map((st, n) =>
+              `<li><b>${n + 1}. ${esc(st.title)}</b> — ${esc(st.description)}</li>`).join('')}
+          </ol>
+        </div>
+        ${fieldBlock(o, 'relevance', 'Why this fits the client & deal', editing)}
+        <div class="fblock">
+          <h4>Assumptions to validate</h4>
+          <ul class="assumptions">
+            ${(o.assumptions || []).map(a => `<li>• ${esc(a)}</li>`).join('')}
+          </ul>
+        </div>` : ''}
+      <div class="card-actions">
+        <button class="btn ${selected ? 'btn-primary' : 'btn-secondary'} btn-sm" type="button" data-act="select">
+          ${selected ? 'Selected ✓' : 'Select this story'}</button>
+        <button class="btn btn-ghost btn-sm" type="button" data-act="edit">${editing ? 'Done' : 'Edit'}</button>
+      </div>
+      <button class="btn btn-ghost btn-sm disclose" type="button" data-act="nudge">Try a different direction</button>
+      ${nudging ? `
+        <div class="nudge-row">
+          <input class="input" data-nudge="${i}" placeholder="e.g. focus more on cost, or on customer trust…">
+          <button class="btn btn-secondary btn-sm" type="button" data-act="rerun">Go</button>
+        </div>` : ''}`;
+
+    card.addEventListener('click', async e => {
+      const btn = e.target.closest('[data-act]');
+      if (!btn) return;
+      const act = btn.dataset.act;
+      if (act === 'toggle') { openStories.has(i) ? openStories.delete(i) : openStories.add(i); renderStory(); }
+      else if (act === 'select') { S.storyChoice = i; renderStory(); save(); }
+      else if (act === 'edit') {
+        if (editing) { captureStoryEdits(card, o); editingStories.delete(i); }
+        else { editingStories.add(i); }
+        renderStory(); save();
+      }
+      else if (act === 'nudge') { nudgingStories.has(i) ? nudgingStories.delete(i) : nudgingStories.add(i); renderStory(); }
+      else if (act === 'rerun') {
+        const v = card.querySelector('[data-nudge]');
+        await regenerateStory(i, v ? v.value : '');
+      }
+    });
+    host.appendChild(card);
+  });
+  $('#btnToNarrative').disabled = S.storyChoice == null;
+}
+
+/* Inline edits are written back to the option before the card re-renders. */
+function captureStoryEdits(card, o){
+  card.querySelectorAll('[data-edit]').forEach(el => { o[el.dataset.edit] = el.value; });
+}
+
+async function regenerateStory(i, nudge){
+  const host = $('#storyOptions');
+  const card = host.children[i];
+  if (card) card.style.opacity = '.5';
+  try {
+    const data = await callAgent('story', { ...briefPayload(), nudge, replaceOne: true,
+      avoid: S.storyOptions.map(o => o.name) });
+    const fresh = (data.options || [])[0];
+    if (fresh) {
+      S.storyOptions[i] = fresh;
+      if (S.storyChoice === i) S.storyChoice = null;
+      openStories.delete(i); editingStories.delete(i); nudgingStories.delete(i);
+    }
+    renderStory(); save();
+  } catch (e) {
+    if (card) card.style.opacity = '1';
+    toast(e.message);
+  }
+}
+
+let openFlows = new Set(), editingTones = new Set(), editingFlows = new Set();
+
+/* How the flow's stages land on a deck locked to 4 or 5 slides.
+   The closing stage always takes the last slide; if the stages still
+   outnumber the internal slides, the leading ones fold onto the cover. */
+function slideSequence(flow, n, storyName){
+  const st = (flow.structureLabels || []).slice();
+  if (!st.length) return [];
+  const closing = st.pop();
+  const room = Math.max(1, n - 2);
+  let coverExtra = [];
+  while (st.length > room) coverExtra.push(st.shift());
+  const seq = [{ n: 1, role: 'Cover', label: storyName + (coverExtra.length ? ' — ' + coverExtra.join(' · ') : '') }];
+  st.forEach((x, k) => seq.push({ n: k + 2, role: 'Slide', label: x }));
+  seq.push({ n: n, role: 'Close', label: closing });
+  return seq;
+}
+
+function renderNarrative(){
+  const story = S.storyOptions[S.storyChoice];
+  $('#narrativeIntro').innerHTML = story
+    ? `Inheriting the <strong>&ldquo;${esc(story.name)}&rdquo;</strong> story. Choose a tone, then a narrative flow built to fit it.`
+    : 'Choose a tone, then a narrative flow built to fit it.';
+
+  // ── tones ──
+  const th = $('#toneOptions'); th.innerHTML = '';
+  if (!S.tones.length) th.innerHTML = '<p class="body-copy">No tones yet.</p>';
+  S.tones.forEach((t, i) => {
+    const sel = S.toneChoice === i, ed = editingTones.has(i);
+    const el = document.createElement('article');
+    el.className = 'pick-card' + (sel ? ' is-selected' : '');
+    el.innerHTML = `
+      ${ed ? `<input class="input" data-edit="name" value="${esc(t.name)}">` : `<h4>${esc(t.name)}</h4>`}
+      ${ed ? `<textarea class="textarea" data-edit="description">${esc(t.description || '')}</textarea>`
+           : `<p>${esc(t.description || '')}</p>`}
+      <div class="card-actions">
+        <button class="btn ${sel ? 'btn-primary' : 'btn-secondary'} btn-sm" type="button" data-act="select">
+          ${sel ? 'Selected ✓' : 'Select tone'}</button>
+        <button class="btn btn-ghost btn-sm" type="button" data-act="edit">${ed ? 'Done' : 'Edit'}</button>
+      </div>`;
+    el.addEventListener('click', e => {
+      const b = e.target.closest('[data-act]'); if (!b) return;
+      if (b.dataset.act === 'select') { S.toneChoice = i; renderNarrative(); save(); }
+      else {
+        if (ed) { el.querySelectorAll('[data-edit]').forEach(x => { t[x.dataset.edit] = x.value; }); editingTones.delete(i); }
+        else editingTones.add(i);
+        renderNarrative(); save();
+      }
+    });
+    th.appendChild(el);
+  });
+
+  // ── flows ──
+  const fh = $('#flowOptions'); fh.innerHTML = '';
+  if (!S.flows.length) fh.innerHTML = '<p class="body-copy">No flows yet.</p>';
+  S.flows.forEach((f, i) => {
+    const sel = S.flowChoice === i, open = openFlows.has(i), ed = editingFlows.has(i);
+    const seq = slideSequence(f, S.slideCount, story ? story.name : 'Cover');
+    const el = document.createElement('article');
+    el.className = 'pick-card' + (sel ? ' is-selected' : '');
+    el.innerHTML = `
+      <h4>${esc((f.structureLabels || []).join(' → '))}</h4>
+      ${ed ? `<textarea class="textarea" data-edit="description">${esc(f.description || '')}</textarea>` : ''}
+      <button class="btn btn-ghost btn-sm disclose" type="button" data-act="toggle">
+        ${open ? 'Hide slide sequence ▲' : 'See slide sequence ▼'}</button>
+      ${open ? `<ol class="seq">${seq.map(x =>
+        `<li><span class="n">${String(x.n).padStart(2,'0')}</span><span class="role">${esc(x.role)}</span><span>${esc(x.label)}</span></li>`
+      ).join('')}</ol>` : ''}
+      <div class="card-actions">
+        <button class="btn ${sel ? 'btn-primary' : 'btn-secondary'} btn-sm" type="button" data-act="select">
+          ${sel ? 'Selected ✓' : 'Select flow'}</button>
+        <button class="btn btn-ghost btn-sm" type="button" data-act="edit">${ed ? 'Done' : 'Edit'}</button>
+      </div>`;
+    el.addEventListener('click', e => {
+      const b = e.target.closest('[data-act]'); if (!b) return;
+      const act = b.dataset.act;
+      if (act === 'select') { S.flowChoice = i; renderNarrative(); save(); }
+      else if (act === 'toggle') { openFlows.has(i) ? openFlows.delete(i) : openFlows.add(i); renderNarrative(); }
+      else {
+        if (ed) { el.querySelectorAll('[data-edit]').forEach(x => { f[x.dataset.edit] = x.value; }); editingFlows.delete(i); }
+        else editingFlows.add(i);
+        renderNarrative(); save();
+      }
+    });
+    fh.appendChild(el);
+  });
+
+  $('#btnToTheme').disabled = (S.toneChoice == null || S.flowChoice == null);
+}
+
+function renderTheme(){
+  const host = $('#themeOptions'); host.innerHTML = '';
+  if (!S.themeOptions.length) { host.innerHTML = '<p class="body-copy">No options yet.</p>'; return; }
+  S.themeOptions.forEach((o, i) => {
+    const sw = (o.palette || []).slice(0, 3).map(c =>
+      `<span style="width:26px;height:26px;border-radius:2px;border:1px solid var(--border-hairline);background:${esc(c)}"></span>`).join('');
+    host.appendChild(optionCard(o, S.themeChoice === i, () => { S.themeChoice = i; renderTheme(); save(); }, `
+      <span class="field-hint" style="margin-top:0;letter-spacing:.08em">DIRECTION 0${i+1}
+        <span class="mode-pill" data-mode="${o.mode === 'light' ? 'light' : 'dark'}">${
+          o.mode === 'light' ? 'Light' : 'Dark'}</span></span>
+      <h3 class="h3" style="font-weight:var(--fw-bold);margin:var(--space-3) 0">${esc(o.name)}</h3>
+      <div style="display:flex;gap:var(--space-2);margin-bottom:var(--space-4)">${sw}</div>
+      <p class="field-hint" style="margin:0"><strong style="color:var(--fg-on-dark-2)">Typography</strong><br>${esc(o.typography)}</p>
+      <p class="field-hint"><strong style="color:var(--fg-on-dark-2)">Imagery</strong><br>${esc(o.imagery)}</p>
+      <p class="field-hint"><strong style="color:var(--fg-on-dark-2)">Why it fits</strong><br>${esc(o.why)}</p>`));
+  });
+  $('#btnBuild').disabled = S.themeChoice == null;
+}
+
+/* What each design is actually like, in words a presenter can choose on.
+   "cover → internal → internal → internal → closing" is the truth about the
+   file and tells nobody anything about the deck they are about to show.
+   Keyed by template id; a design that isn't listed falls back to a
+   description derived from its own measured slot kinds, so the five sample
+   decks still to come describe themselves rather than going blank. */
+const DESIGN_NOTES = {
+  'deck-a-challenge-orbit': {
+    character: 'Statement-led and evidential. A slow orbit drifts behind the type; ' +
+               'one slide hands the whole argument to two large figures, another lays the plan out in three panels.',
+    example: '“Eleven days is the number the market hears” — then 90 DAYS and 3 WAVES, side by side.',
+    bestFor: 'Best when the case rests on a number.'
+  },
+  'deck-b-vision-fragments': {
+    character: 'Built in fragments — three cards at a time — and broken once by a full-slide pull quote, ' +
+               'set large and quiet with nothing else on the screen.',
+    example: 'A slide that says only “Order entry is the slowest promise the group makes.”',
+    bestFor: 'Best when the argument is a point of view rather than a metric.'
+  },
+  'deck-c-opportunity-ascent': {
+    character: 'Rising chevrons, and one slide given over to a single enormous figure. ' +
+               'Closes on three proof points rather than a summary.',
+    example: '“90 days” filling half the screen, captioned “one market, one quarter”.',
+    bestFor: 'Best when you are asking for a first wave, not a programme.'
+  }
+};
+
+/* For a design with no note written yet: say what its slides actually do,
+   read off the kinds the annotator measured. */
+function describeDesign(t){
+  const kinds = t.sections.flatMap(sec => Object.values(sec.kinds || {}));
+  const figures = kinds.filter(k => k === 'figure').length;
+  const grids = t.sections.filter(sec =>
+    Object.values(sec.kinds || {}).filter(k => k === 'heading').length >= 3).length;
+  const quote = t.sections.some(sec => (sec.slots || []).includes('statement'));
+  const bits = [];
+  if (figures) bits.push(figures === 1 ? 'one slide built around a single large figure'
+                                       : `${figures} large figures`);
+  if (grids)   bits.push(grids === 1 ? 'a three-part grid' : `${grids} three-part grids`);
+  if (quote)   bits.push('a full-slide pull quote');
+  return { character: bits.length
+             ? `${t.sections.length} slides — ${bits.join(', ')}.`
+             : `${t.sections.length} slides, headline and supporting line throughout.`,
+           example: '', bestFor: '' };
+}
+
+async function renderTemplates(){
+  const host = $('#templateOptions');
+  const list = await loadTemplates();
+  host.innerHTML = '';
+  if (!list.length) {
+    host.innerHTML = '<p class="field-error">No deck designs found — check that templates.js is present.</p>';
+    return;
+  }
+  if (!S.templateId || !list.some(t => t.id === S.templateId)) S.templateId = list[0].id;
+
+  list.forEach((t, i) => {
+    const sel = S.templateId === t.id;
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'card card-hover' + (sel ? ' card-selected' : '');
+    const note = DESIGN_NOTES[t.id] || describeDesign(t);
+    b.innerHTML =
+      `<span class="field-hint" style="margin-top:0;letter-spacing:.08em">DESIGN 0${i + 1}</span>` +
+      `<h3 class="h4" style="font-weight:var(--fw-bold);margin:var(--space-3) 0">${esc(t.name)}</h3>` +
+      `<p class="design-character">${esc(note.character)}</p>` +
+      (note.example ? `<p class="design-example"><span>For example</span>${esc(note.example)}</p>` : '') +
+      (note.bestFor ? `<p class="design-best">${esc(note.bestFor)}</p>` : '');
+    b.addEventListener('click', () => { S.templateId = t.id; renderTemplates(); save(); });
+    host.appendChild(b);
+  });
+  $('#btnBuild').disabled = S.themeChoice == null;
+}
+
+/* ── progress list for the build step ───────────────────── */
+function progress(items){
+  const host = $('#buildProgress'); host.innerHTML = '';
+  items.forEach(it => {
+    const li = document.createElement('li');
+    li.dataset.state = it.state;
+    li.innerHTML = `<span class="mark">${it.state === 'done' ? '✓' : it.state === 'running' ? '' : '·'}</span><span>${esc(it.label)}</span>`;
+    if (it.state === 'running') li.querySelector('.mark').innerHTML = '<span class="spinner"></span>';
+    host.appendChild(li);
+  });
+}
+
+/* ============================================================
+   FLOW
+   ============================================================ */
+/* A proxy on an older build, or a model that answers with an empty object,
+   would otherwise leave a step showing "No options yet" and no way forward.
+   Fall through to the sample content and say so, exactly as the offline path
+   does — the demo keeps moving either way. */
+function orSample(stage, payload, data, pick){
+  const got = pick(data || {});
+  if (got && got.length) return data;
+  markOffline(`the ${stage} stage returned nothing usable`);
+  return demoAgent(stage, payload);
+}
+
+async function runStory(){
+  showStep(1);
+  $('#storyOptions').innerHTML = '<p class="body-copy">Reading the brief…</p>';
+  Gen.mount($('#storyOptions').parentElement, 'Story Agent — finding the angles…');
+  try {
+    const payload = { ...briefPayload(), nudge: S.storyNudge };
+    const data = orSample('story', payload, await callAgent('story', payload), d => d.options);
+    S.storyOptions = (data.options || []).slice(0, 3);
+    S.storyChoice = null;
+    openStories.clear(); editingStories.clear(); nudgingStories.clear();
+    Gen.done();
+    renderStory(); save();
+  } catch (e) { Gen.fail(); $('#storyOptions').innerHTML = `<p class="field-error">${esc(e.message)}</p>`; }
+}
+
+async function runNarrative(){
+  showStep(2);
+  $('#toneOptions').innerHTML = '<p class="body-copy">Shaping the tone…</p>';
+  $('#flowOptions').innerHTML = '<p class="body-copy">Shaping the flow…</p>';
+  Gen.mount($('#flowOptions').parentElement, 'Narrative Agent — shaping tone and flow…');
+  try {
+    const payload = { ...briefPayload(), story: S.storyOptions[S.storyChoice] };
+    const data = orSample('narrative', payload, await callAgent('narrative', payload),
+                          d => (d.tones || []).concat(d.flows || []));
+    S.tones = (data.tones || []).slice(0, 3);
+    S.flows = (data.flows || []).slice(0, 3);
+    S.toneChoice = null; S.flowChoice = null;
+    openFlows.clear(); editingTones.clear(); editingFlows.clear();
+    Gen.done();
+    renderNarrative(); save();
+  } catch (e) {
+    Gen.fail();
+    $('#toneOptions').innerHTML = `<p class="field-error">${esc(e.message)}</p>`;
+    $('#flowOptions').innerHTML = '';
+  }
+}
+
+async function runTheme(){
+  showStep(3);
+  $('#themeOptions').innerHTML = '<p class="body-copy">Reading public brand signals…</p>';
+  Gen.mount($('#themeOptions').parentElement, 'Theming Agent — reading brand signals…');
+  try {
+    const match = findClient(S.form.clientCompany);
+    const payload = {
+      client: S.form.clientCompany,
+      website: S.form.clientWebsite,
+      brand: match ? { primary: match.primary, secondary: match.secondary } : null,
+      story: S.storyOptions[S.storyChoice]
+    };
+    const data = orSample('theme', payload, await callAgent('theme', payload), d => d.options);
+    S.themeOptions = (data.options || []).slice(0, 3);
+    S.themeChoice = null;
+    Gen.done();
+    renderTheme(); renderTemplates(); save();
+  } catch (e) { Gen.fail(); $('#themeOptions').innerHTML = `<p class="field-error">${esc(e.message)}</p>`; }
+}
+
+async function runBuild(){
+  showStep(4);
+  $('#buildResult').hidden = true;
+  $('#buildProgressPanel').hidden = false;
+  $('#buildError').classList.add('hidden');
+  $('#buildHeading').textContent = 'Writing the deck…';
+
+  const steps = [
+    { label: 'Loading the deck design', state: 'running' },
+    { label: 'Resolving logos and brand colours', state: 'todo' },
+    { label: 'Writing the slides', state: 'todo' },
+    { label: 'Painting a background for each slide', state: 'todo' },
+    { label: 'Assembling one self-contained HTML file', state: 'todo' }
+  ];
+  progress(steps);
+  Gen.mount($('#buildProgressPanel'), 'Writing the deck…');
+
+  try {
+    const templates = await loadTemplates();
+    const tpl = templates.find(t => t.id === S.templateId) || templates[0];
+    if (!tpl) throw new Error('No deck design available — is templates.js present?');
+    steps[0].state = 'done'; steps[1].state = 'running'; progress(steps);
+
+    const [infosys, clientLogo] = await Promise.all([ fetchLibraryLogo(INFOSYS_SLUG), resolveClientLogo() ]);
+    const known = findClient(S.form.clientCompany);
+    // Library brand colours first; otherwise read them off the logo itself.
+    const fromLogo = (!known && S.logo && S.logo.colours) ? S.logo.colours : null;
+    const story = S.storyOptions[S.storyChoice];
+    const tone  = S.tones[S.toneChoice];
+    const flow  = S.flows[S.flowChoice];
+    const theme = S.themeOptions[S.themeChoice];
+    const light = (theme.mode || 'dark') === 'light';
+    steps[1].state = 'done'; steps[2].state = 'running'; progress(steps);
+
+    const spec = templateSlotSpec(tpl);
+    const data = await callAgent('deck', {
+      ...briefPayload(), story, tone, flow, theme,
+      template: { id: tpl.id, name: tpl.name, sections: tpl.sections },
+      slots: spec.map(x => x.key),
+      // What each slot actually is in this design, and how much text its own
+      // box holds — measured, not guessed from the slot's name.
+      slotSpec: spec.map(({ key, slot, role, kind, cap }) => ({ key, slot, role, kind, cap }))
+    });
+    // Never dead-end on a partial answer. Anything the model skipped — or a
+    // proxy still running the older build that returns `slides` — is filled
+    // from the same sample content the offline path uses.
+    const returned = (data && data.slots) || {};
+    const base = demoAgent('deck', { ...briefPayload(), story, tone, flow,
+                                     template: { sections: tpl.sections } }).slots || {};
+    const values = { ...base };
+    let used = 0;
+    Object.keys(returned).forEach(k => {
+      const v = String(returned[k] == null ? '' : returned[k]).trim();
+      if (v) { values[k] = v; used++; }
+    });
+    if (!used) markOffline('the proxy returned no slot content — is it running the current build?');
+
+    // Two guards on whatever came back, from the model or the fallback:
+    // nothing repeats, and nothing is long enough to push the design off
+    // the screen. Slot names carry their own budget.
+    const seen = new Map();
+    spec.forEach(({ key, slot, role, cap }) => {
+      let v = clamp(String(values[key] == null ? '' : values[key]).trim(), cap || capFor(slot, role));
+      const norm = v.toLowerCase();
+      // A standing footnote or attribution is meant to read the same wherever
+      // it appears; it isn't a repeat to be broken up.
+      if (/^(footnote|attrib)$/.test(slot)) { values[key] = v; return; }
+      if (v && seen.has(norm)) {
+        const alt = String(base[key] || '').trim();
+        // Prefer the sample line for this exact slot; drop it if that repeats too.
+        v = (alt && !seen.has(alt.toLowerCase())) ? clamp(alt, cap || capFor(slot, role)) : '';
+      }
+      if (v) seen.set(v.toLowerCase(), key);
+      values[key] = v;
+    });
+
+    // ── backgrounds ──────────────────────────────────────
+    // One image per slide, asked for from that slide's own finished words,
+    // so the picture is about what the slide says rather than a stock wash.
+    // They run in parallel; any that fails just leaves that slide on the
+    // design's own background, which is a complete deck either way.
+    steps[2].state = 'done'; steps[3].state = 'running'; progress(steps);
+    Gen.mount($('#buildProgressPanel'), 'Painting the backgrounds…');
+
+    let artError = '';
+    const artBrand = {
+      primary: (known && known.primary) || (fromLogo && fromLogo.primary)
+               || (theme.palette && theme.palette[0]) || '#003755',
+      accent:  (known && known.secondary) || (fromLogo && fromLogo.secondary)
+               || theme.accent || '#009EDB'
+    };
+    let backgrounds = [];
+    // Worth asking for even when the writing fell back to sample copy: the
+    // proxy is plainly reachable, and a background costs the deck nothing if
+    // it doesn't arrive.
+    if (apiBase) {
+      const shots = tpl.sections.map((sec, i) => {
+        const of = kind => {
+          const hit = spec.find(x => x.index === i && x.kind === kind);
+          return hit ? values[hit.key] : '';
+        };
+        // The card headings carry most of the meaning on the middle slides,
+        // so the picture is asked for from all of the slide's words, not
+        // just its headline — and from who the deck is for.
+        const points = spec.filter(x => x.index === i && x.kind === 'heading')
+                           .map(x => values[x.key]).filter(Boolean).slice(0, 4);
+        return { kicker: of('kicker'), headline: of('display'), lede: of('lede'), points,
+                 client: (known && known.name) || S.form.clientCompany,
+                 sector: known ? (known.tier[1] === 'F' ? 'financial services / insurance'
+                                                        : 'manufacturing / industrial') : '',
+                 role: sec.role, brand: artBrand, mode: light ? 'light' : 'dark' };
+      });
+      const results = await Promise.all(shots.map(callImage));
+      backgrounds = results.map(r => r.image);
+      const got = backgrounds.filter(Boolean).length;
+      // A silent miss is the worst outcome: the deck just looks the same as
+      // before and there's nothing to act on. Carry the reason through to
+      // the build screen instead.
+      if (!got) artError = (results.find(r => r.error) || {}).error || 'no reason given';
+      else if (got < shots.length) artError = `${shots.length - got} of ${shots.length} didn't arrive · ` +
+        ((results.find(r => r.error) || {}).error || '');
+    }
+    steps[3].state = 'done'; steps[4].state = 'running'; progress(steps);
+    Gen.mount($('#buildProgressPanel'), 'Assembling the file…');
+
+    const presenterBits = [S.form.presenterName, S.form.presenterEmail].filter(Boolean).join(' · ');
+    const dateBit = S.form.presenterDate
+      ? new Date(S.form.presenterDate + 'T00:00:00').toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' })
+      : new Date().toLocaleDateString('en-GB', { month:'long', year:'numeric' });
+
+    S.deckCtx = {
+      template: tpl,
+      client: { name: (known && known.name) || S.form.clientCompany },
+      brand: artBrand,
+      logos: { infosys, client: clientLogo },
+      palette: theme.palette || [],
+      rail: { left: `${(known && known.name) || S.form.clientCompany} × Infosys`,
+              right: [presenterBits, dateBit].filter(Boolean).join(' · ') },
+      light
+    };
+    S.deckSlots = values;
+
+    const html = fillTemplate(tpl, { ...S.deckCtx, values, backgrounds });
+    S.deckHtml = html;
+    steps[4].state = 'done'; progress(steps);
+
+    $('#buildHeading').textContent = 'Your deck is ready';
+    const artCount = backgrounds.filter(Boolean).length;
+    $('#buildSub').textContent =
+      `${tpl.name} · ${tpl.sections.length} slides · ${Math.round(new Blob([html]).size / 1024)} KB · one file` +
+      (artCount ? ` · ${artCount} generated background${artCount === 1 ? '' : 's'}` : '');
+    const artNote = $('#buildArtNote');
+    if (artNote) {
+      if (artError) {
+        artNote.innerHTML = `No generated backgrounds — <strong>${esc(artError)}</strong>. ` +
+          `If that says <em>Unknown stage: image</em>, the proxy is still running the previous build: ` +
+          `re-upload <code>deck-studio-proxy.zip</code> and deploy. ` +
+          `Check what's live with <code>curl -s ${esc(apiBase)}/health</code> — the reply lists its stages.`;
+        artNote.hidden = false;
+      } else artNote.hidden = true;
+    }
+    $('#previewFrame').srcdoc = html;
+    Gen.done();
+    $('#buildProgressPanel').hidden = true;
+    $('#buildResult').hidden = false;
+    save();
+  } catch (e) {
+    Gen.fail();
+    $('#buildError').textContent = e.message;
+    $('#buildError').classList.remove('hidden');
+    $('#buildHeading').textContent = 'That didn\u2019t build';
+  }
+}
+
+/* ── editing the deck in the preview ────────────────────── */
+let deckEditing = false;
+
+function setDeckEditing(on){
+  deckEditing = on;
+  const f = $('#previewFrame');
+  if (f.contentWindow) f.contentWindow.postMessage({ type: 'edit', on }, '*');
+  $('#btnEditDeck').classList.toggle('hidden', on);
+  $('#btnSaveDeck').classList.toggle('hidden', !on);
+  $('#btnCancelEdit').classList.toggle('hidden', !on);
+  $('#btnRebuild').disabled = on;
+  $('#btnDownload').disabled = on;
+  $('#editHint').innerHTML = on
+    ? 'Editing — click any line on a slide to change it. <strong>Save changes</strong> writes it into the deck.'
+    : 'Click <strong>Edit content</strong> to change any wording directly on the slides, then Save.';
+}
+
+/* Fold the edited text back into the slide model, then re-render the deck
+   from it — so Download and Open full screen carry the edits too. */
+function applyDeckEdits(fields){
+  if (!S.deckSlots) return;
+  fields.forEach(({ key, v }) => { if (key) S.deckSlots[key] = v; });
+  rebuildFromParts();
+}
+
+function rebuildFromParts(){
+  if (!S.deckCtx || !S.deckSlots) return;
+  const tpl = S.deckCtx.template;
+  const html = fillTemplate(tpl, { ...S.deckCtx, values: S.deckSlots });
+  S.deckHtml = html;
+  $('#previewFrame').srcdoc = html;
+  $('#buildSub').textContent =
+    `${tpl.name} · ${tpl.sections.length} slides · ${Math.round(new Blob([html]).size / 1024)} KB · one file`;
+  save();
+}
+
+function downloadDeck(){
+  if (!S.deckHtml) return;
+  const name = (slugify(S.form.clientCompany) || 'deck') + '-infosys-deck';
+  const blob = new Blob([S.deckHtml], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = name + '.html';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+  toast('Downloaded — rename to index.html when you publish it');
+}
+
+/* ============================================================
+   WIRING
+   ============================================================ */
+function validateBrief(){
+  let ok = true;
+  const c = $('#clientCompany'), s = $('#synopsisText');
+  if (!c.value.trim()) { c.classList.add('input-error'); $('#clientCompany-error').classList.remove('hidden'); ok = false; }
+  else { c.classList.remove('input-error'); $('#clientCompany-error').classList.add('hidden'); }
+  if (words(s.value) < 30) { s.classList.add('input-error'); $('#synopsis-error').classList.remove('hidden'); ok = false; }
+  else { s.classList.remove('input-error'); $('#synopsis-error').classList.add('hidden'); }
+  return ok;
+}
+
+function syncFormToState(){
+  ['clientCompany','clientWebsite','synopsisText','presenterName','presenterEmail','presenterDate']
+    .forEach(id => { S.form[id] = $('#' + id).value; });
+  S.clientSlug = slugify(S.form.clientCompany);
+}
+function syncStateToForm(){
+  ['clientCompany','clientWebsite','synopsisText','presenterName','presenterEmail','presenterDate']
+    .forEach(id => { $('#' + id).value = S.form[id] || ''; });
+  $('#synopsisCount').textContent = words(S.form.synopsisText) + ' words';
+}
+
+const BUILD = '2026-09-18.0606';
+
+function init(){
+  apiBase = loadApi();
+  const tag = $('#buildTag');
+  if (tag) tag.textContent = 'build ' + BUILD;
+  console.info('Deck Studio build ' + BUILD + ' · logo pack ' + LOGO_PACK_SRC);
+  $('#modeBadgeWrap').innerHTML = apiBase
+    ? '<span class="badge badge-live">● Live generation</span>'
+    : '<span class="badge badge-warn">Demo mode</span>';
+
+  // The header wordmark is inline SVG on currentColor — nothing to load.
+
+  initCombo();
+  updatePresetLabel();
+  loadLogoPack();   // warm in the background; the first client pick is instant
+
+  const saved = load();
+  if (saved && (saved.form.clientCompany || saved.form.synopsisText)) {
+    $('#btnResume').hidden = false;
+    $('#btnResume').addEventListener('click', () => {
+      S = saved; syncStateToForm(); renderLogoPreview();
+      show('wizard'); showStep(Math.min(S.step, 3));
+      renderStory(); renderNarrative(); renderTheme();
+    });
+  }
+
+  $('#btnStart').addEventListener('click', () => { show('wizard'); showStep(0); renderLogoPreview(); });
+  $('#btnBackLanding').addEventListener('click', () => show('landing'));
+  $$('[data-back]').forEach(b => b.addEventListener('click', () => showStep(Number(b.dataset.back))));
+
+  $('#btnReset').addEventListener('click', () => {
+    if (!confirm('Start over? The current deck and answers are cleared.')) return;
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    S = blank(); syncStateToForm(); show('landing');
+  });
+
+  // brief
+  $('#synopsisText').addEventListener('input', e => {
+    $('#synopsisCount').textContent = words(e.target.value) + ' words'; syncFormToState(); save();
+  });
+  $('#clientCompany').addEventListener('input', () => {
+    alignWebsiteToClient();
+    syncFormToState(); updateClientHint(); updatePresetLabel(); renderLogoPreview(); save();
+  });
+  ['clientWebsite','presenterName','presenterEmail','presenterDate'].forEach(id =>
+    $('#' + id).addEventListener('input', () => { syncFormToState(); save(); }));
+
+  $('#btnPreset').addEventListener('click', async () => {
+    alignWebsiteToClient();
+    const chosen = $('#clientCompany').value.trim();
+    const picked = chosen ? findClient(chosen) : null;
+
+    // With a real company selected, ask the model for a brief about THEM.
+    // The static samples all read the same once the name is swapped in,
+    // which is what made every generated deck feel identical.
+    const note = $('#briefNote');
+    if (picked && apiBase) {
+      const btn = $('#btnPreset');
+      btn.dataset.busy = '1';
+      btn.disabled = true; btn.textContent = `Reading up on ${picked.name}…`;
+      if (note) note.hidden = true;
+      Gen.mount($('#synopsisText').parentElement, `Researching ${picked.name}…`);
+      try {
+        const out = await callAgent('brief', briefPayload());
+        const text = ((out && out.brief) || '').trim();
+        if (text.split(/\s+/).length > 40) {
+          $('#synopsisText').value = text;
+          Gen.done();
+          btn.dataset.busy = ''; btn.disabled = false;
+          syncFormToState(); syncStateToForm(); updateClientHint(); updatePresetLabel(); renderLogoPreview(); save();
+          if (note) {
+            note.textContent = `A first draft about ${picked.name}, written from what's public — ` +
+              `not from your deal. Correct anything that's wrong before you continue; ` +
+              `the story, the slides and the artwork all come from this text.`;
+            note.hidden = false;
+          }
+          return;
+        }
+        Gen.fail();
+      } catch (e) { Gen.fail(); toast('Could not write a brief — using a sample.'); }
+      btn.dataset.busy = '';
+      updatePresetLabel();
+      btn.disabled = false;
+    }
+
+
+    // Match the sample to the client's sector — the library tiers are
+    // SF/EF for financial services and SM/EM for manufacturing. Without
+    // this a bank ended up "making drive systems for heavy equipment".
+    const known = findClient(chosen);
+    const wanted = known ? known.tier[1] : null;
+    const pool = wanted ? PRESETS.filter(x => x.sector === wanted) : PRESETS;
+    const from = pool.length ? pool : PRESETS;
+    const p = from[Math.floor(Math.random() * from.length)];
+
+    // Only fill the client when the field is empty. Overwriting it threw
+    // away whatever client had been picked — and their logo with it.
+    if (!chosen) {
+      $('#clientCompany').value = p.client;
+      if (!$('#clientWebsite').value.trim()) $('#clientWebsite').value = p.website;
+    }
+
+    // Re-point the sample brief at the client on screen, so it doesn't
+    // read as a pitch to a company nobody selected.
+    const name = chosen || p.client;
+    $('#synopsisText').value = name === p.client ? p.text : p.text.split(p.client).join(name);
+
+    syncFormToState(); syncStateToForm();
+    updateClientHint(); updatePresetLabel(); renderLogoPreview(); save();
+    if (note) {
+      note.textContent = chosen
+        ? `A worked example, matched to ${name}'s sector — replace it with the real deal before you continue.`
+        : `A worked example, so you can see the whole flow. ${p.client} isn't a real client — ` +
+          `pick your own above and press the button again for a brief about them.`;
+      note.hidden = false;
+    }
+  });
+
+  $('#clientLogoClear').addEventListener('click', () => {
+    $('#clientLogo').value = '';
+    $('#clientLogoName').textContent = 'No file chosen';
+    $('#clientLogoClear').hidden = true;
+    S.logo = null; renderLogoPreview();
+  });
+
+  $('#clientLogo').addEventListener('change', async e => {
+    const f = e.target.files && e.target.files[0];
+    $('#clientLogoName').textContent = f ? f.name : 'No file chosen';
+    $('#clientLogoClear').hidden = !f;
+    if (!f) { S.logo = null; renderLogoPreview(); return; }
+    let dataUri;
+    if (f.type === 'image/svg+xml' || /\.svg$/i.test(f.name)) {
+      const text = normaliseSvg(await f.text());
+      dataUri = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(text)));
+    } else {
+      dataUri = await blobToDataUri(f);
+    }
+    const probe = await probeLogo(dataUri);
+    S.logo = { name: f.name, dataUri, isDark: probe.dark, whiten: probe.whiten,
+               colours: await logoColours(dataUri) };
+    renderLogoPreview();
+    // Not persisted: data URIs blow the localStorage quota.
+  });
+
+  $('#btnToStory').addEventListener('click', () => { syncFormToState(); if (validateBrief()) { save(); runStory(); } });
+  $('#btnRegenStory').addEventListener('click', () => { S.storyNudge = $('#storyNudge').value; runStory(); });
+  $('#btnToNarrative').addEventListener('click', runNarrative);
+  $('#btnRegenNarrative').addEventListener('click', runNarrative);
+  $('#btnToTheme').addEventListener('click', runTheme);
+  $('#btnRegenTheme').addEventListener('click', runTheme);
+  $('#btnBuild').addEventListener('click', runBuild);
+  $('#btnRebuild').addEventListener('click', runBuild);
+
+  $('#btnEditDeck').addEventListener('click', () => setDeckEditing(true));
+  $('#btnCancelEdit').addEventListener('click', () => { setDeckEditing(false); rebuildFromParts(); });
+  $('#btnSaveDeck').addEventListener('click', () => {
+    const f = $('#previewFrame');
+    if (f.contentWindow) f.contentWindow.postMessage({ type: 'collect' }, '*');
+  });
+  window.addEventListener('message', ev => {
+    const d = ev.data || {};
+    if (d.type === 'collected') {
+      applyDeckEdits(d.fields || []);
+      setDeckEditing(false);
+      toast('Changes saved into the deck');
+    }
+  });
+  $('#btnDownload').addEventListener('click', downloadDeck);
+  $('#btnOpenDeck').addEventListener('click', () => {
+    if (!S.deckHtml) return;
+    const w = window.open('', '_blank');
+    if (!w) { toast('Pop-up blocked — download the file instead'); return; }
+    w.document.open(); w.document.write(S.deckHtml); w.document.close();
+  });
+
+  renderStepper();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+</body>
+</html>

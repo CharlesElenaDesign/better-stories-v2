@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Sign in - Better Stories. Built Faster.</title>
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Sign-in screen - same card, tokens and background as the CE Replicate console. */
+:root{
+  --aqua:#2DE1FD;--magenta:#FC31BB;--orange:#FF7A00;
+  --ink:#000;--ground:#fff;--panel:#fff;--line:#E0E0E0;--sunken:#F4F4F4;
+  --grey-30:#C6C6C6;--grey-60:#6F6F6F;--grey-70:#525252;
+  --magenta-light:#FFDDF8;--pink-ink:#B3148A;--tint-grey-2:#D5D8DE;
+  --brand-gradient-flow:linear-gradient(90deg,var(--aqua),var(--magenta),var(--orange),var(--magenta),var(--aqua));
+  --font:'Roboto',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --bg:url(assets/login/bg-soft.jpg);--bg-tall:url(assets/login/bg-soft-tall.jpg);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --ink:#fff;--ground:#0b0b0b;--panel:#141414;--line:#2b2b2b;--sunken:#1b1b1b;
+    --grey-30:#3a3a3a;--grey-60:#A8A8A8;--grey-70:#C6C6C6;
+    --magenta-light:#430560;--pink-ink:#ffd9f2;--tint-grey-2:#34373d;
+    --bg:url(assets/login/bg-soft-dark.jpg);--bg-tall:url(assets/login/bg-soft-tall-dark.jpg);
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--ground);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+
+.brand-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--panel) var(--bg) center/cover no-repeat}
+@media (orientation:portrait){.brand-bg{background-image:var(--bg-tall)}}
+
+#screen-login{position:relative;z-index:1;min-height:100vh;min-height:100dvh;display:grid;place-items:center;padding:32px 16px}
+.login-card{width:100%;max-width:420px;background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden;box-shadow:0 24px 70px rgba(20,20,40,.12)}
+.grad-line{height:3px;width:100%;background:var(--brand-gradient-flow);background-size:300% 100%;animation:gradFlow 7s linear infinite}
+@keyframes gradFlow{to{background-position:300% 0}}
+.login-body{padding:34px 30px 28px}
+.logo-svg{height:22px;width:auto;display:block;margin-bottom:26px}
+.logo-svg path{fill:var(--ink)}
+.login-body h1{font-size:26px;font-weight:600;line-height:1.2;margin:0 0 6px}
+.login-body p{color:var(--grey-70);font-size:14px;margin:0 0 24px}
+
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:12px;position:relative}
+.field label{font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:var(--grey-60)}
+.field input{width:100%;height:44px;background:var(--panel);border:1px solid var(--grey-30);border-radius:8px;padding:0 13px;font-size:14.5px;line-height:1.4;color:var(--ink)}
+.field input:focus{border-color:var(--magenta);box-shadow:0 0 0 3px rgba(252,49,187,.12);outline:none}
+.pw-wrap{position:relative;display:block}
+.pw-wrap input{padding-right:46px}
+.pw-eye{position:absolute;top:50%;right:6px;transform:translateY(-50%);background:none;border:0;padding:7px;line-height:0;border-radius:100px;color:var(--grey-60)}
+.pw-eye:hover{color:var(--ink);background:var(--sunken)}
+.pw-eye svg{width:18px;height:18px;display:block}
+
+.login-err{background:var(--magenta-light);border:1px solid var(--magenta);color:var(--pink-ink);border-radius:6px;padding:9px 12px;font-size:13px;margin-bottom:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;border-radius:100px;height:40px;padding:0 20px;font-size:14.5px;line-height:1;border:1px solid transparent;transition:background .2s,border-color .2s}
+.btn-primary{background:var(--ink);border-color:var(--ink);color:var(--ground)}
+.btn-primary:hover:not(:disabled),.btn-primary:focus-visible:not(:disabled){background:var(--magenta);border-color:var(--magenta);color:#fff;outline:none}
+.btn-primary:disabled{background:var(--tint-grey-2);border-color:var(--grey-30);color:#fff;cursor:default}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){.grad-line{animation:none}}
+</style>
+</head>
+<body>
+<div class="brand-bg" aria-hidden="true"></div>
+
+<section id="screen-login">
+  <div class="login-card">
+    <div class="grad-line"></div>
+    <div class="login-body">
+      <svg class="logo-svg" viewBox="0 0 430 37" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Charles Elena"><g><path d="M31.6218 32.9013C27.5326 35.0419 23.2464 36.1688 19.0538 36.1688C14.8612 36.1688 11.387 35.0911 8.22778 33.0588C3.0116 29.6928 0 24.1716 0 17.986C0 13.2865 1.99789 8.69035 5.46714 5.36873C9.1972 1.85027 13.7884 0.118103 19.413 0.118103C24.2208 0.118103 28.0985 1.44675 31.3118 2.92795V8.34588C27.0651 6.04781 23.2366 4.81758 19.413 4.81758C11.0868 4.81758 5.3146 10.6882 5.3146 18.1533C5.3146 25.6183 11.0918 31.4299 19.103 31.4299C23.1923 31.4299 27.321 30.0521 31.612 27.2914V32.9111L31.6218 32.9013Z"/><path d="M39.9185 0.679108H44.8689V15.6978H65.0004V0.679108H69.9508V35.5684H65.0004V20.3923H44.8689V35.5684H39.9185V0.679108Z"/><path d="M98.2707 20.7958L92.7543 8.2278L87.3955 20.7958H98.2805H98.2707ZM91.0222 0.679108H94.6489L109.973 35.5684H104.816L100.318 25.2936H85.4517L81.0032 35.5684H75.8953L91.0222 0.679108Z"/><path d="M125.267 15.7962C129.917 15.7962 132.215 14.005 132.215 10.329C132.215 6.3923 129.966 4.9111 125.267 4.9111H121.128V15.7962H125.267ZM116.119 0.679108H126.335C133.485 0.679108 137.372 4.20741 137.372 10.2355C137.372 14.7825 135.374 17.4841 130.832 18.921C132.363 19.7428 133.332 21.1206 134.459 22.8085L142.938 35.5832H136.91L130.931 26.4451C128.229 22.3066 126.541 20.0085 122.605 20.0085H121.124V35.5931H116.114V0.679108H116.124H116.119Z"/><path d="M148.779 0.679108H153.729V31.0707H170.333V35.5684H148.779V0.679108Z"/><path d="M207.614 26.263C210.625 29.683 213.332 31.3709 216.752 31.3709C220.172 31.3709 222.313 29.6338 222.313 26.8732C222.313 23.9649 220.275 22.5821 216.486 20.1758C210.616 16.3965 207.55 14.3051 207.55 9.29071C207.55 3.98103 211.688 -0.00491333 217.859 -0.00491333C220.561 -0.00491333 223.179 0.816881 225.777 2.3965V8.0654C222.918 5.76733 220.408 4.5371 217.657 4.5371C214.439 4.5371 212.348 6.32831 212.348 8.67559C212.348 11.4362 215.005 12.9125 219.247 15.5747C224.355 18.7438 227.366 21.0911 227.366 26.9716C227.366 32.1779 223.228 36.1589 217.057 36.1589C213.386 36.1589 210.468 35.1895 207.609 32.8422V26.2531L207.614 26.263Z"/><path d="M177.793 0.679108H198.786V5.11778H182.748V15.6879H198.323V20.1856H182.748V31.0707H199.302V35.5684H177.793V0.679108Z"/><path d="M257.418 0.679108H278.411V5.11778H262.369V15.6879H277.953V20.1856H262.369V31.0707H278.923V35.5684H257.418V0.679108Z"/><path d="M287.052 0.679108H292.008V31.0707H308.606V35.5684H287.052V0.679108Z"/><path d="M316.804 0.679108H337.797V5.11778H321.759V15.6879H337.344V20.1856H321.759V31.0707H338.308V35.5684H316.804V0.679108Z"/><path d="M346.394 0.679108H350.734L373.724 27.754V0.679108H378.675V35.5684H374.226L351.344 8.4394V35.5684H346.394V0.679108Z"/><path d="M406.749 20.7958L401.232 8.2278L395.873 20.7958H406.758H406.749ZM399.49 0.679108H403.117L418.441 35.5684H413.284L408.786 25.2936H393.92L389.471 35.5684H384.363L399.49 0.679108Z"/><path d="M430 31.051H425.483V35.5684H430V31.051Z"/></g></svg>
+      <h1>Better Stories. Built Faster.</h1>
+      <p>Sign in to view the presentation.</p>
+
+      <form id="pw-form" autocomplete="on" novalidate>
+        <div class="field">
+          <label for="pw-user">Username</label>
+          <input type="text" id="pw-user" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" autofocus>
+        </div>
+        <div class="field">
+          <label for="pw-pass">Password</label>
+          <span class="pw-wrap">
+            <input type="password" id="pw-pass" name="password" autocomplete="current-password">
+            <button type="button" class="pw-eye" id="pw-eye" aria-label="Show password" aria-pressed="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>
+                <path id="eye-slash" d="M3 3l18 18" hidden/>
+              </svg>
+            </button>
+          </span>
+        </div>
+        <div class="login-err" id="pw-err" role="alert" hidden></div>
+        <button class="btn btn-primary" id="pw-submit" type="submit">Sign in</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  var form = document.getElementById('pw-form');
+  var user = document.getElementById('pw-user');
+  var pass = document.getElementById('pw-pass');
+  var err  = document.getElementById('pw-err');
+  var btn  = document.getElementById('pw-submit');
+  var eye  = document.getElementById('pw-eye');
+
+  // Where to go after signing in. Only ever a path on this site.
+  function nextUrl() {
+    var n = new URLSearchParams(location.search).get('next') || '/';
+    if (n.charAt(0) !== '/' || n.charAt(1) === '/' || n.charAt(1) === '\\' || n.indexOf('/login.html') === 0) n = '/';
+    return n;
+  }
+  function fail(msg) { err.textContent = msg; err.hidden = false; btn.disabled = false; btn.textContent = 'Sign in'; }
+
+  eye.addEventListener('click', function () {
+    var show = pass.type === 'password';
+    pass.type = show ? 'text' : 'password';
+    eye.setAttribute('aria-pressed', String(show));
+    eye.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+    document.getElementById('eye-slash').hidden = !show;
+  });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    err.hidden = true;
+    if (!user.value.trim() || !pass.value) return fail('Enter your username and password.');
+    btn.disabled = true; btn.textContent = 'Signing in…';
+
+    // Checked at the CloudFront edge (auth/gate.js). Sent as headers over HTTPS
+    // so the password never lands in a URL, a log line or browser history.
+    fetch('/__auth/login', {
+      headers: { 'x-ce-user': encodeURIComponent(user.value.trim()), 'x-ce-pass': encodeURIComponent(pass.value) },
+      credentials: 'same-origin',
+      cache: 'no-store'
+    }).then(function (r) {
+      if (r.ok) { location.replace(nextUrl()); return; }
+      if (r.status === 401) { pass.value = ''; pass.focus(); return fail('That username or password is not right.'); }
+      fail('Sign-in is unavailable right now (error ' + r.status + ').');
+    }).catch(function () { fail('Could not reach the site. Check your connection and try again.'); });
+  });
+})();
+</script>
+</body>
+</html>

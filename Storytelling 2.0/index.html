@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Better Stories. Built Faster. — On Storytelling</title>
+<meta name="description" content="Charles Elena | Titan — On Storytelling presenter deck">
+
+<!--
+  SUBSTITUTIONS (flag at hand-off, per Charles Elena Design System / SKILL.md):
+  - Roboto + Inter are loaded from Google Fonts CDN rather than the licensed local
+    variable font in the CE design-system package, to keep this a single self-contained
+    file per the build brief. A system-font stack covers the offline / file:// case.
+  - UI icons (pillar markers, chevrons) are hand-authored inline SVG rather than Lucide,
+    since external script loads beyond Google Fonts are out of scope for this build.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     TOKENS — ported from Charles Elena Design System / colors_and_type.css
+     ============================================================ */
+  :root{
+    --ce-black:#000000;
+    --ce-white:#ffffff;
+
+    --ce-aqua-dark:#193F44;   --ce-aqua-medium:#3E94A6;   --ce-aqua:#2DE1FD;   --ce-aqua-light:#C2F3FA;
+    --ce-magenta-dark:#430560; --ce-magenta-medium:#A924B4; --ce-magenta:#FC31BB; --ce-magenta-light:#FFDDF8;
+    --ce-orange-dark:#2F1113;  --ce-orange-medium:#B05027;  --ce-orange:#FF7A00;  --ce-orange-light:#FFDDC3;
+
+    --ce-grey-900:#333333; --ce-grey-700:#525252; --ce-grey-500:#6F6F6F; --ce-grey-400:#A6A6A6;
+    --ce-grey-300:#A8A8A8; --ce-grey-200:#C6C6C6; --ce-grey-150:#DBDBDB; --ce-grey-100:#E0E0E0;
+    --ce-grey-50:#F5F5F5;  --ce-grey-25:#F4F4F4;
+
+    --ce-brand-gradient: linear-gradient(90deg, var(--ce-aqua) 0%, var(--ce-magenta) 50%, var(--ce-orange) 100%);
+
+    --fg-on-dark: var(--ce-white);
+    --fg-on-dark-2: rgba(255,255,255,.72);
+    --fg-on-dark-3: rgba(255,255,255,.5);
+    --bg-inverted: var(--ce-black);
+    --border-hairline-dark: rgba(255,255,255,.18);
+    --border-hairline-dark-soft: rgba(255,255,255,.10);
+
+    --font-sans: "Roboto","Helvetica Neue",Arial,sans-serif;
+    --font-meta: "Inter","Roboto",system-ui,sans-serif;
+
+    --fw-light:300; --fw-regular:400; --fw-medium:500; --fw-bold:700; --fw-black:900;
+
+    /* Type scale — bumped ~30% over the original spec; this presents on a large
+       screen and needs to read clearly from a distance. */
+    --fs-h1: clamp(52px, 5.98vw, 114px);
+    --fs-h2: clamp(39px, 4.16vw, 73px);
+    --fs-h3: clamp(31px, 3.12vw, 52px);
+    --fs-h4: clamp(27px, 2.08vw, 36px);
+    --fs-preceed-lg: clamp(26px, 2.21vw, 39px);
+    --fs-preceed: clamp(23px, 1.69vw, 31px);
+    --fs-body-lg: clamp(27px, 1.95vw, 35px);
+    --fs-body: clamp(25px, 1.69vw, 30px);
+    --fs-body-sm: 22px;
+    --fs-tag: 20px;
+    --fs-label-small: 18px;
+    --fs-footer: 18px;
+
+    --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:20px; --space-6:24px;
+    --space-8:32px; --space-10:40px; --space-12:48px; --space-16:64px; --space-20:80px; --space-24:96px;
+
+    --radius-xs:2px; --radius-sm:4px; --radius-md:8px; --radius-pill:100px;
+
+    --motion-fast:120ms; --motion-medium:200ms; --motion-slow:320ms;
+    --ease-standard: cubic-bezier(0.2,0,0,1);
+    --ease-emphasis: cubic-bezier(0.3,0,0,1);
+
+    --gutter: 65px;
+    --header-h: 84px;
+    --footer-h: 56px;
+  }
+
+  @media (max-width: 900px){
+    :root{ --gutter: 24px; --header-h: 64px; --footer-h: 48px; }
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    background:var(--ce-black);
+    color:var(--fg-on-dark);
+    font-family:var(--font-sans);
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+  h1,h2,h3,h4,p,ul,ol{ margin:0; padding:0; }
+  ul{ list-style:none; }
+  button{ font-family:inherit; color:inherit; }
+  a{ color:inherit; }
+  img{ max-width:100%; display:block; }
+
+  .visually-hidden{
+    position:absolute; width:1px; height:1px; overflow:hidden;
+    clip:rect(0 0 0 0); white-space:nowrap; border:0; padding:0; margin:-1px;
+  }
+
+  /* ============================================================
+     AMBIENT BACKGROUND — animated CE-gradient "aurora" blobs.
+     Black still dominates (blobs cover a fraction of the canvas) — this is the
+     CE README's "soft pastel gradient wash" / "sculptural imagery" background
+     family, with motion added. Reference: monopo.london / monopo.vn.
+     ============================================================ */
+  .aurora{
+    position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none;
+    background:var(--ce-black);
+  }
+  .aurora.is-covered{ display:none; }
+  .aurora-drift{ position:absolute; inset:-10%; }
+  .aurora-drift .blob-wrap{ position:absolute; inset:0; will-change:transform; }
+  .aurora .blob{
+    position:absolute; border-radius:50%; filter:blur(75px); mix-blend-mode:screen;
+    opacity:.42; will-change:transform, opacity;
+    transition:background 500ms linear;
+  }
+  .aurora .blob.b1{ width:54vw; height:54vw; left:-14%; top:-12%; animation:driftA 10s ease-in-out infinite; }
+  .aurora .blob.b2{ width:48vw; height:48vw; right:-12%; top:4%; animation:driftB 12s ease-in-out infinite; }
+  .aurora .blob.b3{ width:52vw; height:52vw; left:18%; bottom:-22%; animation:driftC 13s ease-in-out infinite; }
+  .aurora .blob.b4{ width:34vw; height:34vw; left:38%; top:30%; animation:driftD 9s ease-in-out infinite; opacity:.28; }
+
+  /* Each section owns one CE-palette tone — set via [data-hue] on .aurora, driven by
+     each frame's own data-hue attribute as the active section changes. "mix" (opening,
+     AI close) keeps the full aqua→magenta→orange sweep; every other section is a single
+     tone, varied only in position/motion, per the brief. */
+  .aurora[data-hue="aqua"] .blob{ background:radial-gradient(circle, var(--ce-aqua) 0%, transparent 70%); }
+  .aurora[data-hue="magenta"] .blob{ background:radial-gradient(circle, var(--ce-magenta) 0%, transparent 70%); }
+  .aurora[data-hue="orange"] .blob{ background:radial-gradient(circle, var(--ce-orange) 0%, transparent 70%); }
+  .aurora[data-hue="mix"] .b1{ background:radial-gradient(circle, var(--ce-aqua) 0%, transparent 70%); }
+  .aurora[data-hue="mix"] .b2{ background:radial-gradient(circle, var(--ce-magenta) 0%, transparent 70%); }
+  .aurora[data-hue="mix"] .b3{ background:radial-gradient(circle, var(--ce-orange) 0%, transparent 70%); }
+  .aurora[data-hue="mix"] .b4{ background:radial-gradient(circle, var(--ce-aqua) 0%, transparent 70%); }
+  @keyframes driftA{
+    0%{ transform:translate(0,0) rotate(0deg) scale(1); }
+    25%{ transform:translate(22vw,14vh) rotate(20deg) scale(1.18); }
+    50%{ transform:translate(6vw,26vh) rotate(-10deg) scale(0.9); }
+    75%{ transform:translate(-14vw,10vh) rotate(14deg) scale(1.08); }
+    100%{ transform:translate(0,0) rotate(0deg) scale(1); }
+  }
+  @keyframes driftB{
+    0%{ transform:translate(0,0) rotate(0deg) scale(1); }
+    30%{ transform:translate(-24vw,18vh) rotate(-18deg) scale(1.15); }
+    60%{ transform:translate(-8vw,-16vh) rotate(12deg) scale(0.92); }
+    100%{ transform:translate(0,0) rotate(0deg) scale(1); }
+  }
+  @keyframes driftC{
+    0%{ transform:translate(0,0) rotate(0deg) scale(1); }
+    35%{ transform:translate(18vw,-20vh) rotate(16deg) scale(1.12); }
+    65%{ transform:translate(-20vw,-8vh) rotate(-14deg) scale(0.9); }
+    100%{ transform:translate(0,0) rotate(0deg) scale(1); }
+  }
+  @keyframes driftD{
+    0%,100%{ transform:translate(0,0) scale(1); opacity:.28; }
+    50%{ transform:translate(-16vw,-18vh) scale(1.3); opacity:.42; }
+  }
+  .grain{
+    position:fixed; inset:-50%; z-index:1; pointer-events:none;
+    width:200%; height:200%;
+    opacity:.05; mix-blend-mode:overlay;
+    background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%25" height="100%25" filter="url(%23n)"/></svg>');
+    background-size:180px 180px;
+    animation:grainShift 1s steps(4) infinite;
+  }
+  @keyframes grainShift{
+    0%{ transform:translate(0,0); }
+    25%{ transform:translate(-2%,1%); }
+    50%{ transform:translate(1%,-2%); }
+    75%{ transform:translate(-1%,-1%); }
+    100%{ transform:translate(0,0); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .grain{ animation:none; }
+    .aurora .blob{ animation:none; }
+  }
+
+
+  /* ============================================================
+     HEADER — sticky, flows across sections
+     ============================================================ */
+  .site-header{
+    position:fixed; top:0; left:0; right:0; height:var(--header-h);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 var(--gutter);
+    z-index:40;
+    background:linear-gradient(180deg, rgba(0,0,0,.92) 0%, rgba(0,0,0,0) 100%);
+    pointer-events:none;
+  }
+  .site-header > *{ pointer-events:auto; }
+  .eyebrow{
+    display:flex; align-items:center; gap:var(--space-3);
+    font-family:var(--font-sans);
+    font-weight:var(--fw-bold);
+    font-size:14px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--fg-on-dark-2);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    flex:1 1 auto;
+    min-width:0;
+    margin-right:var(--space-4);
+  }
+  .eyebrow .eyebrow-base{ flex:0 0 auto; }
+  .eyebrow .eyebrow-suffix{ display:none; }
+  .eyebrow .tick{
+    flex:0 0 auto;
+    width:22px; height:2px;
+    background:var(--ce-brand-gradient);
+    border-radius:2px;
+  }
+  .eyebrow .eyebrow-suffix{
+    color:var(--fg-on-dark-3);
+    transition:opacity var(--motion-medium) var(--ease-standard);
+  }
+  .eyebrow .eyebrow-suffix::before{ content:"\2013\00a0"; }
+  .eyebrow .eyebrow-suffix:empty::before{ content:""; }
+
+  .pillar-nav{
+    display:flex; align-items:center; gap:var(--space-6);
+  }
+  .pillar-nav button{
+    display:flex; align-items:center; gap:var(--space-2);
+    background:none; border:0; cursor:pointer;
+    opacity:.35;
+    transition:opacity var(--motion-medium) var(--ease-standard);
+  }
+  .pillar-nav button .ring{
+    width:34px; height:34px; border-radius:50%;
+    border:1px solid var(--border-hairline-dark);
+    display:flex; align-items:center; justify-content:center;
+    transition:border-color var(--motion-medium) var(--ease-standard);
+  }
+  .pillar-nav button .ring svg{ width:16px; height:16px; stroke:currentColor; fill:none; }
+  .pillar-nav button .num{
+    font-size:14px; letter-spacing:.08em; font-weight:var(--fw-medium);
+  }
+  .pillar-nav button.is-active{ opacity:1; }
+  .pillar-nav button.is-active .ring{ border-color:var(--fg-on-dark); }
+  .pillar-nav{ display:none; flex:0 0 auto; }
+  .pillar-nav.is-visible{ display:flex; }
+
+  @media (max-width: 700px){
+    .eyebrow{ font-size:11px; }
+    .pillar-nav{ gap:var(--space-3); }
+    .pillar-nav button .num{ display:none; }
+    .pillar-nav button .ring{ width:26px; height:26px; }
+  }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  .site-footer{
+    position:fixed; bottom:0; left:0; right:0; height:var(--footer-h);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 var(--gutter);
+    z-index:40;
+    background:linear-gradient(0deg, rgba(0,0,0,.9) 0%, rgba(0,0,0,0) 100%);
+    font-family:var(--font-sans);
+    font-weight:var(--fw-light);
+    font-size:var(--fs-footer);
+    color:var(--fg-on-dark-3);
+    pointer-events:none;
+  }
+  .site-footer > *{ pointer-events:auto; }
+  .footer-left{ display:flex; align-items:center; gap:var(--space-3); }
+  .footer-left .mark{
+    width:22px; height:22px; border-radius:3px; overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,.06);
+    border:1px solid var(--border-hairline-dark-soft);
+  }
+  .footer-left .mark svg{ width:14px; height:14px; }
+  .footer-center{ letter-spacing:.04em; }
+  .footer-right{ font-variant-numeric:tabular-nums; }
+  @media (max-width: 700px){ .footer-center{ display:none; } }
+
+  /* ============================================================
+     PROGRESS NAV
+     ============================================================ */
+  .progress-nav{
+    position:fixed; right:22px; top:50%; transform:translateY(-50%);
+    z-index:40;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .progress-nav button{
+    width:7px; height:7px; border-radius:50%;
+    background:rgba(255,255,255,.22);
+    border:0; padding:0; cursor:pointer;
+    transition:all var(--motion-medium) var(--ease-standard);
+  }
+  .progress-nav button.is-active{
+    background:var(--ce-white);
+    height:20px; border-radius:4px;
+  }
+  @media (max-width: 700px){ .progress-nav{ right:10px; } }
+
+  /* ============================================================
+     DECK / FRAMES
+     ============================================================ */
+  .deck{
+    position:relative; z-index:2;
+    height:100dvh; height:100vh;
+    overflow-y:scroll; overflow-x:hidden;
+    scroll-snap-type:y mandatory;
+    scroll-behavior:smooth;
+  }
+  .frame{
+    position:relative;
+    min-height:100vh; min-height:100dvh;
+    scroll-snap-align:start; scroll-snap-stop:always;
+    display:flex; flex-direction:column; justify-content:center;
+    padding:calc(var(--header-h) + var(--space-10)) var(--gutter) calc(var(--footer-h) + var(--space-10));
+    border-top:1px solid var(--border-hairline-dark-soft);
+  }
+  .frame:first-child{ border-top:0; }
+  .frame-inner{ max-width:1790px; margin:0 auto; width:100%; }
+
+  .reveal{
+    opacity:0; transform:translateY(18px); filter:blur(6px);
+    transition:opacity 700ms var(--ease-emphasis), transform 700ms var(--ease-emphasis), filter 700ms var(--ease-emphasis);
+  }
+  .frame.in-view .reveal{ opacity:1; transform:translateY(0); filter:blur(0); }
+  .reveal.d1{ transition-delay:60ms; }
+  .reveal.d2{ transition-delay:140ms; }
+  .reveal.d3{ transition-delay:220ms; }
+  .reveal.d4{ transition-delay:300ms; }
+  .reveal.d5{ transition-delay:380ms; }
+  .reveal.d6{ transition-delay:460ms; }
+
+  @media (prefers-reduced-motion: reduce){
+    .deck{ scroll-behavior:auto; }
+    .reveal{ transition:opacity var(--motion-fast) linear; transform:none; filter:none; }
+  }
+
+  /* ============================================================
+     TYPE UTILITIES
+     ============================================================ */
+  .eyebrow-label{
+    display:inline-flex; align-items:center; gap:var(--space-3);
+    font-weight:var(--fw-bold); font-size:19px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--fg-on-dark-2);
+    margin-bottom:var(--space-6);
+  }
+  .eyebrow-label .tick{ width:26px; height:2px; background:var(--ce-brand-gradient); border-radius:2px; }
+
+  h1.display, h2.display{
+    font-weight:var(--fw-bold);
+    line-height:1.08;
+    letter-spacing:-0.02em;
+    max-width:1500px;
+    text-wrap:balance;
+  }
+  h1.display{ font-size:var(--fs-h1); }
+  h2.display{ font-size:var(--fs-h2); }
+
+  .gradient-underline{
+    position:relative; display:inline-block; white-space:nowrap;
+  }
+  .gradient-underline::after{
+    content:""; position:absolute; left:0; right:0; bottom:-6px; height:6px;
+    background:var(--ce-brand-gradient); border-radius:3px;
+  }
+  .gradient-text{
+    background:var(--ce-brand-gradient);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+
+  .preceed{ font-weight:var(--fw-light); font-size:var(--fs-preceed-lg); color:var(--fg-on-dark-2); line-height:1.4; max-width:900px; }
+  .body-copy{ font-weight:var(--fw-regular); font-size:var(--fs-body); color:var(--fg-on-dark-2); line-height:1.55; max-width:640px; text-wrap:pretty; }
+  .subhead{ font-weight:var(--fw-light); font-size:var(--fs-preceed); color:var(--fg-on-dark-2); line-height:1.45; max-width:820px; margin-top:var(--space-5); text-wrap:pretty; }
+  @media (min-width:1024px){ .subhead.one-line, .body-copy.one-line{ max-width:none; white-space:nowrap; } }
+
+  hr.hairline{ border:0; border-top:1px solid var(--border-hairline-dark); margin:var(--space-8) 0; }
+
+  /* ============================================================
+     BUTTONS (CE pill mechanic — dark-ground variant)
+     ============================================================ */
+  .ce-btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:10px;
+    font-family:var(--font-sans); font-weight:var(--fw-medium);
+    letter-spacing:.02em; font-size:19px;
+    border-radius:var(--radius-pill);
+    border:1px solid var(--border-hairline-dark);
+    background:transparent; color:var(--fg-on-dark);
+    padding:14px 26px;
+    cursor:pointer; text-decoration:none;
+    transition:background-color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard);
+  }
+  .ce-btn:hover, .ce-btn:focus-visible{
+    background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.4); outline:none;
+  }
+  .ce-btn .arrow{ width:16px; height:16px; flex:0 0 auto; }
+
+  /* ============================================================
+     SECTION 1 — OPENING
+     ============================================================ */
+  .s-opening{ align-items:flex-start; }
+  /* Full-screen video background for specific frames only (opening, competitive-
+     advantage statement) — sits in place of the shared aurora for that one frame.
+     .frame already establishes the positioning context. */
+  .hero-bg-video{
+    position:absolute; inset:0; z-index:0;
+    width:100%; height:100%; object-fit:cover; pointer-events:none;
+  }
+  .hero-bg-scrim{
+    position:absolute; inset:0; z-index:0;
+    background:linear-gradient(180deg, rgba(0,0,0,.1) 0%, rgba(0,0,0,.25) 55%, rgba(0,0,0,.55) 100%);
+  }
+  .hero-bg-image{
+    position:absolute; inset:0; z-index:0;
+    width:100%; height:100%; object-fit:cover; pointer-events:none;
+  }
+  .hero-bg-scrim.left{
+    background:linear-gradient(90deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.5) 30%, rgba(0,0,0,.1) 58%, rgba(0,0,0,0) 72%);
+  }
+  .s-opening .frame-inner, .has-bg-video .frame-inner{ position:relative; z-index:1; }
+  .s-opening .logo-primary{ width:min(360px, 40vw); margin-bottom:var(--space-16); }
+  .s-opening h1{ font-size:clamp(48px,7vw,124px); font-weight:var(--fw-regular); line-height:1.0; letter-spacing:-0.02em; }
+  .s-opening .focus-label{ font-weight:var(--fw-light); font-size:clamp(24px,2.8vw,44px); letter-spacing:-0.01em; color:var(--fg-on-dark-2); margin-top:var(--space-8); }
+  .s-opening .subnav{ margin-top:var(--space-16); display:flex; gap:var(--space-6); font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--fg-on-dark-3); }
+  .s-opening .subnav span.current{ color:var(--fg-on-dark); border-bottom:1px solid var(--ce-orange); padding-bottom:6px; }
+
+  /* ============================================================
+     SECTION 2 — SIMILAR CAPABILITY
+     ============================================================ */
+  .similar-context{ max-width:760px; }
+  /* Stacked so the bolded letters read as a column — Solutions/Ecosystems/Credentials/
+     Reputations/Experience/Talent Pools spells SECRET top to bottom. */
+  .similar-list{ display:flex; flex-direction:column; gap:var(--space-2); margin:var(--space-10) 0; }
+  .similar-list li{ font-size:var(--fs-body-lg); color:var(--fg-on-dark-2); }
+  .similar-list li b{ color:var(--fg-on-dark); font-weight:var(--fw-bold); }
+  .similar-statement{ font-size:var(--fs-h3); font-weight:var(--fw-bold); line-height:1.2; max-width:1100px; margin-top:var(--space-10); text-wrap:balance; }
+
+  /* ============================================================
+     SECTION 4 — KEY LESSON
+     ============================================================ */
+  .s-lesson{ align-items:center; text-align:center; }
+  .s-lesson h2{ font-size:clamp(36px,6vw,96px); font-weight:var(--fw-light); line-height:1.15; max-width:1300px; margin:0 auto; text-wrap:balance; }
+  .s-lesson h2 b{ font-weight:var(--fw-bold); }
+
+  /* ============================================================
+     SECTION 5 — JARGON
+     ============================================================ */
+  .jargon-lines p{ font-size:var(--fs-h3); font-weight:var(--fw-light); color:var(--fg-on-dark-2); line-height:1.3; }
+  .jargon-lines p + p{ margin-top:var(--space-3); }
+  .jargon-question{ margin-top:var(--space-12); font-size:var(--fs-h2); font-weight:var(--fw-bold); text-wrap:balance; }
+  .jargon-answer{
+    display:block; margin-top:var(--space-4); font-size:var(--fs-h2); font-weight:var(--fw-bold);
+    opacity:0; transform:translateY(8px);
+    transition:opacity 500ms var(--ease-standard) 900ms, transform 500ms var(--ease-standard) 900ms;
+  }
+  .frame.in-view .jargon-answer{ opacity:1; transform:translateY(0); }
+  .jargon-answer .gradient-text{ }
+
+  /* ============================================================
+     PILLAR 1 OVERVIEW — recap line under the flip-card row
+     ============================================================ */
+  .philosophy-line{ margin-top:var(--space-16); font-size:var(--fs-preceed); font-weight:var(--fw-light); color:var(--fg-on-dark-2); }
+
+  /* ============================================================
+     FLIP CARDS — shared component (CE swatch-card shell)
+     ============================================================ */
+  .card-row{ display:grid; gap:var(--space-5); margin-top:var(--space-12); }
+  .card-row.of-3{ grid-template-columns:repeat(3,1fr); }
+  .card-row.of-4{ grid-template-columns:repeat(4,1fr); }
+  .card-row.of-6{ grid-template-columns:repeat(3,1fr); }
+  .card-row.of-3.has-lead{ grid-template-columns:0.5fr 1fr 1fr 1fr; }
+
+  .synopsis-box{
+    border-radius:var(--radius-xs); border:1px solid var(--border-hairline-dark);
+    background:rgba(255,255,255,.02); padding:var(--space-6);
+    display:flex; flex-direction:column; justify-content:flex-end;
+  }
+  .synopsis-title{ font-size:var(--fs-h4); font-weight:var(--fw-bold); color:var(--fg-on-dark); line-height:1.2; }
+  .synopsis-copy{ margin-top:var(--space-2); font-size:var(--fs-body-sm); color:var(--fg-on-dark-2); }
+
+  .flip-card{
+    background:none; border:0; padding:0; margin:0; display:block; width:100%;
+    height:320px; cursor:pointer; text-align:left;
+    perspective:1400px;
+  }
+  .card-row.of-3 .flip-card, .card-row.of-4 .flip-card{ height:380px; }
+  .flip-card-inner{
+    display:block;
+    position:relative; width:100%; height:100%;
+    transition:transform var(--motion-slow) var(--ease-standard);
+    transform-style:preserve-3d;
+  }
+  .flip-card:hover .flip-card-inner,
+  .flip-card:focus-visible .flip-card-inner,
+  .flip-card.is-flipped .flip-card-inner{ transform:rotateY(180deg); }
+
+  .flip-face{
+    position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden;
+    border-radius:var(--radius-xs); border:1px solid var(--border-hairline-dark);
+    padding:var(--space-6); display:flex; flex-direction:column;
+    background:rgba(255,255,255,.02);
+  }
+  .flip-face.front{ overflow:hidden; }
+  .flip-face.back{ transform:rotateY(180deg); overflow-y:auto; }
+  .flip-face .top-row, .flip-face .title, .flip-face .lead, .flip-face .hint{ position:relative; z-index:1; }
+
+  /* Abstract card art — static CE-gradient blob composition behind the front-face title.
+     Same aqua/magenta/orange palette everywhere; only the arrangement varies per card. */
+  .card-art{ position:absolute; inset:0; z-index:0; overflow:hidden; }
+  .card-art .blob{ position:absolute; border-radius:50%; filter:blur(34px); mix-blend-mode:screen; }
+  .card-art::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(0,0,0,0) 25%, rgba(0,0,0,.55) 62%, rgba(0,0,0,.9) 100%);
+  }
+  .card-art[data-art="1"] .b1{ width:70%; height:70%; left:-15%; top:-20%; background:radial-gradient(circle, var(--ce-aqua) 0%, transparent 70%); opacity:.55; }
+  .card-art[data-art="1"] .b2{ width:55%; height:55%; right:-10%; top:5%; background:radial-gradient(circle, var(--ce-magenta) 0%, transparent 70%); opacity:.45; }
+  .card-art[data-art="2"] .b1{ width:65%; height:65%; right:-18%; top:-15%; background:radial-gradient(circle, var(--ce-magenta) 0%, transparent 70%); opacity:.5; }
+  .card-art[data-art="2"] .b2{ width:60%; height:60%; left:-12%; top:10%; background:radial-gradient(circle, var(--ce-orange) 0%, transparent 70%); opacity:.45; }
+  .card-art[data-art="3"] .b1{ width:75%; height:75%; left:10%; top:-30%; background:radial-gradient(circle, var(--ce-orange) 0%, transparent 70%); opacity:.5; }
+  .card-art[data-art="3"] .b2{ width:50%; height:50%; left:-15%; top:20%; background:radial-gradient(circle, var(--ce-aqua) 0%, transparent 70%); opacity:.4; }
+  .card-art[data-art="4"] .b1{ width:60%; height:60%; left:-10%; top:-25%; background:radial-gradient(circle, var(--ce-aqua) 0%, transparent 70%); opacity:.4; }
+  .card-art[data-art="4"] .b2{ width:65%; height:65%; right:-20%; top:0%; background:radial-gradient(circle, var(--ce-orange) 0%, transparent 70%); opacity:.5; }
+  .card-art[data-art="5"] .b1{ width:70%; height:70%; right:5%; top:-25%; background:radial-gradient(circle, var(--ce-orange) 0%, transparent 70%); opacity:.45; }
+  .card-art[data-art="5"] .b2{ width:55%; height:55%; left:-15%; top:15%; background:radial-gradient(circle, var(--ce-magenta) 0%, transparent 70%); opacity:.4; }
+  .card-art[data-art="6"] .b1{ width:65%; height:65%; left:-20%; top:-10%; background:radial-gradient(circle, var(--ce-magenta) 0%, transparent 70%); opacity:.45; }
+  .card-art[data-art="6"] .b2{ width:55%; height:55%; right:-10%; top:15%; background:radial-gradient(circle, var(--ce-aqua) 0%, transparent 70%); opacity:.4; }
+
+  .flip-face .top-row{ display:flex; align-items:flex-start; justify-content:space-between; }
+  .flip-face .ring{
+    width:36px; height:36px; border-radius:50%; border:1px solid var(--border-hairline-dark);
+    display:flex; align-items:center; justify-content:center; flex:0 0 auto;
+  }
+  .flip-face .ring svg{ width:18px; height:18px; stroke:var(--fg-on-dark); fill:none; }
+  .flip-face .idx{ font-size:19px; letter-spacing:.06em; color:var(--fg-on-dark-3); font-variant-numeric:tabular-nums; }
+  .flip-face .title{ margin-top:auto; font-size:var(--fs-h4); font-weight:var(--fw-bold); line-height:1.2; text-wrap:balance; }
+  .flip-face .title{ display:flex; flex-direction:column; }
+  .flip-face .title-main{ font-weight:var(--fw-bold); color:var(--fg-on-dark); text-wrap:balance; }
+  .flip-face .title-sub{ font-weight:var(--fw-light); color:var(--fg-on-dark-2); margin-top:var(--space-1); }
+  .flip-face .lead{ margin-top:var(--space-2); font-size:var(--fs-body-sm); color:var(--fg-on-dark-3); }
+  .flip-face .hint{ margin-top:var(--space-4); font-size:18px; letter-spacing:.06em; text-transform:uppercase; color:var(--fg-on-dark-3); display:flex; align-items:center; gap:6px; }
+  .flip-face .hint svg{ width:14px; height:14px; }
+
+  .flip-face.back .back-heading{ font-size:18px; font-weight:var(--fw-bold); letter-spacing:.08em; text-transform:uppercase; color:var(--fg-on-dark-3); margin-bottom:var(--space-3); }
+  .flip-face.back .back-body{ font-size:var(--fs-body-sm); line-height:1.55; color:var(--fg-on-dark-2); }
+  .flip-face.back ul{ margin-top:var(--space-3); }
+  .flip-face.back ul li{ font-size:19px; line-height:1.5; color:var(--fg-on-dark-2); position:relative; padding-left:16px; margin-top:8px; }
+  .flip-face.back ul li::before{ content:""; position:absolute; left:0; top:9px; width:5px; height:5px; border-radius:50%; background:var(--fg-on-dark-3); }
+
+  /* "Main" pillar cards (3-up / 4-up rows) — larger titles and subtitles, this presents on a large screen */
+  .card-row.of-3 .flip-face .title, .card-row.of-4 .flip-face .title{ font-size:clamp(26px, 2.1vw, 36px); }
+  .card-row.of-3 .flip-face .title-main, .card-row.of-4 .flip-face .title-main{ font-size:clamp(34px, 2.8vw, 48px); line-height:1.15; }
+  .card-row.of-3 .flip-face .title-sub, .card-row.of-4 .flip-face .title-sub{ font-size:clamp(20px, 1.6vw, 28px); line-height:1.3; }
+  .card-row.of-3 .flip-face .lead{ font-size:clamp(19px, 1.4vw, 23px); line-height:1.4; margin-top:var(--space-3); }
+  .card-row.of-3 .flip-face.back .back-body, .card-row.of-4 .flip-face.back .back-body{ font-size:clamp(18px, 1.25vw, 21px); line-height:1.5; }
+
+  @media (prefers-reduced-motion: reduce){
+    .flip-card-inner{ transition:none; }
+    .flip-face{ transition:opacity var(--motion-medium) linear; }
+    .flip-face.back{ transform:none; opacity:0; pointer-events:none; }
+    .flip-card:hover .flip-face.back, .flip-card:focus-visible .flip-face.back, .flip-card.is-flipped .flip-face.back{ opacity:1; pointer-events:auto; }
+    .flip-card:hover .flip-face.front, .flip-card:focus-visible .flip-face.front, .flip-card.is-flipped .flip-face.front{ opacity:0; }
+    .flip-card-inner{ transform:none !important; }
+  }
+
+  @media (max-width: 1300px){
+    .card-row.of-4{ grid-template-columns:repeat(2,1fr); }
+  }
+  @media (max-width: 760px){
+    .card-row.of-3, .card-row.of-4, .card-row.of-6{ grid-template-columns:1fr; }
+    .card-row.of-3.has-lead{ grid-template-columns:1fr; }
+    .flip-card{ height:280px; }
+    .card-row.of-3 .flip-card, .card-row.of-4 .flip-card{ height:320px; }
+    .synopsis-box{ min-height:140px; }
+  }
+
+  /* ============================================================
+     Pillar 2 intro — "Opportunity + Momentum" label
+     ============================================================ */
+  .momentum-label{ margin-top:var(--space-12); font-size:var(--fs-body-lg); color:var(--fg-on-dark-2); }
+
+  /* ============================================================
+     STORYTELLING LENS — icon trigger + modal overlay
+     ============================================================ */
+  .lens-trigger{
+    display:inline-flex; align-items:center; gap:12px; margin-top:var(--space-8);
+    background:transparent; border:1px solid var(--border-hairline-dark); border-radius:var(--radius-pill);
+    padding:14px 26px; color:var(--fg-on-dark); font-family:var(--font-sans);
+    font-size:var(--fs-tag); font-weight:var(--fw-medium); letter-spacing:.02em;
+    cursor:pointer; transition:background-color var(--motion-fast) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard);
+  }
+  .lens-trigger:hover, .lens-trigger:focus-visible{ background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.4); outline:none; }
+  .lens-trigger .lens-icon{ width:20px; height:20px; flex:0 0 auto; }
+  .lens-trigger .lens-icon svg{ width:100%; height:100%; stroke:currentColor; fill:none; }
+
+  .lens-overlay{
+    position:fixed; inset:0; z-index:300; display:flex; align-items:center; justify-content:center;
+    padding:80px 64px; opacity:0; pointer-events:none;
+    transition:opacity var(--motion-medium) var(--ease-standard);
+  }
+  .lens-overlay.is-open{ opacity:1; pointer-events:auto; }
+  .lens-overlay-backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.78); }
+  .lens-overlay-panel{
+    position:relative; z-index:1; width:100%; max-width:1500px; max-height:100%;
+    background:var(--ce-black); border:1px solid var(--border-hairline-dark); border-radius:var(--radius-md);
+    display:flex; flex-direction:column; overflow:hidden;
+    box-shadow:0 24px 64px rgba(0,0,0,.55);
+    transform:translateY(14px) scale(.98);
+    transition:transform var(--motion-medium) var(--ease-standard);
+  }
+  .lens-overlay.is-open .lens-overlay-panel{ transform:translateY(0) scale(1); }
+  .lens-overlay-header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:var(--space-6) var(--space-8); border-bottom:1px solid var(--border-hairline-dark); flex:0 0 auto;
+  }
+  .lens-overlay-header h3{ font-size:var(--fs-h4); font-weight:var(--fw-bold); margin:0; }
+  .lens-close{
+    background:none; border:1px solid var(--border-hairline-dark); border-radius:50%;
+    width:40px; height:40px; display:flex; align-items:center; justify-content:center;
+    color:var(--fg-on-dark); cursor:pointer; flex:0 0 auto;
+    transition:background-color var(--motion-fast) var(--ease-standard);
+  }
+  .lens-close:hover, .lens-close:focus-visible{ background:rgba(255,255,255,.08); outline:none; }
+  .lens-close svg{ width:16px; height:16px; stroke:currentColor; fill:none; }
+  .lens-overlay-scroll{ overflow-y:auto; padding:0 var(--space-8) var(--space-8); }
+  @media (prefers-reduced-motion: reduce){
+    .lens-overlay, .lens-overlay-panel{ transition:none; }
+  }
+  @media (max-width: 760px){
+    .lens-overlay{ padding:32px 16px; }
+    .lens-overlay-header{ padding:var(--space-5) var(--space-6); }
+    .lens-overlay-scroll{ padding:0 var(--space-6) var(--space-6); }
+  }
+
+  table.lens-table{ width:100%; border-collapse:collapse; }
+  table.lens-table th, table.lens-table td{
+    text-align:left; padding:10px var(--space-4); border-bottom:1px solid var(--border-hairline-dark-soft);
+    font-size:var(--fs-body-sm); color:var(--fg-on-dark-2); vertical-align:top;
+  }
+  table.lens-table th{
+    font-weight:var(--fw-bold); color:var(--fg-on-dark); font-size:18px; letter-spacing:.05em; text-transform:uppercase;
+    position:sticky; top:0; background:var(--ce-black); border-bottom:1px solid var(--border-hairline-dark);
+  }
+  table.lens-table td strong{ color:var(--fg-on-dark); font-weight:var(--fw-bold); }
+  table.lens-table tr.is-featured td{ background:rgba(255,255,255,.06); }
+  table.lens-table tr.is-featured td:first-child{ position:relative; }
+  table.lens-table tr.is-featured td:first-child::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--ce-brand-gradient); }
+  table.lens-table tr.is-featured td strong{ background:var(--ce-brand-gradient); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+  /* ============================================================
+     PILLAR 3 closing statement
+     ============================================================ */
+  .closing-statement{ margin-top:var(--space-12); font-size:var(--fs-h3); font-weight:var(--fw-bold); max-width:1200px; text-wrap:balance; }
+
+  /* ============================================================
+     SECTION 12 — AI TRANSITION
+     ============================================================ */
+  .s-ai .eyebrow-label{ display:block; text-align:left; }
+  .s-ai h1{ font-size:clamp(32px,4.4vw,68px); font-weight:var(--fw-bold); line-height:1.15; text-wrap:balance; }
+  .s-ai .line2{ margin-top:6px; }
+  .s-ai .supporting{ margin-top:var(--space-6); max-width:760px; }
+
+  /* ============================================================
+     SECTION 13 — CASE STUDY (Knicks x MSG)
+     Single stacked column — Experience, then Contact us below it.
+     ============================================================ */
+  .case-wrap{ max-width:820px; }
+  .case-logos{ display:flex; align-items:center; gap:var(--space-8); margin-top:var(--space-6); }
+  .case-logos img{ display:block; width:auto; }
+  .case-logos .knicks-logo{ height:84px; }
+  .case-logos .msg-logo{ height:52px; }
+  .case-col{ margin-top:var(--space-6); }
+  .case-col .eyebrow-label{ margin-bottom:var(--space-3); }
+  .case-headline{ margin:0; flex:0 1 480px; max-width:480px; min-width:0; font-size:var(--fs-h4); font-weight:var(--fw-bold); line-height:1.25; text-wrap:balance; }
+  .qr-row{ margin-top:12px; display:flex; align-items:center; gap:var(--space-6); }
+  .qr-swatch{
+    width:162px; height:162px; flex:0 0 auto; padding:13px; box-sizing:border-box;
+    background:rgba(0,0,0,.45); border:1px solid var(--border-hairline-dark); border-radius:var(--radius-xs);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .qr-swatch img{ width:100%; height:100%; }
+  .case-col hr.hairline{ max-width:760px; margin:var(--space-4) 0; }
+  .case-list{ list-style:none; padding:0; margin:12px 0 0; display:flex; flex-direction:row; flex-wrap:wrap; gap:var(--space-5) var(--space-8); }
+  .case-list li{ flex:1 1 150px; min-width:150px; font-size:var(--fs-body-sm); font-weight:var(--fw-medium); color:var(--fg-on-dark); line-height:1.3; }
+  .case-contact{ margin-top:var(--space-5); display:flex; flex-direction:column; gap:var(--space-3); }
+  .case-contact-block strong{ display:block; color:var(--fg-on-dark); font-weight:var(--fw-bold); font-size:var(--fs-body-sm); margin-bottom:2px; }
+  .case-contact-block span{ display:block; color:var(--fg-on-dark-2); font-size:var(--fs-body-sm); line-height:1.5; }
+  .case-contact-web{ display:block; color:var(--fg-on-dark-2); font-size:var(--fs-body-sm); }
+  @media (max-width: 900px){
+    .qr-row{ flex-wrap:wrap; }
+  }
+  .ai-buttons{ display:flex; flex-wrap:wrap; gap:var(--space-4); margin-top:var(--space-12); }
+
+  /* section number badge, top-left small meta (optional wayfinding) */
+  .frame-tag{
+    position:absolute; top:calc(var(--header-h) + var(--space-4)); right:var(--gutter);
+    font-size:11px; color:var(--fg-on-dark-3); letter-spacing:.08em; font-variant-numeric:tabular-nums;
+  }
+
+  /* ============================================================
+     SECTION 13 — AGENTS (closing "come build with us" page)
+     Left = compact hero-select-style roster grid (image-forward tiles).
+     Right = deliberately wide detail column — big portrait, long text
+     measure — so the page doesn't crowd everything to the left edge.
+     ============================================================ */
+  /* This frame's content (headline, roster grid, detail panel) doesn't fill the
+     viewport, so the default .frame vertical centering leaves a large dead gap
+     above the headline — pin content to the top instead, just clear of the
+     sticky header, so the roster/grid below gets more room. */
+  .s-agents{ justify-content:flex-start; padding-top:calc(var(--header-h) + var(--space-6)); }
+
+  /* The top row's right column is currently empty (CTA copy removed) — don't
+     reserve grid width for it, or the headline/paragraph get squeezed for no
+     visible reason below ~1920px. */
+  .agents-top-row{ display:block; }
+  .agents-top-left{ min-width:0; }
+  .agents-top-right:empty{ display:none; }
+  .agents-headline{ font-size:var(--fs-h4); font-weight:var(--fw-bold); line-height:1.2; max-width:1300px; text-wrap:balance; }
+  .agents-intro{ margin-top:8px; max-width:1200px; font-size:var(--fs-body-sm); line-height:1.45; }
+  .agents-subline{ margin-top:14px; font-size:var(--fs-body-sm); color:var(--fg-on-dark-2); }
+  .agents-cta{
+    margin-top:var(--space-10);
+    font-size:var(--fs-h4); font-weight:var(--fw-bold); line-height:1.15; white-space:nowrap;
+  }
+
+  .agents-layout{ display:grid; grid-template-columns:1fr 520px; gap:var(--space-12); align-items:start; margin-top:var(--space-8); }
+  .agents-col{ min-width:0; }
+  .agents-detail-col{ min-width:0; }
+
+  /* Roster: 3x3 grid of image-left/text-right cards, Cadence as the 10th
+     card — falls naturally into its own row below, first column. */
+  .agents-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,260px)); grid-auto-rows:auto; gap:18px 32px; align-items:start; }
+  .agent-card{
+    position:relative; display:flex; flex-direction:row; align-items:stretch; padding:0; width:100%; height:98px;
+    border-radius:var(--radius-xs); border:1px solid var(--border-hairline-dark); background:rgba(255,255,255,.02);
+    overflow:hidden; cursor:pointer; font-family:inherit; color:inherit; text-align:left;
+    transition:border-color var(--motion-fast) var(--ease-standard);
+  }
+  .agent-card:hover, .agent-card:focus-visible{ border-color:rgba(255,255,255,.4); outline:none; }
+  .agent-card.is-active{ border-color:var(--ce-white); }
+  .agent-card-img-wrap{ position:relative; width:96px; height:100%; flex:0 0 auto; background:#000; overflow:hidden; }
+  .agent-card-img-wrap img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .agent-card-footer{ flex:1 1 auto; min-width:0; padding:14px 16px; display:flex; flex-direction:column; justify-content:flex-start; line-height:1.25; }
+  .agent-name{ display:block; font-size:17px; font-weight:var(--fw-bold); color:var(--fg-on-dark); }
+  .agent-label{ display:block; font-size:13px; color:var(--fg-on-dark-3); margin-top:2px; }
+  .agent-hint{
+    position:absolute; right:14px; bottom:10px; display:flex; align-items:center; gap:5px; pointer-events:none;
+    font-size:10px; font-weight:var(--fw-medium); letter-spacing:.08em; text-transform:uppercase;
+    color:var(--fg-on-dark-3); opacity:1; transition:opacity var(--motion-fast) var(--ease-standard);
+  }
+  .agent-hint svg{ width:11px; height:11px; stroke:currentColor; fill:none; flex:0 0 auto; }
+  .agent-card.is-active .agent-hint{ opacity:0; }
+
+  .agents-detail-headline{ font-size:var(--fs-h3); font-weight:var(--fw-bold); line-height:1.2; max-width:820px; text-wrap:balance; }
+  .agent-detail-body{ display:flex; flex-direction:column; gap:var(--space-5); min-height:416px; }
+  .agent-detail-frame{
+    width:180px; aspect-ratio:1/1;
+    border-radius:50%; overflow:hidden; border:1px solid var(--border-hairline-dark);
+  }
+  .agent-detail-frame img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .agent-detail-text{ min-width:0; }
+  .agent-detail-label{ display:block; font-size:var(--fs-h4); font-weight:var(--fw-bold); color:var(--fg-on-dark); }
+  .agent-detail-slug{
+    display:block; margin-top:4px; font-size:15px; font-weight:var(--fw-regular); color:var(--fg-on-dark-2);
+  }
+  .agent-detail-blurb{ margin-top:var(--space-5); font-size:var(--fs-body-sm); color:var(--fg-on-dark-2); line-height:1.5; max-width:640px; text-wrap:pretty; }
+
+  @media (max-width: 1500px){
+    .agents-layout{ grid-template-columns:1fr; }
+  }
+  @media (max-width: 760px){
+    .agents-grid{ grid-template-columns:1fr; grid-auto-rows:auto; width:100%; gap:16px; }
+    .agent-card{ width:auto; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============================================================
+       AMBIENT BACKGROUND — animated aurora blobs + grain, behind everything
+       ============================================================ -->
+  <div class="aurora" id="aurora" data-hue="mix" aria-hidden="true">
+    <div class="aurora-drift" id="auroraDrift">
+      <div class="blob-wrap" data-px="11" data-py="8"><div class="blob b1"></div></div>
+      <div class="blob-wrap" data-px="10" data-py="9"><div class="blob b2"></div></div>
+      <div class="blob-wrap" data-px="9" data-py="10" ><div class="blob b3"></div></div>
+      <div class="blob-wrap" data-px="8" data-py="7"><div class="blob b4"></div></div>
+    </div>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       STICKY HEADER
+       ============================================================ -->
+  <header class="site-header">
+    <div class="eyebrow">
+      <span class="tick" aria-hidden="true"></span>
+      <span class="eyebrow-base">Better stories. Built faster.</span>
+      <span class="eyebrow-suffix" id="eyebrowSuffix"></span>
+    </div>
+    <nav class="pillar-nav" id="pillarNav" aria-label="Pillar navigation">
+      <button type="button" data-goto-pillar="1" aria-label="Jump to Pillar 1, Story">
+        <span class="ring"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"></circle><circle cx="12" cy="12" r="2.4"></circle></svg></span>
+        <span class="num">The Story</span>
+      </button>
+      <button type="button" data-goto-pillar="2" aria-label="Jump to Pillar 2, Narrative">
+        <span class="ring"><svg viewBox="0 0 24 24"><path d="M3 15c3-6 6 6 9 0s6-6 9 0"></path></svg></span>
+        <span class="num">The Narrative</span>
+      </button>
+      <button type="button" data-goto-pillar="3" aria-label="Jump to Pillar 3, Theme">
+        <span class="ring"><svg viewBox="0 0 24 24"><path d="M12 3l7 7-7 11-7-11z"></path></svg></span>
+        <span class="num">The Theme</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ============================================================
+       PROGRESS NAV
+       ============================================================ -->
+  <nav class="progress-nav" id="progressNav" aria-label="Section progress"></nav>
+
+  <!-- ============================================================
+       DECK
+       ============================================================ -->
+  <main class="deck" id="deck">
+
+    <!-- 1 · OPENING -->
+    <section class="frame s-opening" id="f1" data-frame="1" data-pillar="0" data-suffix="" data-hue="mix">
+      <video class="hero-bg-video" autoplay muted loop playsinline aria-hidden="true">
+        <source src="assets/hero-merged-web.mp4" type="video/mp4">
+      </video>
+      <div class="hero-bg-scrim" aria-hidden="true"></div>
+      <div class="frame-inner">
+        <svg class="logo-primary reveal" viewBox="0 0 430 37" xmlns="http://www.w3.org/2000/svg" aria-label="Charles Elena">
+          <path d="M31.6218 32.9013C27.5326 35.0419 23.2464 36.1688 19.0538 36.1688C14.8612 36.1688 11.387 35.0912 8.22778 33.0588C3.0116 29.6929 0 24.1716 0 17.986C0 13.2865 1.99789 8.69041 5.46714 5.36879C9.1972 1.85033 13.7884 0.118164 19.413 0.118164C24.2208 0.118164 28.0985 1.44681 31.3118 2.92801V8.34595C27.0651 6.04787 23.2366 4.81764 19.413 4.81764C11.0868 4.81764 5.3146 10.6883 5.3146 18.1533C5.3146 25.6184 11.0918 31.43 19.103 31.43C23.1923 31.43 27.321 30.0521 31.612 27.2915V32.9112L31.6218 32.9013Z" fill="currentColor"/>
+          <path d="M39.9189 0.678711H44.8694V15.6974H65.0009V0.678711H69.9513V35.5681H65.0009V20.3919H44.8694V35.5681H39.9189V0.678711Z" fill="currentColor"/>
+          <path d="M98.2709 20.7954L92.7546 8.22741L87.3957 20.7954H98.2808H98.2709ZM91.0224 0.678711H94.6491L109.973 35.5681H104.816L100.318 25.2932H85.4519L81.0034 35.5681H75.8955L91.0224 0.678711Z" fill="currentColor"/>
+          <path d="M125.267 15.7958C129.917 15.7958 132.216 14.0046 132.216 10.3286C132.216 6.3919 129.967 4.9107 125.267 4.9107H121.129V15.7958H125.267ZM116.119 0.678711H126.335C133.485 0.678711 137.373 4.20701 137.373 10.2351C137.373 14.7821 135.375 17.4837 130.833 18.9206C132.363 19.7424 133.333 21.1202 134.459 22.8081L142.938 35.5828H136.91L130.931 26.4447C128.23 22.3062 126.542 20.0081 122.605 20.0081H121.124V35.5927H116.114V0.678711H116.124H116.119Z" fill="currentColor"/>
+          <path d="M148.779 0.678711H153.73V31.0703H170.333V35.5681H148.779V0.678711Z" fill="currentColor"/>
+          <path d="M207.614 26.263C210.625 29.683 213.332 31.3709 216.752 31.3709C220.172 31.3709 222.313 29.6338 222.313 26.8732C222.313 23.9649 220.275 22.5821 216.486 20.1758C210.616 16.3965 207.55 14.3052 207.55 9.29074C207.55 3.98106 211.688 -0.00488281 217.859 -0.00488281C220.561 -0.00488281 223.179 0.816911 225.777 2.39653V8.06543C222.918 5.76736 220.408 4.53713 217.657 4.53713C214.439 4.53713 212.348 6.32834 212.348 8.67562C212.348 11.4363 215.005 12.9125 219.247 15.5748C224.355 18.7438 227.366 21.0911 227.366 26.9716C227.366 32.1779 223.228 36.159 217.057 36.159C213.386 36.159 210.468 35.1895 207.609 32.8423V26.2532L207.614 26.263Z" fill="currentColor"/>
+          <path d="M177.793 0.678711H198.786V5.11738H182.748V15.6875H198.323V20.1852H182.748V31.0703H199.302V35.5681H177.793V0.678711Z" fill="currentColor"/>
+          <path d="M257.418 0.678711H278.411V5.11738H262.368V15.6875H277.953V20.1852H262.368V31.0703H278.922V35.5681H257.418V0.678711Z" fill="currentColor"/>
+          <path d="M287.052 0.678711H292.007V31.0703H308.605V35.5681H287.052V0.678711Z" fill="currentColor"/>
+          <path d="M316.804 0.678711H337.796V5.11738H321.759V15.6875H337.344V20.1852H321.759V31.0703H338.308V35.5681H316.804V0.678711Z" fill="currentColor"/>
+          <path d="M346.394 0.678711H350.734L373.724 27.7536V0.678711H378.675V35.5681H374.226L351.344 8.439V35.5681H346.394V0.678711Z" fill="currentColor"/>
+          <path d="M406.749 20.7954L401.232 8.22741L395.873 20.7954H406.758H406.749ZM399.49 0.678711H403.117L418.441 35.5681H413.284L408.786 25.2932H393.92L389.471 35.5681H384.363L399.49 0.678711Z" fill="currentColor"/>
+          <path d="M430 31.0508H425.482V35.5682H430V31.0508Z" fill="currentColor"/>
+        </svg>
+        <h1 class="reveal d1">Better Stories.<br>Built Faster.</h1>
+        <div class="focus-label reveal d2">On Storytelling</div>
+        <nav class="subnav reveal d3" aria-label="Presentation sections">
+          <span class="current">Storytelling</span>
+          <span>AI Workflow</span>
+          <span>Immersive Activations</span>
+        </nav>
+      </div>
+    </section>
+
+    <!-- 2 · SIMILAR CAPABILITY -->
+    <section class="frame s-similar" id="f2" data-frame="2" data-pillar="0" data-suffix="" data-hue="aqua">
+      <div class="frame-inner">
+        <h2 class="display similar-context reveal">Similar capability. Different bid themes.</h2>
+        <p class="body-copy one-line reveal d2" style="margin-top:var(--space-5);">In large deals, shortlisted transformation partners can look remarkably similar.</p>
+        <ul class="similar-list reveal d3">
+          <li>Similar <b>S</b>olutions</li>
+          <li>Similar <b>E</b>cosystems</li>
+          <li>Similar <b>C</b>redentials</li>
+          <li>Similar <b>R</b>eputations</li>
+          <li>Similar <b>E</b>xperience</li>
+          <li>Similar <b>T</b>alent Pools</li>
+        </ul>
+        <p class="similar-statement reveal d4">Your story is the thing competitors can't replicate.</p>
+      </div>
+    </section>
+
+    <!-- 3 · COMPETITIVE ADVANTAGE STATEMENT -->
+    <section class="frame s-lesson has-bg-video" id="f3" data-frame="3" data-pillar="0" data-suffix="" data-hue="magenta">
+      <video class="hero-bg-video" autoplay muted loop playsinline aria-hidden="true">
+        <source src="assets/neon-glow-bg.mp4" type="video/mp4">
+      </video>
+      <div class="hero-bg-scrim" aria-hidden="true"></div>
+      <div class="frame-inner">
+        <h2 class="reveal">When capability is comparable, <b>the story becomes part of the competitive advantage.</b></h2>
+      </div>
+    </section>
+
+    <!-- 4 · STANDARD JARGON -->
+    <section class="frame s-jargon has-bg-video" id="f4" data-frame="4" data-pillar="0" data-suffix="" data-hue="magenta">
+      <video class="hero-bg-video" autoplay muted loop playsinline aria-hidden="true">
+        <source src="assets/jargon-bg.mp4" type="video/mp4">
+      </video>
+      <div class="hero-bg-scrim" aria-hidden="true"></div>
+      <div class="frame-inner">
+        <div class="eyebrow-label reveal"><span class="tick"></span>Standard jargon</div>
+        <div class="jargon-lines reveal d1">
+          <p>It can all sound the same.</p>
+          <p>Story, narrative, theme&hellip;</p>
+          <p>Concept, design, visuals&hellip;</p>
+        </div>
+        <p class="jargon-question reveal d2">But are they the same?<span class="jargon-answer">Well, not really.</span></p>
+      </div>
+    </section>
+
+    <!-- 5 · PILLAR 1 · STORY — overview -->
+    <section class="frame" id="f5" data-frame="5" data-pillar="1" data-pillar-active="0" data-suffix="the story creates the journey" data-hue="aqua">
+      <div class="frame-inner">
+        <h2 class="display reveal">A practical language for large-deal storytelling.</h2>
+        <div class="card-row of-3 has-lead reveal d2">
+          <div class="synopsis-box">
+            <span class="synopsis-title">Deal Synopsis</span>
+            <span class="synopsis-copy">for deal context</span>
+          </div>
+          <button class="flip-card" type="button" aria-label="The story creates the journey — flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="1" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">01</span><span class="ring"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"></circle><circle cx="12" cy="12" r="2.4"></circle></svg></span></span>
+                <span class="title"><span class="title-main">The Story</span><span class="title-sub">creates the journey</span></span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">The story creates the journey</span>
+                <span class="back-body">It defines the big idea — the client's ambition, the challenge, the transformation you can achieve together and the destination you're working towards.</span>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-label="The narrative structures the journey — flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="2" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">02</span><span class="ring"><svg viewBox="0 0 24 24"><path d="M3 15c3-6 6 6 9 0s6-6 9 0"></path></svg></span></span>
+                <span class="title"><span class="title-main">The Narrative</span><span class="title-sub">structures the journey</span></span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">The narrative structures the journey</span>
+                <span class="back-body">It determines how the story unfolds — the sequence, chapters, proof points and moments that build the argument and move the client forward.</span>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-label="The theme creates the visual thread — flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="3" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">03</span><span class="ring"><svg viewBox="0 0 24 24"><path d="M12 3l7 7-7 11-7-11z"></path></svg></span></span>
+                <span class="title"><span class="title-main">The Theme</span><span class="title-sub">creates the visual thread</span></span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">The theme creates the visual thread</span>
+                <span class="back-body">It gives the story a consistent creative expression — imagery, language, metaphors and visual devices that connect and reinforce it throughout the pursuit.</span>
+              </span>
+            </span>
+          </button>
+        </div>
+        <p class="philosophy-line reveal d3">Deal Synopsis provides the context. Story sets the journey. Narrative gives it structure. Theme carries it.</p>
+      </div>
+    </section>
+
+    <!-- 6 · PILLAR 1 · STORY — Seek / Choose / Tell -->
+    <section class="frame" id="f6" data-frame="6" data-pillar="1" data-suffix="the story creates the journey" data-hue="aqua">
+      <div class="frame-inner">
+        <h2 class="display reveal">Simple framework for finding and telling the <span class="gradient-underline">story</span>.</h2>
+        <p class="subhead one-line reveal d2">A repeatable approach to developing compelling stories for large deals.</p>
+
+        <div class="card-row of-3 reveal d3">
+          <button class="flip-card" type="button" aria-label="Seek — flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="4" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">01</span><span class="ring"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path></svg></span></span>
+                <span class="title">Seek</span>
+                <span class="lead">Stories are everywhere. Be curious enough to find them.</span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">Seek</span>
+                <span class="back-body">Look beyond the obvious. Explore the client, their customers, people, history, brand, market, data and the world around you. The strongest story may not be sitting in the RFP.</span>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-label="Choose — flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="5" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">02</span><span class="ring"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg></span></span>
+                <span class="title">Choose</span>
+                <span class="lead">Not every story is worth telling. Apply judgement.</span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">Choose</span>
+                <span class="back-body">Choose the story that matters most to the client and strengthens the deal. Ask what you want them to understand, believe and remember when everything else has faded.</span>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-label="Tell — flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="6" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">03</span><span class="ring"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"></path></svg></span></span>
+                <span class="title">Tell</span>
+                <span class="lead">Know what you want to say.</span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">Tell</span>
+                <span class="back-body">Distil the story to its essence. If you can't articulate it simply and compellingly, you're not ready to build the narrative around it.</span>
+              </span>
+            </span>
+          </button>
+        </div>
+
+        <button class="lens-trigger reveal d4" type="button" id="lensTrigger" aria-haspopup="dialog" aria-controls="lensOverlay" aria-expanded="false">
+          <span class="lens-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path></svg></span>
+          <span>Storytelling Lens</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Storytelling Lens overlay — opened from the trigger inside Pillar 1 -->
+    <div class="lens-overlay" id="lensOverlay" role="dialog" aria-modal="true" aria-labelledby="lensOverlayTitle" aria-hidden="true">
+      <div class="lens-overlay-backdrop" id="lensOverlayBackdrop"></div>
+      <div class="lens-overlay-panel">
+        <div class="lens-overlay-header">
+          <h3 id="lensOverlayTitle">Storytelling Lens</h3>
+          <button class="lens-close" id="lensClose" type="button" aria-label="Close">
+            <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+          </button>
+        </div>
+        <div class="lens-overlay-scroll">
+          <table class="lens-table">
+            <thead>
+              <tr><th>Storyline</th><th>Opening idea</th><th>Connection to TITAN</th></tr>
+            </thead>
+            <tbody>
+              <tr class="is-featured"><td><strong>Process</strong></td><td>Not a 50 over anymore. It's T20</td><td>Process change can be made into a story</td></tr>
+              <tr><td><strong>Personal</strong></td><td>A moment that changed how you think about communication</td><td>Experience &rarr; storytelling &rarr; AI</td></tr>
+              <tr><td><strong>Historical</strong></td><td>Prometheus and the discovery/gift of fire</td><td>Powerful technology needs human direction</td></tr>
+              <tr><td><strong>Art</strong></td><td>Van Gogh &mdash; why we remember a painting 130 years later</td><td>Emotion and story create memorability</td></tr>
+              <tr><td><strong>Nature</strong></td><td>A river finding its way around obstacles</td><td>Complex journeys need direction</td></tr>
+              <tr><td><strong>Exploration</strong></td><td>Navigators setting out without knowing exactly what they'd find</td><td>Large pursuits involve uncertainty</td></tr>
+              <tr><td><strong>Film</strong></td><td>Why a great film can hold us for two hours</td><td>Narrative structure creates attention</td></tr>
+              <tr><td><strong>Architecture</strong></td><td>Nobody remembers the engineering drawings; they experience the building</td><td>Technology enables; experience is remembered</td></tr>
+              <tr><td><strong>Music</strong></td><td>Individual notes mean little; arrangement creates meaning</td><td>Information &rarr; structure &rarr; story</td></tr>
+              <tr><td><strong>Fire</strong></td><td>Fire can illuminate, build or destroy</td><td>AI capability versus human judgement</td></tr>
+              <tr><td><strong>The night sky</strong></td><td>Titan looks like a tiny point from Earth but is an entire world</td><td>Look beyond what's immediately visible</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 · PILLAR 2 · NARRATIVE — flows -->
+    <section class="frame has-bg-video" id="f7" data-frame="7" data-pillar="2" data-suffix="the narrative structures the journey" data-hue="magenta">
+      <video class="hero-bg-video" autoplay muted loop playsinline aria-hidden="true">
+        <source src="assets/flows-bg.mp4" type="video/mp4">
+      </video>
+      <div class="hero-bg-scrim" aria-hidden="true"></div>
+      <div class="frame-inner">
+        <h2 class="display reveal">Creating a narrative<br>that <span class="gradient-underline">flows</span>.</h2>
+        <p class="subhead reveal d2">Weave sub-headlines and themes<br>into one continuous story.</p>
+        <p class="subhead reveal d2">Each opportunity should build on<br>what came before.</p>
+        <p class="momentum-label reveal d3">Opportunity + Momentum</p>
+      </div>
+    </section>
+
+    <!-- 8 · PILLAR 2 · NARRATIVE — six stages -->
+    <section class="frame" id="f8" data-frame="8" data-pillar="2" data-suffix="the narrative structures the journey" data-hue="magenta">
+      <div class="frame-inner">
+        <h2 class="display reveal">Building the <span class="gradient-underline">narrative</span> across every deal opportunity.</h2>
+        <p class="subhead one-line reveal d2">One theme, amplified by AI, growing louder with every step of the deal.</p>
+
+        <div class="card-row of-6 reveal d3">
+
+          <button class="flip-card" type="button" aria-label="Executive Summary — flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="1" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">01</span><span class="ring" title="A great place to tell a story"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"></circle><circle cx="12" cy="12" r="2.4"></circle></svg></span></span>
+                <span class="title" style="font-size:22px;">Executive Summary</span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">Executive Summary</span>
+                <span class="back-body">Key storytelling opportunity. Establish the story and set the narrative in motion — frame the client's ambition, your shared journey and the big idea you want them to remember.</span>
+                <ul>
+                  <li>Use headlines and subheadings to progressively unfold the narrative</li>
+                  <li>Use breakouts and calls to action to reinforce key moments</li>
+                  <li>Evolve imagery as the story progresses</li>
+                  <li>Keep the cover story consistent; return to it at the end</li>
+                </ul>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-label="Bid Submission — flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="2" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">02</span></span>
+                <span class="title" style="font-size:22px;">Bid Submission</span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">Bid Submission</span>
+                <span class="back-body">Work within the structure of the response template — maintain the narrative thread without compromising clarity or compliance.</span>
+                <ul>
+                  <li>Use chapter and section breaks as narrative moments</li>
+                  <li>Connect responses back to the broader story where appropriate</li>
+                  <li>Use headlines and supporting content to maintain continuity</li>
+                  <li>Reduce visual prominence of the story where it competes with compliance</li>
+                </ul>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-label="Orals — flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="3" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">03</span><span class="ring" title="A great place to tell a story"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"></circle><circle cx="12" cy="12" r="2.4"></circle></svg></span></span>
+                <span class="title" style="font-size:22px;">Orals</span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">Orals</span>
+                <span class="back-body">Key storytelling opportunity. Take the essence of the submission and rebuild it as a deliberate narrative journey in the room.</span>
+                <ul>
+                  <li>Map the strongest deal chapters into a clear sequence</li>
+                  <li>Let each chapter build naturally on what came before</li>
+                  <li>Rework headlines and subheadings around the narrative</li>
+                  <li>Create transitions that connect speakers as one journey</li>
+                </ul>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-label="Application Demos and POCs — flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="4" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">04</span></span>
+                <span class="title" style="font-size:22px;">Demos / POCs</span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">Application Demos / POCs</span>
+                <span class="back-body">Make the narrative tangible. Use the deal narrative as the starting point, then take the client into a real-world journey of what the future could feel like.</span>
+                <ul>
+                  <li>Build the experience around a persona</li>
+                  <li>Create a journey rather than a sequence of features</li>
+                  <li>Demonstrate the art of the possible</li>
+                  <li>Connect the experience back to the broader deal story</li>
+                </ul>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-label="Video — flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="5" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">05</span><span class="ring" title="A great place to tell a story"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"></circle><circle cx="12" cy="12" r="2.4"></circle></svg></span></span>
+                <span class="title" style="font-size:22px;">Video</span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">Video</span>
+                <span class="back-body">Create a narrative moment. Distil part of the narrative into a focused experience where emotion or vision communicates more powerfully than slides.</span>
+                <ul>
+                  <li>Give the video a clear role within the wider narrative</li>
+                  <li>Focus on one idea or moment</li>
+                  <li>Use people or future-state scenarios to make it tangible</li>
+                  <li>Finish by handing the narrative to the next chapter</li>
+                </ul>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-label="Site Visits — flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="6" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">06</span><span class="ring" title="A great place to tell a story"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"></circle><circle cx="12" cy="12" r="2.4"></circle></svg></span></span>
+                <span class="title" style="font-size:22px;">Site Visits</span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">Site Visits</span>
+                <span class="back-body">Continue the journey. Treat the visit as another chapter, not disconnected presentations — reinforce what's already been established.</span>
+                <ul>
+                  <li>Design the visit around a deliberate sequence of moments</li>
+                  <li>Connect people, demos and environments to the narrative</li>
+                  <li>Build from proof of capability towards future possibility</li>
+                  <li>Leave space for the narrative to evolve through conversation</li>
+                </ul>
+              </span>
+            </span>
+          </button>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 9 · PILLAR 3 · THEME — intro -->
+    <section class="frame" id="f9" data-frame="9" data-pillar="3" data-suffix="the theme creates the visual thread" data-hue="orange">
+      <div class="frame-inner">
+        <h2 class="display reveal">Shaping the visual thread through creative <span class="gradient-underline">theming</span>.</h2>
+        <p class="subhead reveal d2">Theming isn't decoration. It's a way to shape and carry the story across every touchpoint of the deal.</p>
+      </div>
+    </section>
+
+    <!-- 10 · PILLAR 3 · THEME — four aspects -->
+    <section class="frame" id="f10" data-frame="10" data-pillar="3" data-suffix="the theme creates the visual thread" data-hue="orange">
+      <div class="frame-inner">
+        <h2 class="display reveal" style="font-size:var(--fs-h3);">The four aspects of theming.</h2>
+
+        <div class="card-row of-4 reveal d2">
+          <button class="flip-card" type="button" aria-label="Imagery — flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="1" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">01</span><span class="ring"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5.5-5.5L7 19"></path></svg></span></span>
+                <span class="title">Imagery</span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">Imagery</span>
+                <span class="back-body">Establishes the visual world of the theme — photography, illustration and image treatments that create emotion, reinforce the idea and give the story a distinctive, recognisable character.</span>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-label="Content — flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="2" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">02</span><span class="ring"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"></path><path d="M9 12h7M9 16h7M9 8h3"></path></svg></span></span>
+                <span class="title">Content</span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">Content</span>
+                <span class="back-body">Creates the verbal expression of the theme — headlines, key messages, terminology and tone that reinforce the creative idea and carry a consistent voice throughout the deal.</span>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-label="Colour and typography — flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="3" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">03</span><span class="ring"><svg viewBox="0 0 24 24"><path d="M12 21c-4.4 0-8-2.7-8-7 0-4 3-9 8-13 5 4 8 9 8 13 0 4.3-3.6 7-8 7z"></path><path d="M12 3v18"></path></svg></span></span>
+                <span class="title">Colour &amp; Typography</span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">Colour &amp; Typography</span>
+                <span class="back-body">Sets the visual tone — using colour, type, scale and hierarchy to complement the client brand while giving the bid its own distinctive creative expression.</span>
+              </span>
+            </span>
+          </button>
+
+          <button class="flip-card" type="button" aria-label="Motion and interaction — flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="4" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">04</span><span class="ring"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"></path></svg></span></span>
+                <span class="title">Motion &amp; Interaction</span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">Motion &amp; Interaction</span>
+                <span class="back-body">Extends the theme beyond static communication — using animation, transitions and interaction to create continuity and bring the narrative to life across digital experiences and presentations.</span>
+              </span>
+            </span>
+          </button>
+        </div>
+
+        <p class="closing-statement reveal d3">A strong theme will make it easier to develop your narrative.</p>
+      </div>
+    </section>
+
+    <!-- 11 · TRANSITION TO AI -->
+    <section class="frame s-ai" id="f11" data-frame="11" data-pillar="0" data-suffix="" data-hue="mix">
+      <div class="frame-inner">
+        <div class="eyebrow-label reveal"><span class="tick"></span>AI Workflow Demos</div>
+        <h1 class="reveal d1">Design and AI converge.<br><span class="line2 gradient-text">Scaling every deal with AI.</span></h1>
+        <p class="body-copy supporting reveal d2">Better prompts. Stronger storytelling. Design and AI converge to inspire audiences — scaling deals with AI.</p>
+        <nav class="ai-buttons reveal d3" aria-label="AI workflow demos">
+          <a class="ce-btn" href="agentic-chapter/index.html">Theming with AI <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"></path></svg></a>
+          <a class="ce-btn" href="infosys-unlock-ai.html">Unlock AI Value <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"></path></svg></a>
+          <a class="ce-btn" href="#">Infosys GCC <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"></path></svg></a>
+        </nav>
+      </div>
+    </section>
+
+    <!-- 12 · CASE STUDY — Knicks x MSG -->
+    <section class="frame has-bg-video s-case" id="f12" data-frame="12" data-pillar="0" data-suffix="" data-hue="mix">
+      <img class="hero-bg-image" src="assets/Knicks-BG 1.png" alt="" aria-hidden="true">
+      <div class="hero-bg-scrim left" aria-hidden="true"></div>
+      <div class="frame-inner">
+        <div class="case-wrap">
+          <div class="case-logos reveal">
+            <img class="knicks-logo" src="assets/Group 1261153223.png" alt="New York Knicks">
+            <img class="msg-logo" src="assets/Vector.png" alt="Madison Square Garden">
+          </div>
+
+          <div class="case-col">
+            <div class="eyebrow-label reveal d1"><span class="tick"></span>The experience</div>
+            <div class="qr-row reveal d1">
+              <h2 class="case-headline">An AI-powered fan experience that makes every supporter their own Knicks player card.</h2>
+              <div class="qr-swatch"><img src="assets/qr-placeholder.svg" alt="QR code linking to the Knicks fan experience"></div>
+            </div>
+
+            <hr class="hairline reveal d3">
+
+            <div class="eyebrow-label reveal d3"><span class="tick"></span>Contact us</div>
+            <ul class="case-list reveal d3">
+              <li>Support for<br>Large Deals</li>
+              <li>AI-Powered Experiences</li>
+              <li>Account-Level Agentic Design</li>
+              <li>AI Training to Support Sales</li>
+            </ul>
+
+            <div class="case-contact reveal d4">
+              <div class="case-contact-block">
+                <strong>David Neilson</strong>
+                <span>Director — david@charleselena.com.au</span>
+              </div>
+              <span class="case-contact-web">charleselena.com.au</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13 · AGENTS — closing "come build with us" page -->
+    <section class="frame s-agents" id="f13" data-frame="13" data-pillar="0" data-suffix="" data-hue="mix">
+      <div class="frame-inner">
+        <div class="agents-top-row">
+          <div class="agents-top-left">
+            <h2 class="agents-headline reveal">What you've seen today is three agents. Your team needs more than that.</h2>
+            <p class="body-copy agents-intro reveal d1">We work with your team and accounts to build agents that uncover insights, shape strategy, create content and assets, and move deals forward, all through a simple dashboard with no technical expertise required.</p>
+          </div>
+        </div>
+        <p class="agents-subline reveal d2">Here's an example of other agents we can deploy in sales today.</p>
+
+        <div class="agents-layout">
+          <div class="agents-col">
+            <div class="agents-roster reveal d3">
+              <div class="agents-grid">
+                <button class="agent-card is-active" type="button" aria-pressed="true" data-name="Echo" data-label="Rehearsal Agent" data-slug="sales-discovery-coach" data-image="assets/Agents/Round/echo%203.png" data-blurb="Reiterates the meeting before you have it. Plays the buyer, and asks the objection you are quietly hoping not to get.">
+                  <span class="agent-card-img-wrap"><img src="assets/Agents/echo.jpg" alt=""></span>
+                  <span class="agent-card-footer"><span class="agent-name">Echo</span><span class="agent-label">Rehearsal Agent</span><span class="agent-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Click for detail</span></span>
+                </button>
+                <button class="agent-card" type="button" aria-pressed="false" data-name="Vera" data-label="Moments Agent" data-slug="sales-deal-strategist" data-image="assets/Agents/Round/vera%202.png" data-blurb="Insights that align to deal cadence. Picks up external and internal insights on the brand, and summaries them into actionable pipeline of opportunities">
+                  <span class="agent-card-img-wrap"><img src="assets/Agents/vera.jpg" alt=""></span>
+                  <span class="agent-card-footer"><span class="agent-name">Vera</span><span class="agent-label">Moments Agent</span><span class="agent-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Click for detail</span></span>
+                </button>
+                <button class="agent-card" type="button" aria-pressed="false" data-name="Atlas" data-label="Creative Director" data-slug="sales-account-strategist" data-image="assets/Agents/Round/atlas%202.png" data-blurb="Turns the strategy into a cohesive creative system. Directs the idea, copy, design and motion so every asset feels distinctive, connected and built for the deal.">
+                  <span class="agent-card-img-wrap"><img src="assets/Agents/atlas.jpg" alt=""></span>
+                  <span class="agent-card-footer"><span class="agent-name">Atlas</span><span class="agent-label">Creative Director</span><span class="agent-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Click for detail</span></span>
+                </button>
+                <button class="agent-card" type="button" aria-pressed="false" data-name="Quill" data-label="Proposal Strategist" data-slug="sales-proposal-strategist" data-image="assets/Agents/Round/quill%202.png" data-blurb="Turns the narrative into the document, written in the client’s evaluation language rather than your capability language.">
+                  <span class="agent-card-img-wrap"><img src="assets/Agents/quill.jpg" alt=""></span>
+                  <span class="agent-card-footer"><span class="agent-name">Quill</span><span class="agent-label">Proposal Strategist</span><span class="agent-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Click for detail</span></span>
+                </button>
+                <button class="agent-card" type="button" aria-pressed="false" data-name="Rex" data-label="Watchdog" data-slug="agent-watchdog" data-image="assets/Agents/Round/rex%202.png" data-blurb="Audits another agent’s work, or a vendor’s, against the original brief and reports the gaps. The cheapest quality gate you will ever run.">
+                  <span class="agent-card-img-wrap"><img src="assets/Agents/rex.jpg" alt=""></span>
+                  <span class="agent-card-footer"><span class="agent-name">Rex</span><span class="agent-label">Watchdog</span><span class="agent-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Click for detail</span></span>
+                </button>
+                <button class="agent-card" type="button" aria-pressed="false" data-name="Cadence" data-label="Orchestrator Agent" data-slug="orchestrating" data-image="assets/Agents/Round/cadence%202.png" data-blurb="Orchestrating Scout, Arc, and Iris. She cross-examines every output against brand guidelines, rejects hallucinations and tone drift, and keeps the pitch aligned to executive reality.">
+                  <span class="agent-card-img-wrap"><img src="assets/Agents/cadence.jpg" alt=""></span>
+                  <span class="agent-card-footer"><span class="agent-name">Cadence</span><span class="agent-label">Orchestrator Agent</span><span class="agent-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Click for detail</span></span>
+                </button>
+                <button class="agent-card" type="button" aria-pressed="false" data-name="Scout" data-label="Storytelling Agent" data-slug="Find stories" data-image="assets/Agents/Round/scout%202.png" data-blurb="Ideates a new account story. Interrogates the opportunity and the user until a value proposition is defined.">
+                  <span class="agent-card-img-wrap"><img src="assets/Agents/scout.jpg" alt=""></span>
+                  <span class="agent-card-footer"><span class="agent-name">Scout</span><span class="agent-label">Storytelling Agent</span><span class="agent-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Click for detail</span></span>
+                </button>
+                <button class="agent-card" type="button" aria-pressed="false" data-name="Arc" data-label="Narrative Agent" data-slug="Narrative Structuring" data-image="assets/Agents/Round/arc%202.png" data-blurb="Structures the story. Three-act structures, hero’s journeys, metaphor and allegory, so the proposition resonates.">
+                  <span class="agent-card-img-wrap"><img src="assets/Agents/arc.jpg" alt=""></span>
+                  <span class="agent-card-footer"><span class="agent-name">Arc</span><span class="agent-label">Narrative Agent</span><span class="agent-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Click for detail</span></span>
+                </button>
+                <button class="agent-card" type="button" aria-pressed="false" data-name="Iris" data-label="Theming Agent" data-slug="theme creation" data-image="assets/Agents/Round/iris%202.png" data-blurb="Visualises your concept. Inside brand guidelines, three visualised concepts across imagery, colour, type and motion.">
+                  <span class="agent-card-img-wrap"><img src="assets/Agents/iris.jpg" alt=""></span>
+                  <span class="agent-card-footer"><span class="agent-name">Iris</span><span class="agent-label">Theming Agent</span><span class="agent-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Click for detail</span></span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="agents-detail-col">
+            <div class="agent-detail-body reveal d2">
+              <div class="agent-detail-frame">
+                <img id="agentDetailImg" src="assets/Agents/Round/echo%203.png" alt="">
+              </div>
+              <div class="agent-detail-text">
+                <span class="agent-detail-label" id="agentDetailLabel">Echo</span>
+                <span class="agent-detail-slug" id="agentDetailSlug">Rehearsal Agent</span>
+                <p class="agent-detail-blurb" id="agentDetailBlurb">Reiterates the meeting before you have it. Plays the buyer, and asks the objection you are quietly hoping not to get.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h2 class="agents-cta reveal">Your agents, your accounts, your team. Come and build them with us.</h2>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="site-footer">
+    <div class="footer-left">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+          <path d="M73.1865 46.4186H93.7277V50.7631H78.0369V61.1115H93.2802V65.5061H78.0369V76.1519H94.228V80.552H73.1865V46.4131V46.4186Z" fill="white"/>
+          <path d="M65.0706 77.951C61.0708 80.0524 56.8764 81.1503 52.7765 81.1503C48.6766 81.1503 45.2827 80.1024 42.1807 78.1039C37.0829 74.8073 34.1338 69.4065 34.1338 63.3582C34.1338 58.7607 36.0823 54.2633 39.4817 51.014C43.1285 47.5618 47.6287 45.8662 53.1267 45.8662C57.8242 45.8662 61.6239 47.1643 64.7704 48.6152V53.9131C60.6205 51.6617 56.8736 50.4637 53.1267 50.4637C44.9797 50.4637 39.3344 56.2091 39.3344 63.5055C39.3344 70.8019 44.9797 76.5 52.8265 76.5C56.8236 76.5 60.8734 75.1519 65.0678 72.4502V77.9482L65.0706 77.951Z" fill="white"/>
+        </svg>
+      </span>
+      <span>Empowering partners through design</span>
+    </div>
+    <div class="footer-center">Charles Elena | Titan</div>
+    <div class="footer-right"><span id="pageNum">01</span>/13</div>
+  </footer>
+
+<script>
+(function(){
+  var deck = document.getElementById('deck');
+  var frames = Array.prototype.slice.call(document.querySelectorAll('.frame'));
+  var eyebrowSuffix = document.getElementById('eyebrowSuffix');
+  var pillarNav = document.getElementById('pillarNav');
+  var pillarButtons = Array.prototype.slice.call(pillarNav.querySelectorAll('button'));
+  var pageNum = document.getElementById('pageNum');
+  var progressNav = document.getElementById('progressNav');
+  var aurora = document.getElementById('aurora');
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Build progress dots
+  frames.forEach(function(frame, i){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('aria-label', 'Go to section ' + (i+1));
+    b.addEventListener('click', function(){
+      frame.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+    });
+    progressNav.appendChild(b);
+  });
+  var progressButtons = Array.prototype.slice.call(progressNav.querySelectorAll('button'));
+
+  function setActive(index){
+    frames.forEach(function(f, i){ f.classList.toggle('in-view', i === index); });
+    progressButtons.forEach(function(b, i){ b.classList.toggle('is-active', i === index); });
+
+    var frame = frames[index];
+    var suffix = frame.getAttribute('data-suffix') || '';
+    eyebrowSuffix.textContent = suffix;
+
+    var pillar = frame.getAttribute('data-pillar');
+    var showPillarNav = pillar !== '0';
+    pillarNav.classList.toggle('is-visible', showPillarNav);
+    var activePillar = frame.hasAttribute('data-pillar-active') ? frame.getAttribute('data-pillar-active') : pillar;
+    pillarButtons.forEach(function(btn){
+      btn.classList.toggle('is-active', btn.getAttribute('data-goto-pillar') === activePillar);
+    });
+
+    pageNum.textContent = String(index + 1).padStart(2, '0');
+
+    var hue = frame.getAttribute('data-hue') || 'mix';
+    aurora.setAttribute('data-hue', hue);
+
+    // The aurora sits fully behind an opaque video/image on these frames — nothing of
+    // it is ever visible, so stop rendering it there (display:none) rather than pay
+    // for continuous blurred-layer recompositing no one can see.
+    var isCovered = frame.classList.contains('has-bg-video') || frame.classList.contains('s-opening');
+    aurora.classList.toggle('is-covered', isCovered);
+  }
+
+  // IntersectionObserver drives "active" frame tracking
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.55){
+        var idx = frames.indexOf(entry.target);
+        if (idx !== -1) setActive(idx);
+      }
+    });
+  }, { root: deck, threshold: [0.55] });
+  frames.forEach(function(f){ io.observe(f); });
+
+  setActive(0);
+
+  // Keyboard navigation
+  function currentIndex(){
+    for (var i = 0; i < frames.length; i++){
+      if (frames[i].classList.contains('in-view')) return i;
+    }
+    return 0;
+  }
+  function goTo(index){
+    index = Math.max(0, Math.min(frames.length - 1, index));
+    frames[index].scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+  }
+  window.addEventListener('keydown', function(e){
+    var tag = (document.activeElement && document.activeElement.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+    if (lensOverlay && lensOverlay.classList.contains('is-open')) return;
+    var i = currentIndex();
+    if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' '){
+      e.preventDefault(); goTo(i + 1);
+    } else if (e.key === 'ArrowUp' || e.key === 'PageUp'){
+      e.preventDefault(); goTo(i - 1);
+    }
+  });
+
+  // Storytelling Lens — icon trigger opens an overlay with the table; click outside
+  // (the backdrop) or Escape returns to the page underneath.
+  var lensTrigger = document.getElementById('lensTrigger');
+  var lensOverlay = document.getElementById('lensOverlay');
+  if (lensTrigger && lensOverlay){
+    var lensBackdrop = document.getElementById('lensOverlayBackdrop');
+    var lensClose = document.getElementById('lensClose');
+    var lensReturnFocus = null;
+    function openLens(){
+      lensReturnFocus = document.activeElement;
+      lensOverlay.classList.add('is-open');
+      lensOverlay.setAttribute('aria-hidden', 'false');
+      lensTrigger.setAttribute('aria-expanded', 'true');
+      lensClose.focus();
+    }
+    function closeLens(){
+      lensOverlay.classList.remove('is-open');
+      lensOverlay.setAttribute('aria-hidden', 'true');
+      lensTrigger.setAttribute('aria-expanded', 'false');
+      if (lensReturnFocus && lensReturnFocus.focus) lensReturnFocus.focus();
+    }
+    lensTrigger.addEventListener('click', openLens);
+    lensBackdrop.addEventListener('click', closeLens);
+    lensClose.addEventListener('click', closeLens);
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && lensOverlay.classList.contains('is-open')) closeLens();
+    });
+  }
+
+  // Pillar-nav jump: go to that pillar's first (intro) frame
+  pillarButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var pillar = btn.getAttribute('data-goto-pillar');
+      var target = frames.find(function(f){ return f.getAttribute('data-pillar') === pillar; });
+      if (target) target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
+
+  // Flip cards: tap-to-flip for touch/pen pointers (desktop relies on CSS :hover/:focus-visible)
+  function resetCardScroll(card){
+    var back = card.querySelector('.flip-face.back');
+    if (back) back.scrollTop = 0;
+  }
+  document.querySelectorAll('.flip-card').forEach(function(card){
+    card.addEventListener('pointerup', function(e){
+      if (e.pointerType === 'touch' || e.pointerType === 'pen'){
+        card.classList.toggle('is-flipped');
+        var flipped = card.classList.contains('is-flipped');
+        card.setAttribute('aria-pressed', flipped ? 'true' : 'false');
+        if (!flipped) resetCardScroll(card);
+      }
+    });
+    // Card returns to its front face on hover-out / focus-out (desktop) — put any
+    // scrolled back-face copy back to the top so it doesn't reappear mid-scroll.
+    card.addEventListener('mouseleave', function(){ resetCardScroll(card); });
+    card.addEventListener('blur', function(){ resetCardScroll(card); });
+  });
+
+  // Agents page (§13) — click a card to swap the detail panel's image + blurb
+  var agentCards = Array.prototype.slice.call(document.querySelectorAll('.agent-card'));
+  if (agentCards.length){
+    var agentImg = document.getElementById('agentDetailImg');
+    var agentLabel = document.getElementById('agentDetailLabel');
+    var agentSlug = document.getElementById('agentDetailSlug');
+    var agentBlurb = document.getElementById('agentDetailBlurb');
+    agentCards.forEach(function(card){
+      card.addEventListener('click', function(){
+        agentCards.forEach(function(c){ c.classList.remove('is-active'); c.setAttribute('aria-pressed', 'false'); });
+        card.classList.add('is-active');
+        card.setAttribute('aria-pressed', 'true');
+        agentImg.src = card.getAttribute('data-image');
+        agentImg.alt = card.getAttribute('data-name');
+        agentLabel.textContent = card.getAttribute('data-name');
+        agentSlug.textContent = card.getAttribute('data-label');
+        agentBlurb.textContent = card.getAttribute('data-blurb');
+      });
+    });
+  }
+
+  // Ambient background: the WHOLE field recedes from the cursor, not one riding
+  // element — each blob has its own weight (data-px/data-py, in vw/vh) but all move
+  // in the SAME sense: away from wherever the mouse currently is, so the whole
+  // composition reads as a cohesive field the pointer pushes into, not a follower.
+  // Mouse-driven, not autoplaying, so it stays on even under reduced-motion (only the
+  // ambient keyframe drift itself is gated on that — see .aurora .blob's own @media
+  // rule) — it just snaps instead of trailing for those users.
+  var blobWraps = Array.prototype.slice.call(document.querySelectorAll('.aurora-drift .blob-wrap'));
+  if (blobWraps.length){
+    var mx = 0, my = 0, tmx = 0, tmy = 0;
+    window.addEventListener('mousemove', function(e){
+      tmx = (e.clientX / window.innerWidth) - 0.5;
+      tmy = (e.clientY / window.innerHeight) - 0.5;
+    });
+    (function fieldTick(){
+      if (aurora.classList.contains('is-covered')){ requestAnimationFrame(fieldTick); return; }
+      var ease = reducedMotion ? 1 : 0.035;
+      mx += (tmx - mx) * ease;
+      my += (tmy - my) * ease;
+      blobWraps.forEach(function(w){
+        var px = parseFloat(w.getAttribute('data-px')) || 0;
+        var py = parseFloat(w.getAttribute('data-py')) || 0;
+        w.style.transform = 'translate(' + (-mx * px) + 'vw,' + (-my * py) + 'vh)';
+      });
+      requestAnimationFrame(fieldTick);
+    })();
+  }
+})();
+</script>
+</body>
+</html>
