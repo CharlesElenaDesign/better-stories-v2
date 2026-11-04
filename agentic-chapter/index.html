@@ -2165,7 +2165,9 @@
   [data-slug="ex-intro"] .ex-tile{ min-height:clamp(190px, 26vh, 280px); }
   /* Demo tiles sit in the same 4-column grid at the same size as the bid tiles. */
   [data-slug="ex-intro"] .ex-demos{ margin-top:var(--space-5); }
-  [data-slug="ex-intro"] .ex-demos .ex-face{ border-style:dashed; }
+  [data-slug="ex-intro"] .ex-grid{ grid-template-columns:repeat(3,1fr); }
+  @media (max-width: 760px){ [data-slug="ex-intro"] .ex-grid{ grid-template-columns:1fr; } }
+  [data-slug="ex-intro"] [data-go^="ex-demo"] .ex-face{ border-style:dashed; }
   button.ex-tile{ font:inherit; text-align:left; cursor:pointer; width:100%; }
   button.ex-tile:focus-visible{ outline:2px solid var(--ce-aqua); outline-offset:3px; }
   /* v2.0 (4 Nov): Huw's slides hidden until further notice. To restore, change
@@ -2983,12 +2985,12 @@
     <p class="subhead reveal d2">Hover for the idea. Click to see how it was built.</p>
     <div class="ex-grid reveal d3">
       <button type="button" class="ex-tile" data-go="ex-telstra" aria-label="Unleash the Energy: Telstra. Vendor to strategic partner, told as energy released across every document."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/telstra.jpg" alt="" onerror="this.remove()"><span class="ex-client">Telstra</span><span class="ex-theme">Unleash the Energy</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Telstra</span><span class="ex-theme">Unleash the Energy</span><span class="ex-desc">Vendor to strategic partner, told as energy released across every document.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
-      <button type="button" class="ex-tile" data-go="ex-temasek" aria-label="Scaling New Heights: Temasek. An ascent: each section of the response is a stage of the climb."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/temasek.jpg" alt="" onerror="this.remove()"><span class="ex-client">Temasek</span><span class="ex-theme">Scaling New Heights</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Temasek</span><span class="ex-theme">Scaling New Heights</span><span class="ex-desc">An ascent: each section of the response is a stage of the climb.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
+      <button type="button" class="ex-tile" data-go="ex-temasek" aria-label="One partnership, six promises: Temasek · Seviora. Six solution tenets, proven one by one, in Seviora's own purple."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/temasek.jpg" alt="" onerror="this.remove()"><span class="ex-client">Temasek · Seviora</span><span class="ex-theme">Six promises</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Temasek · Seviora</span><span class="ex-theme">Six promises</span><span class="ex-desc">Six solution tenets, proven one by one, in Seviora's own purple.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
       <button type="button" class="ex-tile" data-go="ex-google" aria-label="Unfolding the Future: Google · Project Chrysalis. A paper-craft butterfly unfolding in Google’s colours, from cover to motion."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/google-butterfly.jpg" alt="" onerror="this.remove()"><span class="ex-client">Google · Project Chrysalis</span><span class="ex-theme">Unfolding the Future</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Google · Project Chrysalis</span><span class="ex-theme">Unfolding the Future</span><span class="ex-desc">A paper-craft butterfly unfolding in Google’s colours, from cover to motion.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
-      <button type="button" class="ex-tile" data-go="ex-ralph-lauren" aria-label="Rise with AIR: Ralph Lauren. The deck concept drawn straight from the client’s own investor report."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/ralph-lauren-deck.jpg" alt="" onerror="this.remove()"><span class="ex-client">Ralph Lauren</span><span class="ex-theme">Rise with AIR</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Ralph Lauren</span><span class="ex-theme">Rise with AIR</span><span class="ex-desc">The deck concept drawn straight from the client’s own investor report.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
     </div>
     <!-- Demo examples: placeholders until David confirms the two demos (FS persona + manufacturing persona per 4 Nov notes). -->
     <div class="ex-grid ex-demos reveal d4">
+      <button type="button" class="ex-tile" data-go="ex-ralph-lauren" aria-label="Rise with AIR: Ralph Lauren. The deck concept drawn straight from the client’s own investor report."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/ralph-lauren-deck.jpg" alt="" onerror="this.remove()"><span class="ex-client">Ralph Lauren</span><span class="ex-theme">Rise with AIR</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Ralph Lauren</span><span class="ex-theme">Rise with AIR</span><span class="ex-desc">The deck concept drawn straight from the client’s own investor report.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
       <button type="button" class="ex-tile" data-go="ex-demo-1" aria-label="The Art of Flight: Demo 01 · Next in Manufacturing. An aircraft C-Check as an interactive story, with live AI answers for the engineer."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/demo-1.jpg" alt="" onerror="this.remove()"><span class="ex-client">Demo 01 · Next in Manufacturing</span><span class="ex-theme">The Art of Flight</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Demo 01 · Next in Manufacturing</span><span class="ex-theme">The Art of Flight</span><span class="ex-desc">An aircraft C-Check as an interactive story, with live AI answers for the engineer.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
       <button type="button" class="ex-tile" data-go="ex-demo-2" aria-label="S2P Copilot: Demo 02 · Microsoft. A sourcing manager's day, with Copilot running the RFP across Word, Outlook and Teams."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/demo-2.jpg" alt="" onerror="this.remove()"><span class="ex-client">Demo 02 · Microsoft</span><span class="ex-theme">S2P Copilot</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Demo 02 · Microsoft</span><span class="ex-theme">S2P Copilot</span><span class="ex-desc">A sourcing manager's day, with Copilot running the RFP across Word, Outlook and Teams.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
     </div>
@@ -3019,21 +3021,25 @@
 </section>
 
 <!-- ex2 · Temasek — Scaling New Heights -->
-<section class="frame" data-hue="magenta" data-slug="ex-temasek" data-sect="Examples" data-title="Temasek: Scaling New Heights">
+<section class="frame" data-hue="magenta" data-slug="ex-temasek" data-sect="Examples" data-title="Temasek: Seviora operational support">
   <div class="frame-inner ex-case">
     <div>
-      <div class="ex-client-line reveal">Temasek · RFP</div>
-      <h2 class="display reveal d1">Scaling New Heights.</h2>
+      <div class="ex-client-line reveal">Temasek · Seviora · RFP orals</div>
+      <h2 class="display reveal d1">One partnership, six promises.</h2>
       <ul class="ex-pillars reveal d2">
-        <li><span class="k">Story</span><span class="v">A partner built to help Temasek grow beyond where it stands today.</span></li>
-        <li><span class="k">Narrative</span><span class="v">An ascent: base camp, the climb, the summit. Each section of the response is a stage of the journey.</span></li>
-        <li><span class="k">Theme</span><span class="v">Elevation and perspective. Peaks, horizons and upward movement give the whole bid one visual thread.</span></li>
+        <li><span class="k">Story</span><span class="v">Infosys iCompaz as Seviora's partner for cloud and employee platform services, with a risk-free move from the incumbent.</span></li>
+        <li><span class="k">Narrative</span><span class="v">Six solution tenets, from risk-free transition to cost optimisation. The deck returns to the same wheel as each one is proven.</span></li>
+        <li><span class="k">Theme</span><span class="v">Seviora's own purple, with people-first photography on the cover and every chapter break.</span></li>
       </ul>
     </div>
-    <div class="ex-media reveal d3">
-      <img src="../assets/examples/temasek.jpg" alt="Temasek Scaling New Heights concept" onload="this.parentNode.classList.add('has-media')" onerror="this.remove()">
+    <button type="button" class="ex-media ex-wide ex-open reveal d3" aria-label="Open the Seviora orals deck"
+      data-viewer-title="Temasek · Seviora · Technical Management &amp; Operational Support" data-viewer-pattern="../assets/examples/temasek/deck/{n}.jpg" data-viewer-count="15"
+      data-viewer-file="../assets/examples/temasek/Seviora_Technical_Management_Operational_Support.pdf" data-viewer-file-label="Open PDF">
+      <span class="ex-cap">Orals deck</span>
+      <img src="../assets/examples/temasek.jpg" alt="Seviora orals deck cover: Technical Management and Operational Support" onload="this.parentNode.classList.add('has-media')" onerror="this.remove()">
       <span class="ex-pending">Asset pending · temasek.jpg</span>
-    </div>
+      <span class="ex-open-hint" aria-hidden="true">Click to open · 15 pages</span>
+    </button>
   </div>
 </section>
 
