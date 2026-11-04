@@ -2059,6 +2059,9 @@
                radial-gradient(100% 80% at 90% 90%, rgba(252,49,187,.25), transparent 60%), #0b0b0b;
   }
   .ex-media img, .ex-media video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  /* Never crop video: 16:9 panel to match the footage, and contain as a safety net for other ratios. */
+  .ex-media:has(video){ aspect-ratio:16/9; background:#000; }
+  .ex-media video{ object-fit:contain; }
   .ex-media .ex-pending{
     position:absolute; left:var(--space-5); bottom:var(--space-5);
     font-family:var(--font-meta); font-size:16px; letter-spacing:.1em; text-transform:uppercase; color:var(--fg-on-dark-3);
