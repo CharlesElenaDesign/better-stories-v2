@@ -1883,9 +1883,13 @@
     setActive(idx);
     frames[idx].classList.add('in-view');
   }
+  // After jumping, drop the #fN from the address bar so a refresh starts from slide 1.
+  function clearHash(){
+    if (location.hash && history.replaceState) history.replaceState(null, '', location.pathname + location.search);
+  }
   openHashFrame();
-  window.addEventListener('load', openHashFrame);
-  window.addEventListener('hashchange', openHashFrame);
+  window.addEventListener('load', function(){ openHashFrame(); clearHash(); });
+  window.addEventListener('hashchange', function(){ openHashFrame(); clearHash(); });
 
   // Keyboard navigation
   function currentIndex(){
