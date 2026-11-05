@@ -628,6 +628,33 @@
      ============================================================ */
   .momentum-label{ margin-top:var(--space-12); font-size:var(--fs-body-lg); color:var(--fg-on-dark-2); }
 
+  .viewer{ position:fixed; inset:0; z-index:1000; display:none; flex-direction:column; background:rgba(6,6,8,.92); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); overscroll-behavior:contain; }
+  .viewer.open{ display:flex; animation:viewerIn 260ms ease; }
+  @keyframes viewerIn{ from{ opacity:0; } to{ opacity:1; } }
+  .viewer-bar{ display:flex; align-items:center; gap:var(--space-4); padding:18px 28px; color:var(--fg-on-dark); }
+  .viewer-title{ font-family:var(--font-meta); font-size:15px; letter-spacing:.12em; text-transform:uppercase; color:var(--fg-on-dark-2); flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .viewer-count{ font-family:var(--font-meta); font-size:15px; letter-spacing:.08em; color:var(--fg-on-dark-3); font-variant-numeric:tabular-nums; }
+  .viewer-file{ font-family:var(--font-meta); font-size:14px; letter-spacing:.1em; text-transform:uppercase; text-decoration:none; color:#0b0b0b; padding:10px 18px; border-radius:var(--radius-pill); background:linear-gradient(90deg, #2de1fd, #fc31bb); }
+  .viewer-close{ width:44px; height:44px; border-radius:50%; border:1px solid rgba(255,255,255,.3); background:transparent; color:#fff; font-size:22px; line-height:1; cursor:pointer; }
+  .viewer-close:hover{ background:rgba(255,255,255,.12); }
+  .viewer-stage{ position:relative; flex:1; min-height:0; display:flex; align-items:center; justify-content:center; padding:0 96px 28px; }
+  .viewer-stage img{ max-width:100%; max-height:100%; object-fit:contain; border-radius:6px; box-shadow:0 20px 60px rgba(0,0,0,.6); }
+  .viewer-nav{ position:absolute; top:50%; translate:0 -50%; width:56px; height:56px; border-radius:50%; border:1px solid rgba(255,255,255,.3); background:rgba(0,0,0,.4); color:#fff; font-size:24px; cursor:pointer; }
+  .viewer-nav:hover{ background:rgba(255,255,255,.15); }
+  .viewer-nav[disabled]{ opacity:.25; cursor:default; }
+  .viewer-prev{ left:24px; } .viewer-next{ right:24px; }
+  .viewer.single .viewer-nav, .viewer.single .viewer-count{ display:none; }
+  .viewer-stage video{ max-width:100%; max-height:100%; border-radius:6px; box-shadow:0 20px 60px rgba(0,0,0,.6); background:#000; }
+  .viewer.is-video img{ display:none; } .viewer:not(.is-video) video{ display:none; }
+  .viewer.is-video .viewer-nav, .viewer.is-video .viewer-count{ display:none; }
+  /* Example rows open the viewer */
+  .analogy-open{ all:unset; box-sizing:border-box; display:grid; grid-template-columns:auto 1fr; gap:var(--space-8); align-items:center; cursor:pointer; width:100%; border-radius:var(--radius-md); }
+  .analogy-open .analogy-thumb{ transition:scale 500ms cubic-bezier(.16,1,.3,1), box-shadow 300ms ease, border-color 300ms ease; }
+  .analogy-open:hover .analogy-thumb, .analogy-open:focus-visible .analogy-thumb{ scale:1.04; border-color:rgba(255,255,255,.6); box-shadow:0 12px 36px rgba(0,0,0,.5); }
+  .analogy-open:focus-visible{ outline:2px solid #fff; outline-offset:8px; }
+  .analogy-cta{ display:inline-block; margin-top:10px; font-family:var(--font-meta); font-size:16px; letter-spacing:.12em; text-transform:uppercase; color:var(--fg-on-dark-3); transition:color 200ms ease; }
+  .analogy-open:hover .analogy-cta{ color:var(--fg-on-dark); }
+  @media (max-width: 700px){ .analogy-open{ grid-template-columns:1fr; gap:var(--space-3); } }
   /* v2.0 · Story pillar follow-ups: analogy, past analogies, lessons learned */
   .analogy-list{ display:flex; flex-direction:column; gap:var(--space-8); margin-top:var(--space-12); }
   .analogy-list li{ display:grid; grid-template-columns:auto 1fr; gap:var(--space-8); align-items:center; }
@@ -1297,9 +1324,9 @@
       <div class="frame-inner">
         <h2 class="display reveal">What does it <span class="gradient-underline">look like</span>?</h2>
         <ul class="analogy-list reveal d3">
-          <li><img class="analogy-thumb" src="assets/examples/telstra.jpg" alt="Telstra executive summary cover" loading="lazy"><span><span class="analogy-name">Telstra · Unleash the Energy</span><span class="analogy-line">Vendor to strategic partner, told as energy released across every document.</span></span></li>
-          <li><img class="analogy-thumb" src="assets/examples/amex.jpg" alt="American Express executive summary cover" loading="lazy"><span><span class="analogy-name">American Express · Precision in motion</span><span class="analogy-line">A rowing crew in perfect sync: 25 years of partnership, one boat moving forward.</span></span></li>
-          <li><img class="analogy-thumb" src="assets/examples/google-butterfly.jpg" alt="Google Project Chrysalis paper butterfly" loading="lazy"><span><span class="analogy-name">Google · Unfolding the Future</span><span class="analogy-line">A paper-craft butterfly unfolding in Google’s colours, from cover to motion.</span></span></li>
+          <li><button type="button" class="analogy-open" aria-label="Open Telstra · Catalyst for change · Executive summary" data-viewer-title="Telstra · Catalyst for change · Executive summary" data-viewer-pattern="assets/examples/telstra/deck/{n}.jpg" data-viewer-count="14" data-viewer-file="assets/examples/telstra/Telstra_Catalyst_for_Change_Exec_Summary.pdf" data-viewer-file-label="Open PDF"><img class="analogy-thumb" src="assets/examples/telstra.jpg" alt="Telstra executive summary cover" loading="lazy"><span><span class="analogy-name">Telstra · Unleash the Energy</span><span class="analogy-line">Vendor to strategic partner, told as energy released across every document.</span><span class="analogy-cta">View the document →</span></span></button></li>
+          <li><button type="button" class="analogy-open" aria-label="Open American Express · Precision in motion · Executive summary" data-viewer-title="American Express · Precision in motion · Executive summary" data-viewer-pattern="assets/examples/amex/deck/{n}.jpg" data-viewer-count="7" data-viewer-file="assets/examples/amex/Amex_Precision_in_Motion_Exec_Summary.pdf" data-viewer-file-label="Open PDF"><img class="analogy-thumb" src="assets/examples/amex.jpg" alt="American Express executive summary cover" loading="lazy"><span><span class="analogy-name">American Express · Precision in motion</span><span class="analogy-line">A rowing crew in perfect sync: 25 years of partnership, one boat moving forward.</span><span class="analogy-cta">View the document →</span></span></button></li>
+          <li><button type="button" class="analogy-open" aria-label="Open Google · Project Chrysalis · Unfolding the Future" data-viewer-title="Google · Project Chrysalis · Unfolding the Future" data-viewer-video="assets/examples/google-butterfly.mp4" data-viewer-file="assets/examples/google/Project_Chrysalis_RFP_Concepts.pdf" data-viewer-file-label="Open concepts PDF"><img class="analogy-thumb" src="assets/examples/google-butterfly.jpg" alt="Google Project Chrysalis paper butterfly" loading="lazy"><span><span class="analogy-name">Google · Unfolding the Future</span><span class="analogy-line">A paper-craft butterfly unfolding in Google’s colours, from cover to motion.</span><span class="analogy-cta">Play the video →</span></span></button></li>
         </ul>
       </div>
     </section>
@@ -1954,6 +1981,68 @@
       requestAnimationFrame(fieldTick);
     })();
   }
+})();
+</script>
+<!-- Popup viewer: opens the real file behind a thumbnail (slides or page image, plus the PDF). -->
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-labelledby="viewerTitle" hidden>
+  <div class="viewer-bar">
+    <span class="viewer-title" id="viewerTitle"></span>
+    <span class="viewer-count" id="viewerCount"></span>
+    <a class="viewer-file" id="viewerFile" target="_blank" rel="noopener">Open PDF ↗</a>
+    <button type="button" class="viewer-close" id="viewerClose" aria-label="Close">×</button>
+  </div>
+  <div class="viewer-stage">
+    <button type="button" class="viewer-nav viewer-prev" id="viewerPrev" aria-label="Previous slide">←</button>
+    <img id="viewerImg" alt="">
+    <video id="viewerVideo" controls playsinline></video>
+    <button type="button" class="viewer-nav viewer-next" id="viewerNext" aria-label="Next slide">→</button>
+  </div>
+</div>
+<script>
+(function(){
+  const v = document.getElementById('viewer'), img = document.getElementById('viewerImg');
+  const title = document.getElementById('viewerTitle'), count = document.getElementById('viewerCount'), file = document.getElementById('viewerFile');
+  const vid = document.getElementById('viewerVideo');
+  const prev = document.getElementById('viewerPrev'), next = document.getElementById('viewerNext'), close = document.getElementById('viewerClose');
+  let list = [], i = 0, opener = null;
+  function show(n){
+    i = Math.max(0, Math.min(list.length - 1, n));
+    img.src = list[i]; img.alt = title.textContent + (list.length > 1 ? ' · slide ' + (i + 1) : '');
+    count.textContent = (i + 1) + ' / ' + list.length;
+    prev.disabled = i === 0; next.disabled = i === list.length - 1;
+    [i + 1, i + 2].forEach(k => { if (list[k]) { const p = new Image(); p.src = list[k]; } });
+  }
+  function open(btn){
+    opener = btn;
+    const isVid = !!btn.dataset.viewerVideo; v.classList.toggle('is-video', isVid);
+    const pat = btn.dataset.viewerPattern, n = +btn.dataset.viewerCount || 0;
+    list = pat ? Array.from({ length: n }, (_, k) => pat.replace('{n}', String(k + 1).padStart(2, '0')))
+               : (btn.dataset.viewerImages || '').split(',').map(x => x.trim()).filter(Boolean);
+    title.textContent = btn.dataset.viewerTitle || '';
+    file.hidden = !btn.dataset.viewerFile; file.href = btn.dataset.viewerFile || '#';
+    file.textContent = (btn.dataset.viewerFileLabel || 'Open file') + ' ↗';
+    v.classList.toggle('single', list.length < 2);
+    v.hidden = false; v.classList.add('open');
+    if (isVid){ vid.src = btn.dataset.viewerVideo; vid.currentTime = 0; const pl = vid.play(); if (pl && pl.catch) pl.catch(()=>{}); }
+    else show((+btn.dataset.viewerStart || 1) - 1);
+    close.focus();
+  }
+  function shut(){ v.classList.remove('open'); v.hidden = true; img.removeAttribute('src'); vid.pause(); vid.removeAttribute('src'); vid.load(); if (opener) opener.focus(); }
+  document.querySelectorAll('.analogy-open').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); open(b); }));
+  prev.onclick = () => show(i - 1); next.onclick = () => show(i + 1); close.onclick = shut;
+  v.addEventListener('click', e => { if (e.target === v || e.target.classList.contains('viewer-stage')) shut(); });
+  // While open, the viewer owns the keyboard and wheel so the deck underneath does not move.
+  window.addEventListener('keydown', e => {
+    if (v.hidden) return;
+    const k = e.key;
+    if (v.classList.contains('is-video') && k !== 'Escape' && k !== 'Tab'){ if (k === ' '){ e.preventDefault(); vid.paused ? vid.play() : vid.pause(); } e.stopImmediatePropagation(); return; }
+    if (k === 'Escape') shut();
+    else if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || k === ' ') show(i + 1);
+    else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp') show(i - 1);
+    else if (k === 'Tab') return;
+    e.preventDefault(); e.stopImmediatePropagation();
+  }, true);
+  v.addEventListener('wheel', e => e.preventDefault(), { passive: false });
 })();
 </script>
 </body>
