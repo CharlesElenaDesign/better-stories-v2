@@ -1030,6 +1030,16 @@
   .synopsis-box.has-img::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0) 20%, rgba(0,0,0,.6) 60%, rgba(0,0,0,.9) 100%); }
   .synopsis-box.has-img > span{ position:relative; z-index:1; }
 
+  /* v2.0 · Examples as a thumbnail-first grid: big 16:9 covers, small title + caption below. */
+  .analogy-list{ display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-10); margin-top:var(--space-12); }
+  .analogy-list li{ display:block; }
+  .analogy-open{ display:flex; flex-direction:column; align-items:stretch; gap:var(--space-5); }
+  .analogy-thumb{ width:100%; aspect-ratio:16/9; border-radius:10px; }
+  .analogy-name{ font-size:26px; }
+  .analogy-line{ margin-top:6px; font-size:22px; }
+  .analogy-cta{ margin-top:12px; font-size:14px; }
+  .analogy-open:hover .analogy-thumb, .analogy-open:focus-visible .analogy-thumb{ scale:1.03; }
+  @media (max-width: 900px){ .analogy-list{ grid-template-columns:1fr; gap:var(--space-8); } }
 </style>
 </head>
 <body>
