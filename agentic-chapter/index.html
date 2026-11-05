@@ -2168,10 +2168,9 @@
   [data-slug="ex-intro"] .ex-grid{ margin-top:var(--space-8); }
   [data-slug="ex-intro"] .ex-tile{ min-height:clamp(190px, 26vh, 280px); }
   /* Demo tiles sit in the same 4-column grid at the same size as the bid tiles. */
-  [data-slug="ex-intro"] .ex-demos{ margin-top:var(--space-5); }
-  [data-slug="ex-intro"] .ex-grid{ grid-template-columns:repeat(3,1fr); }
+  [data-slug="ex-intro"] .ex-grid{ grid-template-columns:repeat(4,1fr); }
+  @media (max-width: 1100px){ [data-slug="ex-intro"] .ex-grid{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width: 760px){ [data-slug="ex-intro"] .ex-grid{ grid-template-columns:1fr; } }
-  [data-slug="ex-intro"] [data-go^="ex-demo"] .ex-face{ border-style:dashed; }
   button.ex-tile{ font:inherit; text-align:left; cursor:pointer; width:100%; }
   button.ex-tile:focus-visible{ outline:2px solid var(--ce-aqua); outline-offset:3px; }
   /* v2.0 (4 Nov): Huw's slides hidden until further notice. To restore, change
@@ -2985,18 +2984,13 @@
 <!-- ex0 · Examples intro -->
 <section class="frame" data-hue="mix" data-slug="ex-intro" data-sect="Examples" data-title="Four bids. One framework.">
   <div class="frame-inner">
-    <h2 class="display reveal d1">Four bids. Two demos. <span class="gradient-underline">One framework.</span></h2>
+    <h2 class="display reveal d1">Four bids. <span class="gradient-underline">One framework.</span></h2>
     <p class="subhead reveal d2">Hover for the idea. Click to see how it was built.</p>
     <div class="ex-grid reveal d3">
       <button type="button" class="ex-tile" data-go="ex-telstra" aria-label="Unleash the Energy: Telstra. Vendor to strategic partner, told as energy released across every document."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/telstra.jpg" alt="" onerror="this.remove()"><span class="ex-client">Telstra</span><span class="ex-theme">Unleash the Energy</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Telstra</span><span class="ex-theme">Unleash the Energy</span><span class="ex-desc">Vendor to strategic partner, told as energy released across every document.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
       <button type="button" class="ex-tile" data-go="ex-amex" aria-label="Precision in motion: American Express. A rowing crew in perfect sync: 25 years of partnership, one boat moving forward."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/amex.jpg" alt="" onerror="this.remove()"><span class="ex-client">American Express</span><span class="ex-theme">Precision in motion</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">American Express</span><span class="ex-theme">Precision in motion</span><span class="ex-desc">A rowing crew in perfect sync: 25 years of partnership, one boat moving forward.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
       <button type="button" class="ex-tile" data-go="ex-google" aria-label="Unfolding the Future: Google · Project Chrysalis. A paper-craft butterfly unfolding in Google’s colours, from cover to motion."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/google-butterfly.jpg" alt="" onerror="this.remove()"><span class="ex-client">Google · Project Chrysalis</span><span class="ex-theme">Unfolding the Future</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Google · Project Chrysalis</span><span class="ex-theme">Unfolding the Future</span><span class="ex-desc">A paper-craft butterfly unfolding in Google’s colours, from cover to motion.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
-    </div>
-    <!-- Demo examples: placeholders until David confirms the two demos (FS persona + manufacturing persona per 4 Nov notes). -->
-    <div class="ex-grid ex-demos reveal d4">
       <button type="button" class="ex-tile" data-go="ex-ralph-lauren" aria-label="Rise with AIR: Ralph Lauren. The deck concept drawn straight from the client’s own investor report."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/ralph-lauren-deck.jpg" alt="" onerror="this.remove()"><span class="ex-client">Ralph Lauren</span><span class="ex-theme">Rise with AIR</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Ralph Lauren</span><span class="ex-theme">Rise with AIR</span><span class="ex-desc">The deck concept drawn straight from the client’s own investor report.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
-      <button type="button" class="ex-tile" data-go="ex-demo-1" aria-label="The Art of Flight: Demo 01 · Next in Manufacturing. An aircraft C-Check as an interactive story, with live AI answers for the engineer."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/demo-1.jpg" alt="" onerror="this.remove()"><span class="ex-client">Demo 01 · Next in Manufacturing</span><span class="ex-theme">The Art of Flight</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Demo 01 · Next in Manufacturing</span><span class="ex-theme">The Art of Flight</span><span class="ex-desc">An aircraft C-Check as an interactive story, with live AI answers for the engineer.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
-      <button type="button" class="ex-tile" data-go="ex-demo-2" aria-label="S2P Copilot: Demo 02 · Microsoft. A sourcing manager's day, with Copilot running the RFP across Word, Outlook and Teams."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/demo-2.jpg" alt="" onerror="this.remove()"><span class="ex-client">Demo 02 · Microsoft</span><span class="ex-theme">S2P Copilot</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Demo 02 · Microsoft</span><span class="ex-theme">S2P Copilot</span><span class="ex-desc">A sourcing manager's day, with Copilot running the RFP across Word, Outlook and Teams.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
     </div>
   </div>
 </section>
@@ -3100,49 +3094,6 @@
         <span class="ex-open-hint" aria-hidden="true">Click to open · 20 slides</span>
       </button>
     </div>
-  </div>
-</section>
-
-<!-- Demo 01 · Next in Manufacturing (Art of Flight) -->
-<section class="frame" data-hue="aqua" data-slug="ex-demo-1" data-sect="Examples" data-title="Demo 01 · The Art of Flight">
-  <div class="frame-inner ex-case">
-    <div>
-      <div class="ex-client-line reveal">Demo 01 · Next in Manufacturing</div>
-      <h2 class="display reveal d1">The Art of Flight.</h2>
-      <ul class="ex-pillars reveal d2">
-        <li><span class="k">The story</span><span class="v">An aircraft's routine C-Check, told as an interactive journey through the hangar.</span></li>
-        <li><span class="k">The persona</span><span class="v">John, an engineer keeping aircraft safe under strict EASA and FAA rules.</span></li>
-        <li><span class="k">The AI</span><span class="v">Infosys Smart Assist answers live questions on directives, compliance and service bulletins.</span></li>
-      </ul>
-      <a class="ex-launch reveal d3" href="https://stg.nextinmanufacturing.ce-share.link/?token=51e00f6e5cd5c97db36324c6af6525d0d9dedda4a59a83aac3929ff63d04671c" target="_blank" rel="noopener">Launch live demo <span aria-hidden="true">↗</span></a>
-    </div>
-    <a class="ex-media ex-media-link reveal d3" href="https://stg.nextinmanufacturing.ce-share.link/?token=51e00f6e5cd5c97db36324c6af6525d0d9dedda4a59a83aac3929ff63d04671c" target="_blank" rel="noopener" aria-label="Open The Art of Flight demo in a new tab">
-      <img src="../assets/examples/demo-1.jpg" alt="Aircraft in a hangar, opening screen of The Art of Flight demo" onload="this.parentNode.classList.add('has-media')" onerror="this.remove()">
-      <span class="ex-demo-title" aria-hidden="true"><b>The Art of Flight</b>Transforming Aerospace Industry.</span>
-      <span class="ex-cap">Live demo</span>
-      <span class="ex-pending">Asset pending · demo-1.jpg</span>
-    </a>
-  </div>
-</section>
-
-<!-- Demo 02 · Microsoft S2P Copilot (clickable prototype rebuilt from Figma) -->
-<section class="frame" data-hue="magenta" data-slug="ex-demo-2" data-sect="Examples" data-title="Demo 02 · S2P Copilot">
-  <div class="frame-inner ex-case">
-    <div>
-      <div class="ex-client-line reveal">Demo 02 · Microsoft S2P Copilot</div>
-      <h2 class="display reveal d1">A sourcing project, start to finish.</h2>
-      <ul class="ex-pillars reveal d2">
-        <li><span class="k">The story</span><span class="v">One working day, from a contract-expiry reminder to an approved payment.</span></li>
-        <li><span class="k">The persona</span><span class="v">Emma Roberts, a sourcing manager who wants speed without complex procurement tools.</span></li>
-        <li><span class="k">The AI</span><span class="v">Copilot drafts the RFP in Word, sends it from Outlook and runs approvals in Teams.</span></li>
-      </ul>
-      <a class="ex-launch reveal d3" href="../demos/s2p-copilot/" target="_blank" rel="noopener">Launch clickable demo <span aria-hidden="true">↗</span></a>
-    </div>
-    <a class="ex-media ex-media-link reveal d3" href="../demos/s2p-copilot/" target="_blank" rel="noopener" aria-label="Open the S2P Copilot clickable demo in a new tab">
-      <img src="../assets/examples/demo-2.jpg" alt="Word with S2P Copilot suggestions beside an RFP draft" onload="this.parentNode.classList.add('has-media')" onerror="this.remove()">
-      <span class="ex-cap">Clickable demo</span>
-      <span class="ex-pending">Asset pending · demo-2.jpg</span>
-    </a>
   </div>
 </section>
 

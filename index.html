@@ -628,6 +628,21 @@
      ============================================================ */
   .momentum-label{ margin-top:var(--space-12); font-size:var(--fs-body-lg); color:var(--fg-on-dark-2); }
 
+  /* v2.0 · Story pillar follow-ups: analogy, past analogies, lessons learned */
+  .analogy-list{ display:flex; flex-direction:column; gap:var(--space-8); margin-top:var(--space-12); }
+  .analogy-list li{ display:grid; grid-template-columns:auto 1fr; gap:var(--space-8); align-items:center; }
+  .analogy-thumb{ width:240px; aspect-ratio:16/9; object-fit:cover; object-position:center top; border-radius:var(--radius-md); border:1px solid var(--border-hairline-dark); display:block; }
+  .analogy-name{ display:block; font-size:var(--fs-preceed); font-weight:var(--fw-bold); color:var(--fg-on-dark); line-height:1.25; }
+  .analogy-line{ display:block; margin-top:6px; font-size:var(--fs-preceed); font-weight:var(--fw-light); color:var(--fg-on-dark-2); line-height:1.4; text-wrap:pretty; }
+  .lesson-list{ display:flex; flex-direction:column; gap:var(--space-6); margin-top:var(--space-12); }
+  .lesson-list li{ display:grid; grid-template-columns:auto 1fr; gap:var(--space-6); align-items:baseline; font-size:var(--fs-h3); font-weight:var(--fw-light); color:var(--fg-on-dark-2); line-height:1.25; }
+  .lesson-list li b{ font-weight:var(--fw-bold); color:var(--fg-on-dark); }
+  .lesson-key{ font-weight:var(--fw-bold); background:var(--ce-brand-gradient); -webkit-background-clip:text; background-clip:text; color:transparent; min-width:1.2em; }
+  @media (max-width: 700px){
+    .analogy-list li{ grid-template-columns:1fr; gap:var(--space-3); }
+    .analogy-thumb{ width:100%; max-width:360px; }
+  }
+
   /* ============================================================
      STORYTELLING LENS — icon trigger + modal overlay
      ============================================================ */
@@ -1253,6 +1268,39 @@
       </div>
     </div>
 
+    <!-- 6a · PILLAR 1 · STORY — picking the right analogy -->
+    <section class="frame" id="f6a" data-frame="6a" data-pillar="1" data-suffix="the story creates the journey" data-hue="aqua">
+      <div class="frame-inner">
+        <h2 class="display reveal">Picking the right<br><span class="gradient-underline">analogy</span> is key.</h2>
+        <p class="subhead reveal d2">The right analogy makes a complex deal simple,<br>memorable and easy to retell.</p>
+        <p class="subhead reveal d2">Get it wrong and everything built on it works harder.</p>
+      </div>
+    </section>
+
+    <!-- 6b · PILLAR 1 · STORY — past analogies -->
+    <section class="frame" id="f6b" data-frame="6b" data-pillar="1" data-suffix="the story creates the journey" data-hue="aqua">
+      <div class="frame-inner">
+        <h2 class="display reveal">Past <span class="gradient-underline">analogies</span>.</h2>
+        <ul class="analogy-list reveal d3">
+          <li><img class="analogy-thumb" src="assets/examples/telstra.jpg" alt="Telstra executive summary cover" loading="lazy"><span><span class="analogy-name">Telstra · Unleash the Energy</span><span class="analogy-line">Vendor to strategic partner, told as energy released across every document.</span></span></li>
+          <li><img class="analogy-thumb" src="assets/examples/amex.jpg" alt="American Express executive summary cover" loading="lazy"><span><span class="analogy-name">American Express · Precision in motion</span><span class="analogy-line">A rowing crew in perfect sync: 25 years of partnership, one boat moving forward.</span></span></li>
+          <li><img class="analogy-thumb" src="assets/examples/google-butterfly.jpg" alt="Google Project Chrysalis paper butterfly" loading="lazy"><span><span class="analogy-name">Google · Unfolding the Future</span><span class="analogy-line">A paper-craft butterfly unfolding in Google’s colours, from cover to motion.</span></span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 6c · PILLAR 1 · STORY — what we learned -->
+    <section class="frame" id="f6c" data-frame="6c" data-pillar="1" data-suffix="the story creates the journey" data-hue="aqua">
+      <div class="frame-inner">
+        <h2 class="display reveal">What we learned from<br><span class="gradient-underline">previous sessions</span>.</h2>
+        <ul class="lesson-list reveal d3">
+          <li><span class="lesson-key">A</span><span><b>It needs time.</b> Give it the time it deserves.</span></li>
+          <li><span class="lesson-key">B</span><span><b>If you don’t learn,</b> you will get left behind.</span></li>
+          <li><span class="lesson-key">C</span><span><b>It is difficult,</b> but you have Titan’s support.</span></li>
+        </ul>
+      </div>
+    </section>
+
     <!-- 7 · PILLAR 2 · NARRATIVE — flows -->
     <section class="frame has-bg-video" id="f7" data-frame="7" data-pillar="2" data-suffix="the narrative structures the journey" data-hue="magenta">
       <video class="hero-bg-video" autoplay muted loop playsinline aria-hidden="true">
@@ -1605,7 +1653,7 @@
       h.style.setProperty('--words', i);
     });
     /* Stagger index for grouped items (cards, tiles, list rows). */
-    document.querySelectorAll('.card-row, .ex-grid, .similar-list, .ex-pillars, .agents-grid, .case-list, .ai-buttons, .jargon-lines').forEach(function(g){
+    document.querySelectorAll('.card-row, .analogy-list, .lesson-list, .ex-grid, .similar-list, .ex-pillars, .agents-grid, .case-list, .ai-buttons, .jargon-lines').forEach(function(g){
       Array.prototype.slice.call(g.children).forEach(function(c, n){ c.classList.add('stg'); c.style.setProperty('--n', n); });
     });
   }
