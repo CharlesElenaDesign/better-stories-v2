@@ -1040,6 +1040,10 @@
   .analogy-cta{ margin-top:12px; font-size:14px; }
   .analogy-open:hover .analogy-thumb, .analogy-open:focus-visible .analogy-thumb{ scale:1.03; }
   @media (max-width: 900px){ .analogy-list{ grid-template-columns:1fr; gap:var(--space-8); } }
+  /* HIDDEN 6 Nov (David): no decorative images on the cards. Delete this block to bring them back. */
+  .card-art .card-img, .synopsis-box > .card-img{ display:none !important; }
+  .card-art.has-img .blob{ opacity:1 !important; }
+  .synopsis-box.has-img::after{ display:none; }
 </style>
 </head>
 <body>
@@ -1325,11 +1329,13 @@
     </div>
 
     <!-- 6a · PILLAR 1 · STORY — lessons learned (narrative-flow template) -->
-    <section class="frame has-bg-video" id="f6a" data-frame="6a" data-pillar="1" data-suffix="the story creates the journey" data-hue="aqua">
+    <section class="frame" id="f6a" data-frame="6a" data-pillar="1" data-suffix="the story creates the journey" data-hue="aqua" data-custom-bg="analogy-bg">
+      <!-- HIDDEN 6 Nov (David: no custom video backgrounds). To restore, uncomment and add has-bg-video back to the section.
       <video class="hero-bg-video" autoplay muted loop playsinline aria-hidden="true" poster="assets/analogy-bg.jpg">
         <source src="assets/analogy-bg.mp4" type="video/mp4">
       </video>
       <div class="hero-bg-scrim" aria-hidden="true"></div>
+      -->
       <div class="frame-inner">
         <h2 class="display reveal">Lessons learned<br>from the <span class="gradient-underline">past</span>.</h2>
         <ul class="lesson-list reveal d3">
@@ -1341,12 +1347,13 @@
     </section>
 
     <!-- 6b · PILLAR 1 · STORY — chapter break (theme-intro template) -->
-    <section class="frame has-bg-video" id="f6b" data-frame="6b" data-pillar="1" data-suffix="the story creates the journey" data-hue="orange">
-      <!-- Placeholder: reuses the Theme opener's amber-thread loop until a dedicated hourglass video can be generated. -->
+    <section class="frame" id="f6b" data-frame="6b" data-pillar="1" data-suffix="the story creates the journey" data-hue="orange" data-custom-bg="theme-bg">
+      <!-- HIDDEN 6 Nov (David: no custom video backgrounds). To restore, uncomment and add has-bg-video back to the section.
       <video class="hero-bg-video" autoplay muted loop playsinline aria-hidden="true" poster="assets/theme-bg.jpg">
         <source src="assets/theme-bg.mp4" type="video/mp4">
       </video>
       <div class="hero-bg-scrim" aria-hidden="true"></div>
+      -->
       <div class="frame-inner">
         <h2 class="display reveal">Storytelling takes <span class="gradient-underline">time</span>.</h2>
         <p class="subhead reveal d2">The right story is rarely the first one you find. Give it the time it deserves.</p>
@@ -1573,11 +1580,13 @@
     </section>
 
     <!-- 9 · PILLAR 3 · THEME — intro -->
-    <section class="frame has-bg-video" id="f9" data-frame="9" data-pillar="3" data-suffix="the theme creates the visual thread" data-hue="orange">
+    <section class="frame" id="f9" data-frame="9" data-pillar="3" data-suffix="the theme creates the visual thread" data-hue="orange" data-custom-bg="theme-bg">
+      <!-- HIDDEN 6 Nov (David: no custom video backgrounds). To restore, uncomment and add has-bg-video back to the section.
       <video class="hero-bg-video" autoplay muted loop playsinline aria-hidden="true" poster="assets/theme-bg.jpg">
         <source src="assets/theme-bg.mp4" type="video/mp4">
       </video>
       <div class="hero-bg-scrim" aria-hidden="true"></div>
+      -->
       <div class="frame-inner">
         <h2 class="display reveal">Shaping the visual thread through creative <span class="gradient-underline">theming</span>.</h2>
         <p class="subhead reveal d2">Theming isn't decoration. It's a way to shape and carry the story across every touchpoint of the deal.</p>
@@ -1656,11 +1665,13 @@
     </section>
 
     <!-- 11 · TRANSITION TO AI -->
-    <section class="frame s-ai has-bg-video" id="f11" data-frame="11" data-pillar="0" data-suffix="" data-hue="mix">
+    <section class="frame s-ai" id="f11" data-frame="11" data-pillar="0" data-suffix="" data-hue="mix" data-custom-bg="ai-bg">
+      <!-- HIDDEN 6 Nov (David: no custom video backgrounds). To restore, uncomment and add has-bg-video back to the section.
       <video class="hero-bg-video" autoplay muted loop playsinline aria-hidden="true" poster="assets/ai-bg.jpg">
         <source src="assets/ai-bg.mp4" type="video/mp4">
       </video>
       <div class="hero-bg-scrim" aria-hidden="true"></div>
+      -->
       <div class="frame-inner">
         <div class="eyebrow-label reveal"><span class="tick"></span>AI Workflow Demos</div>
         <h1 class="reveal d1">Design and AI converge.<br><span class="line2 gradient-text">Scaling every deal with AI.</span></h1>
