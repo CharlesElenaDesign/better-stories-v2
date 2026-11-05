@@ -2116,6 +2116,10 @@
   .ex-pair{ display:grid; grid-template-columns:1fr auto 1fr; gap:var(--space-4); align-items:center; }
   /* Both sides are 16:9 slides: show them whole, never cropped. */
   /* Show both sources whole, never cropped: the Investor Day page is a tall portrait page, the deck is 16:9. */
+  /* US Letter portrait cover, e.g. the Amex exec summary. */
+  .ex-media.ex-letter{ aspect-ratio:1600/2070; height:min(62vh, 600px); width:auto; justify-self:center; }
+  .ex-media.ex-letter img{ object-fit:contain; background:#000; }
+  .ex-media.ex-letter .ex-cap{ display:none; } /* the cover already carries its own label */
   .ex-media.ex-wide{ aspect-ratio:16/9; }
   .ex-media.ex-wide img{ object-fit:contain; background:#000; }
   .ex-media.ex-wide .ex-cap{ left:auto; right:var(--space-5); } /* keeps the client logo, top-left on covers, clear */
@@ -2985,7 +2989,7 @@
     <p class="subhead reveal d2">Hover for the idea. Click to see how it was built.</p>
     <div class="ex-grid reveal d3">
       <button type="button" class="ex-tile" data-go="ex-telstra" aria-label="Unleash the Energy: Telstra. Vendor to strategic partner, told as energy released across every document."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/telstra.jpg" alt="" onerror="this.remove()"><span class="ex-client">Telstra</span><span class="ex-theme">Unleash the Energy</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Telstra</span><span class="ex-theme">Unleash the Energy</span><span class="ex-desc">Vendor to strategic partner, told as energy released across every document.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
-      <button type="button" class="ex-tile" data-go="ex-temasek" aria-label="One partnership, six promises: Temasek · Seviora. Six solution tenets, proven one by one, in Seviora's own purple."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/temasek.jpg" alt="" onerror="this.remove()"><span class="ex-client">Temasek · Seviora</span><span class="ex-theme">Six promises</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Temasek · Seviora</span><span class="ex-theme">Six promises</span><span class="ex-desc">Six solution tenets, proven one by one, in Seviora's own purple.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
+      <button type="button" class="ex-tile" data-go="ex-amex" aria-label="Precision in motion: American Express. A rowing crew in perfect sync: 25 years of partnership, one boat moving forward."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/amex.jpg" alt="" onerror="this.remove()"><span class="ex-client">American Express</span><span class="ex-theme">Precision in motion</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">American Express</span><span class="ex-theme">Precision in motion</span><span class="ex-desc">A rowing crew in perfect sync: 25 years of partnership, one boat moving forward.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
       <button type="button" class="ex-tile" data-go="ex-google" aria-label="Unfolding the Future: Google · Project Chrysalis. A paper-craft butterfly unfolding in Google’s colours, from cover to motion."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/google-butterfly.jpg" alt="" onerror="this.remove()"><span class="ex-client">Google · Project Chrysalis</span><span class="ex-theme">Unfolding the Future</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Google · Project Chrysalis</span><span class="ex-theme">Unfolding the Future</span><span class="ex-desc">A paper-craft butterfly unfolding in Google’s colours, from cover to motion.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
     </div>
     <!-- Demo examples: placeholders until David confirms the two demos (FS persona + manufacturing persona per 4 Nov notes). -->
@@ -3021,24 +3025,24 @@
 </section>
 
 <!-- ex2 · Temasek — Scaling New Heights -->
-<section class="frame" data-hue="magenta" data-slug="ex-temasek" data-sect="Examples" data-title="Temasek: Seviora operational support">
+<section class="frame" data-hue="aqua" data-slug="ex-amex" data-sect="Examples" data-title="American Express: Precision in motion">
   <div class="frame-inner ex-case">
     <div>
-      <div class="ex-client-line reveal">Temasek · Seviora · RFP orals</div>
-      <h2 class="display reveal d1">One partnership, six promises.</h2>
+      <div class="ex-client-line reveal">American Express · Vendor consolidation · Executive summary</div>
+      <h2 class="display reveal d1">Precision in motion.</h2>
       <ul class="ex-pillars reveal d2">
-        <li><span class="k">Story</span><span class="v">Infosys iCompaz as Seviora's partner for cloud and employee platform services, with a risk-free move from the incumbent.</span></li>
-        <li><span class="k">Narrative</span><span class="v">Six solution tenets, from risk-free transition to cost optimisation. The deck returns to the same wheel as each one is proven.</span></li>
-        <li><span class="k">Theme</span><span class="v">Seviora's own purple, with people-first photography on the cover and every chapter break.</span></li>
+        <li><span class="k">Story</span><span class="v">As Amex consolidates vendors, Infosys is the partner already in the boat: 25 years in, and ready to go further.</span></li>
+        <li><span class="k">Narrative</span><span class="v">From trust earned to full speed ahead, closing on one promise: deliver with precision.</span></li>
+        <li><span class="k">Theme</span><span class="v">A rowing crew in perfect sync. Water, rhythm and motion as the picture of human-centred, AI-led execution.</span></li>
       </ul>
     </div>
-    <button type="button" class="ex-media ex-wide ex-open reveal d3" aria-label="Open the Seviora orals deck"
-      data-viewer-title="Temasek · Seviora · Technical Management &amp; Operational Support" data-viewer-pattern="../assets/examples/temasek/deck/{n}.jpg" data-viewer-count="15"
-      data-viewer-file="../assets/examples/temasek/Seviora_Technical_Management_Operational_Support.pdf" data-viewer-file-label="Open PDF">
-      <span class="ex-cap">Orals deck</span>
-      <img src="../assets/examples/temasek.jpg" alt="Seviora orals deck cover: Technical Management and Operational Support" onload="this.parentNode.classList.add('has-media')" onerror="this.remove()">
-      <span class="ex-pending">Asset pending · temasek.jpg</span>
-      <span class="ex-open-hint" aria-hidden="true">Click to open · 15 pages</span>
+    <button type="button" class="ex-media ex-letter ex-open reveal d3" aria-label="Open the American Express executive summary"
+      data-viewer-title="American Express · Precision in motion · Executive summary" data-viewer-pattern="../assets/examples/amex/deck/{n}.jpg" data-viewer-count="7"
+      data-viewer-file="../assets/examples/amex/Amex_Precision_in_Motion_Exec_Summary.pdf" data-viewer-file-label="Open PDF">
+      <span class="ex-cap">Executive summary</span>
+      <img src="../assets/examples/amex.jpg" alt="American Express executive summary cover: Precision in motion" onload="this.parentNode.classList.add('has-media')" onerror="this.remove()">
+      <span class="ex-pending">Asset pending · amex.jpg</span>
+      <span class="ex-open-hint" aria-hidden="true">Click to open · 7 pages</span>
     </button>
   </div>
 </section>
