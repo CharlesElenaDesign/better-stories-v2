@@ -1040,6 +1040,8 @@
   .analogy-cta{ margin-top:12px; font-size:14px; }
   .analogy-open:hover .analogy-thumb, .analogy-open:focus-visible .analogy-thumb{ scale:1.03; }
   @media (max-width: 900px){ .analogy-list{ grid-template-columns:1fr; gap:var(--space-8); } }
+  .analogy-pending{ display:flex !important; flex-direction:column; gap:var(--space-5); opacity:.6; }
+  .analogy-slot{ display:flex; align-items:center; justify-content:center; width:100%; aspect-ratio:16/9; border-radius:10px; border:1px dashed rgba(255,255,255,.35); font-size:14px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.7); }
   /* HIDDEN 6 Nov (David): no decorative images on the cards. Delete this block to bring them back. */
   .card-art .card-img, .synopsis-box > .card-img{ display:none !important; }
   .card-art.has-img .blob{ opacity:1 !important; }
@@ -1588,6 +1590,18 @@
           <li><button type="button" class="analogy-open" aria-label="Open Telstra · Catalyst for change · Executive summary" data-viewer-title="Telstra · Catalyst for change · Executive summary" data-viewer-pattern="assets/examples/telstra/deck/{n}.jpg" data-viewer-count="14" data-viewer-file="assets/examples/telstra/Telstra_Catalyst_for_Change_Exec_Summary.pdf" data-viewer-file-label="Open PDF"><img class="analogy-thumb" src="assets/examples/telstra.jpg" alt="Telstra executive summary cover" loading="lazy"><span><span class="analogy-name">Telstra · Unleash the Energy</span><span class="analogy-line">Vendor to strategic partner, told as energy released across every document.</span><span class="analogy-cta">View the document →</span></span></button></li>
           <li><button type="button" class="analogy-open" aria-label="Open American Express · Precision in motion · Executive summary" data-viewer-title="American Express · Precision in motion · Executive summary" data-viewer-pattern="assets/examples/amex/deck/{n}.jpg" data-viewer-count="7" data-viewer-file="assets/examples/amex/Amex_Precision_in_Motion_Exec_Summary.pdf" data-viewer-file-label="Open PDF"><img class="analogy-thumb" src="assets/examples/amex.jpg" alt="American Express executive summary cover" loading="lazy"><span><span class="analogy-name">American Express · Precision in motion</span><span class="analogy-line">A rowing crew in perfect sync: 25 years of partnership, one boat moving forward.</span><span class="analogy-cta">View the document →</span></span></button></li>
           <li><button type="button" class="analogy-open" aria-label="Open Google · Project Chrysalis · Unfolding the Future" data-viewer-title="Google · Project Chrysalis · Unfolding the Future" data-viewer-video="assets/examples/google-butterfly.mp4" data-viewer-pattern="assets/examples/google/deck/{n}.jpg" data-viewer-count="18"><img class="analogy-thumb" src="assets/examples/google-butterfly.jpg" alt="Google Project Chrysalis paper butterfly" loading="lazy"><span><span class="analogy-name">Google · Unfolding the Future</span><span class="analogy-line">A paper-craft butterfly unfolding in Google’s colours, from cover to motion.</span><span class="analogy-cta">Play the video, then the pages →</span></span></button></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- After Theme · WHAT DOES IT LOOK LIKE (2 of 2) — Ralph Lauren, Temasek, + one more from Tarun -->
+    <section class="frame" id="f6e" data-frame="6e" data-pillar="0" data-suffix="" data-hue="aqua">
+      <div class="frame-inner">
+        <h2 class="display reveal">What does it <span class="gradient-underline">look like</span>?</h2>
+        <ul class="analogy-list reveal d3">
+          <li><button type="button" class="analogy-open" aria-label="Open Ralph Lauren · Rise with AIR" data-viewer-title="Rise with AIR · A POV by Infosys for Ralph Lauren" data-viewer-pattern="assets/examples/ralph-lauren/deck/{n}.jpg" data-viewer-count="20" data-viewer-file="assets/examples/ralph-lauren/RL_Rise_with_AIR_Infosys.pdf" data-viewer-file-label="Open PDF"><img class="analogy-thumb" src="assets/examples/ralph-lauren-deck.jpg" alt="Ralph Lauren Rise with AIR deck cover" loading="lazy"><span><span class="analogy-name">Ralph Lauren · Rise with AIR</span><span class="analogy-line">The client already wrote the story: their own Investor Day “Drive” became our point of view.</span><span class="analogy-cta">View the document →</span></span></button></li>
+          <li><button type="button" class="analogy-open" aria-label="Open Temasek · Seviora · One partnership, six promises" data-viewer-title="Temasek · Seviora · Technical Management &amp; Operational Support" data-viewer-pattern="assets/examples/temasek/deck/{n}.jpg" data-viewer-count="15" data-viewer-file="assets/examples/temasek/Seviora_Technical_Management_Operational_Support.pdf" data-viewer-file-label="Open PDF"><img class="analogy-thumb" src="assets/examples/temasek.jpg" alt="Temasek Seviora orals deck cover" loading="lazy"><span><span class="analogy-name">Temasek · Six promises</span><span class="analogy-line">One partnership, six solution tenets, proven one by one in Seviora’s own purple.</span><span class="analogy-cta">View the document →</span></span></button></li>
+          <li class="analogy-pending" aria-label="Coming soon"><span class="analogy-slot">Coming soon</span><span><span class="analogy-name">Project to be confirmed</span><span class="analogy-line">One more TITAN story on its way.</span></span></li>
         </ul>
       </div>
     </section>
