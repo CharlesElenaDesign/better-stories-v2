@@ -646,7 +646,7 @@
   .viewer.single .viewer-nav, .viewer.single .viewer-count{ display:none; }
   .viewer-stage video{ max-width:100%; max-height:100%; border-radius:6px; box-shadow:0 20px 60px rgba(0,0,0,.6); background:#000; }
   .viewer.is-video img{ display:none; } .viewer:not(.is-video) video{ display:none; }
-  .viewer.is-video .viewer-nav, .viewer.is-video .viewer-count{ display:none; }
+  .viewer.is-video.single .viewer-nav, .viewer.is-video.single .viewer-count{ display:none; }
   /* Example rows open the viewer */
   .analogy-open{ all:unset; box-sizing:border-box; display:grid; grid-template-columns:auto 1fr; gap:var(--space-8); align-items:center; cursor:pointer; width:100%; border-radius:var(--radius-md); }
   .analogy-open .analogy-thumb{ transition:scale 500ms cubic-bezier(.16,1,.3,1), box-shadow 300ms ease, border-color 300ms ease; }
@@ -1044,6 +1044,21 @@
   .card-art .card-img, .synopsis-box > .card-img{ display:none !important; }
   .card-art.has-img .blob{ opacity:1 !important; }
   .synopsis-box.has-img::after{ display:none; }
+
+  /* Observations from the road: three points as columns with a gradient rule (no letters, numbers or bullets) */
+  .road-list{ list-style:none; padding:0; margin:var(--space-12) 0 0; display:grid; grid-template-columns:repeat(3,1fr); gap:var(--space-10); }
+  .road-list li{ padding-top:var(--space-5); border-top:2px solid; border-image:var(--ce-brand-gradient) 1; display:flex; flex-direction:column; gap:var(--space-3); }
+  .road-list b{ font-size:var(--fs-h4); font-weight:var(--fw-bold); color:var(--fg-on-dark); line-height:1.2; }
+  .road-list li > span{ font-size:var(--fs-body); font-weight:var(--fw-light); color:var(--fg-on-dark-2); line-height:1.45; }
+  .road-close{ margin-top:var(--space-12); font-size:var(--fs-h4); font-weight:var(--fw-bold); line-height:1.25; max-width:1200px; text-wrap:balance; }
+  .road-close span{ display:block; margin-bottom:var(--space-3); font-size:var(--fs-label, 14px); font-weight:var(--fw-medium); letter-spacing:.14em; text-transform:uppercase; color:var(--fg-on-dark-2); }
+  @media (max-width:900px){ .road-list{ grid-template-columns:1fr; gap:var(--space-6); } }
+
+  /* Knicks closing slide: help statement + connect label */
+  .case-help .case-headline{ margin-top:var(--space-4); height:auto; }
+  .case-connect-label{ margin-top:var(--space-10); }
+  .case-contact-block a{ color:inherit; text-decoration:none; }
+  @media (min-width:901px){ .s-case .case-connect-label{ margin-top:var(--space-12); } .s-case .case-connect-label + .case-contact{ margin-top:var(--space-5); } }
 </style>
 </head>
 <body>
@@ -1328,105 +1343,6 @@
       </div>
     </div>
 
-    <!-- 6a · PILLAR 1 · STORY — lessons learned (narrative-flow template) -->
-    <section class="frame" id="f6a" data-frame="6a" data-pillar="1" data-suffix="the story creates the journey" data-hue="aqua" data-custom-bg="analogy-bg">
-      <!-- HIDDEN 6 Nov (David: no custom video backgrounds). To restore, uncomment and add has-bg-video back to the section.
-      <video class="hero-bg-video" autoplay muted loop playsinline aria-hidden="true" poster="assets/analogy-bg.jpg">
-        <source src="assets/analogy-bg.mp4" type="video/mp4">
-      </video>
-      <div class="hero-bg-scrim" aria-hidden="true"></div>
-      -->
-      <div class="frame-inner">
-        <h2 class="display reveal">Lessons learned<br>from the <span class="gradient-underline">past</span>.</h2>
-        <ul class="lesson-list reveal d3">
-          <li><span class="lesson-key">A</span><span><b>It needs time.</b> Give it the time it deserves.</span></li>
-          <li><span class="lesson-key">B</span><span><b>If you don’t learn,</b> you will get left behind.</span></li>
-          <li><span class="lesson-key">C</span><span><b>It is difficult,</b> but you have Titan’s support.</span></li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- 6b · PILLAR 1 · STORY — chapter break (theme-intro template) -->
-    <section class="frame" id="f6b" data-frame="6b" data-pillar="1" data-suffix="the story creates the journey" data-hue="orange" data-custom-bg="theme-bg">
-      <!-- HIDDEN 6 Nov (David: no custom video backgrounds). To restore, uncomment and add has-bg-video back to the section.
-      <video class="hero-bg-video" autoplay muted loop playsinline aria-hidden="true" poster="assets/theme-bg.jpg">
-        <source src="assets/theme-bg.mp4" type="video/mp4">
-      </video>
-      <div class="hero-bg-scrim" aria-hidden="true"></div>
-      -->
-      <div class="frame-inner">
-        <h2 class="display reveal">Storytelling takes <span class="gradient-underline">time</span>.</h2>
-        <p class="subhead reveal d2">The right story is rarely the first one you find. Give it the time it deserves.</p>
-      </div>
-    </section>
-
-    <!-- 6c · PILLAR 1 · STORY — what does it look like (RFPs only) -->
-    <section class="frame" id="f6c" data-frame="6c" data-pillar="1" data-suffix="the story creates the journey" data-hue="aqua">
-      <div class="frame-inner">
-        <h2 class="display reveal">What does it <span class="gradient-underline">look like</span>?</h2>
-        <ul class="analogy-list reveal d3">
-          <li><button type="button" class="analogy-open" aria-label="Open Telstra · Catalyst for change · Executive summary" data-viewer-title="Telstra · Catalyst for change · Executive summary" data-viewer-pattern="assets/examples/telstra/deck/{n}.jpg" data-viewer-count="14" data-viewer-file="assets/examples/telstra/Telstra_Catalyst_for_Change_Exec_Summary.pdf" data-viewer-file-label="Open PDF"><img class="analogy-thumb" src="assets/examples/telstra.jpg" alt="Telstra executive summary cover" loading="lazy"><span><span class="analogy-name">Telstra · Unleash the Energy</span><span class="analogy-line">Vendor to strategic partner, told as energy released across every document.</span><span class="analogy-cta">View the document →</span></span></button></li>
-          <li><button type="button" class="analogy-open" aria-label="Open American Express · Precision in motion · Executive summary" data-viewer-title="American Express · Precision in motion · Executive summary" data-viewer-pattern="assets/examples/amex/deck/{n}.jpg" data-viewer-count="7" data-viewer-file="assets/examples/amex/Amex_Precision_in_Motion_Exec_Summary.pdf" data-viewer-file-label="Open PDF"><img class="analogy-thumb" src="assets/examples/amex.jpg" alt="American Express executive summary cover" loading="lazy"><span><span class="analogy-name">American Express · Precision in motion</span><span class="analogy-line">A rowing crew in perfect sync: 25 years of partnership, one boat moving forward.</span><span class="analogy-cta">View the document →</span></span></button></li>
-          <li><button type="button" class="analogy-open" aria-label="Open Google · Project Chrysalis · Unfolding the Future" data-viewer-title="Google · Project Chrysalis · Unfolding the Future" data-viewer-video="assets/examples/google-butterfly.mp4" data-viewer-file="assets/examples/google/Project_Chrysalis_RFP_Concepts.pdf" data-viewer-file-label="Open concepts PDF"><img class="analogy-thumb" src="assets/examples/google-butterfly.jpg" alt="Google Project Chrysalis paper butterfly" loading="lazy"><span><span class="analogy-name">Google · Unfolding the Future</span><span class="analogy-line">A paper-craft butterfly unfolding in Google’s colours, from cover to motion.</span><span class="analogy-cta">Play the video →</span></span></button></li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- 6d · PILLAR 1 · STORY — going into tomorrow's session (asks TBC by David) -->
-    <section class="frame" id="f6d" data-frame="6d" data-pillar="1" data-suffix="the story creates the journey" data-hue="magenta">
-      <div class="frame-inner">
-        <h2 class="display reveal">Going into tomorrow’s <span class="gradient-underline">session</span>.</h2>
-        <p class="subhead one-line reveal d2">We need three things from you.</p>
-        <div class="card-row of-3 reveal d3">
-          <button class="flip-card" type="button" aria-label="Ask 1: flip for detail">
-            <span class="flip-card-inner">
-              <span class="flip-face front">
-                <span class="card-art" data-art="4" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
-                <span class="top-row"><span class="idx">01</span><span class="ring"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"></circle><circle cx="12" cy="12" r="2.4"></circle></svg></span></span>
-                <span class="title">XXXX</span>
-                <span class="lead">XXXX</span>
-                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
-              </span>
-              <span class="flip-face back">
-                <span class="back-heading">XXXX</span>
-                <span class="back-body">XXXX</span>
-              </span>
-            </span>
-          </button>
-          <button class="flip-card" type="button" aria-label="Ask 2: flip for detail">
-            <span class="flip-card-inner">
-              <span class="flip-face front">
-                <span class="card-art" data-art="5" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
-                <span class="top-row"><span class="idx">02</span><span class="ring"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"></path></svg></span></span>
-                <span class="title">XXXX</span>
-                <span class="lead">XXXX</span>
-                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
-              </span>
-              <span class="flip-face back">
-                <span class="back-heading">XXXX</span>
-                <span class="back-body">XXXX</span>
-              </span>
-            </span>
-          </button>
-          <button class="flip-card" type="button" aria-label="Ask 3: flip for detail">
-            <span class="flip-card-inner">
-              <span class="flip-face front">
-                <span class="card-art" data-art="6" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
-                <span class="top-row"><span class="idx">03</span><span class="ring"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg></span></span>
-                <span class="title">XXXX</span>
-                <span class="lead">XXXX</span>
-                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
-              </span>
-              <span class="flip-face back">
-                <span class="back-heading">XXXX</span>
-                <span class="back-body">XXXX</span>
-              </span>
-            </span>
-          </button>
-        </div>
-      </div>
-    </section>
-
     <!-- 7 · PILLAR 2 · NARRATIVE — flows -->
     <section class="frame has-bg-video" id="f7" data-frame="7" data-pillar="2" data-suffix="the narrative structures the journey" data-hue="magenta">
       <video class="hero-bg-video" autoplay muted loop playsinline aria-hidden="true">
@@ -1664,6 +1580,88 @@
       </div>
     </section>
 
+    <!-- After Theme · WHAT DOES IT LOOK LIKE (The Art) -->
+    <section class="frame" id="f6c" data-frame="6c" data-pillar="0" data-suffix="" data-hue="aqua">
+      <div class="frame-inner">
+        <h2 class="display reveal">What does it <span class="gradient-underline">look like</span>?</h2>
+        <ul class="analogy-list reveal d3">
+          <li><button type="button" class="analogy-open" aria-label="Open Telstra · Catalyst for change · Executive summary" data-viewer-title="Telstra · Catalyst for change · Executive summary" data-viewer-pattern="assets/examples/telstra/deck/{n}.jpg" data-viewer-count="14" data-viewer-file="assets/examples/telstra/Telstra_Catalyst_for_Change_Exec_Summary.pdf" data-viewer-file-label="Open PDF"><img class="analogy-thumb" src="assets/examples/telstra.jpg" alt="Telstra executive summary cover" loading="lazy"><span><span class="analogy-name">Telstra · Unleash the Energy</span><span class="analogy-line">Vendor to strategic partner, told as energy released across every document.</span><span class="analogy-cta">View the document →</span></span></button></li>
+          <li><button type="button" class="analogy-open" aria-label="Open American Express · Precision in motion · Executive summary" data-viewer-title="American Express · Precision in motion · Executive summary" data-viewer-pattern="assets/examples/amex/deck/{n}.jpg" data-viewer-count="7" data-viewer-file="assets/examples/amex/Amex_Precision_in_Motion_Exec_Summary.pdf" data-viewer-file-label="Open PDF"><img class="analogy-thumb" src="assets/examples/amex.jpg" alt="American Express executive summary cover" loading="lazy"><span><span class="analogy-name">American Express · Precision in motion</span><span class="analogy-line">A rowing crew in perfect sync: 25 years of partnership, one boat moving forward.</span><span class="analogy-cta">View the document →</span></span></button></li>
+          <li><button type="button" class="analogy-open" aria-label="Open Google · Project Chrysalis · Unfolding the Future" data-viewer-title="Google · Project Chrysalis · Unfolding the Future" data-viewer-video="assets/examples/google-butterfly.mp4" data-viewer-pattern="assets/examples/google/deck/{n}.jpg" data-viewer-count="18"><img class="analogy-thumb" src="assets/examples/google-butterfly.jpg" alt="Google Project Chrysalis paper butterfly" loading="lazy"><span><span class="analogy-name">Google · Unfolding the Future</span><span class="analogy-line">A paper-craft butterfly unfolding in Google’s colours, from cover to motion.</span><span class="analogy-cta">Play the video, then the pages →</span></span></button></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- After Theme · LESSONS LEARNED — observations from the road -->
+    <section class="frame s-road" id="f6a" data-frame="6a" data-pillar="0" data-suffix="" data-hue="magenta">
+      <div class="frame-inner">
+        <div class="eyebrow-label reveal"><span class="tick"></span>Lessons learned from the past</div>
+        <h2 class="display reveal d1">Observations from the <span class="gradient-underline">road</span>.</h2>
+        <p class="subhead reveal d2">The power of storytelling is clear. But the connection between the story and the deal matters just as much.</p>
+        <ul class="road-list reveal d3">
+          <li><b>Make it relevant.</b><span>Map the story to the deal, ensuring the analogy makes sense in the context of the proposed solution.</span></li>
+          <li><b>Make the connection clear.</b><span>Your audience shouldn’t have to work to understand how the story relates to their ambitions and challenges.</span></li>
+          <li><b>Make it human.</b><span>Stories bring smiles, spark curiosity, and invite conversations that facts alone often cannot.</span></li>
+        </ul>
+        <p class="road-close reveal d4"><span>Closing thought</span>The right story strengthens the deal. The wrong story might still raise a smile, but miss the point.</p>
+      </div>
+    </section>
+
+    <!-- After Theme · YOUR STORYTELLING JOURNEY STARTS TOMORROW -->
+    <section class="frame" id="f6d" data-frame="6d" data-pillar="0" data-suffix="" data-hue="magenta">
+      <div class="frame-inner">
+        <h2 class="display reveal">Your storytelling journey starts <span class="gradient-underline">tomorrow</span>.</h2>
+        <p class="subhead reveal d2">Three areas of focus to strengthen your approach to large deals.</p>
+        <div class="card-row of-3 reveal d3">
+          <button class="flip-card" type="button" aria-label="Learn the craft: flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="4" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">01</span><span class="ring"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"></circle><circle cx="12" cy="12" r="2.4"></circle></svg></span></span>
+                <span class="title">Learn the craft</span>
+                <span class="lead">Storytelling is a skill.</span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">Learn the craft</span>
+                <span class="back-body">Storytelling is a skill. Learn to seek, choose and tell compelling stories that resonate with your audience.</span>
+              </span>
+            </span>
+          </button>
+          <button class="flip-card" type="button" aria-label="Choose the right story: flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="5" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">02</span><span class="ring"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"></path></svg></span></span>
+                <span class="title">Choose the right story</span>
+                <span class="lead">Creativity alone isn’t enough.</span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">Choose the right story</span>
+                <span class="back-body">Creativity alone isn’t enough. The story must connect to the deal, make sense and resonate with your client.</span>
+              </span>
+            </span>
+          </button>
+          <button class="flip-card" type="button" aria-label="Invest time &amp; resources: flip for detail">
+            <span class="flip-card-inner">
+              <span class="flip-face front">
+                <span class="card-art" data-art="6" aria-hidden="true"><span class="blob b1"></span><span class="blob b2"></span></span>
+                <span class="top-row"><span class="idx">03</span><span class="ring"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg></span></span>
+                <span class="title">Invest time &amp; resources</span>
+                <span class="lead">Great stories don’t happen by accident.</span>
+                <span class="hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h16m0 0l-6-6m6 6l-6 6"></path></svg>Flip for detail</span>
+              </span>
+              <span class="flip-face back">
+                <span class="back-heading">Invest time &amp; resources</span>
+                <span class="back-body">Great stories don’t happen by accident. Dedicate the time, effort and resources needed to develop them.</span>
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </section>
+
     <!-- 11 · TRANSITION TO AI -->
     <section class="frame s-ai" id="f11" data-frame="11" data-pillar="0" data-suffix="" data-hue="mix" data-custom-bg="ai-bg">
       <!-- HIDDEN 6 Nov (David: no custom video backgrounds). To restore, uncomment and add has-bg-video back to the section.
@@ -1677,10 +1675,19 @@
         <h1 class="reveal d1">Design and AI converge.<br><span class="line2 gradient-text">Scaling every deal with AI.</span></h1>
         <p class="body-copy supporting reveal d2">Better prompts. Stronger storytelling. Design and AI converge to inspire audiences, scaling deals with AI.</p>
         <nav class="ai-buttons reveal d3" aria-label="AI workflow demos">
-          <a class="ce-btn" href="agentic-chapter/index.html" target="_blank" rel="noopener">Theming <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"></path></svg></a>
+          <a class="ce-btn" href="agentic-chapter/index.html" target="_blank" rel="noopener">The Art <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"></path></svg></a>
           <a class="ce-btn" href="infosys-unlock-ai.html" target="_blank" rel="noopener">Unlock AI Value <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"></path></svg></a>
           <a class="ce-btn" href="https://www.gcc-builder.com/" target="_blank" rel="noopener">Infosys GCC <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14m0 0l-6-6m6 6l-6 6"></path></svg></a>
         </nav>
+      </div>
+    </section>
+
+    <!-- CHAPTER BREAK · make time for storytelling (2nd last, before the Knicks) -->
+    <section class="frame" id="f6b" data-frame="6b" data-pillar="0" data-suffix="" data-hue="mix">
+      <div class="frame-inner">
+        <h2 class="display reveal">Make time for <span class="gradient-underline">storytelling</span>.</h2>
+        <p class="subhead reveal d2">Great storytelling requires time, commitment and practice. Make it a priority, not an afterthought.</p>
+        <p class="similar-statement reveal d3">If you don’t invest the time, you’ll get left behind.</p>
       </div>
     </section>
 
@@ -1695,31 +1702,28 @@
         </div>
         <div class="case-wrap">
           <div class="case-col">
-            <div class="experience-split reveal d1">
-              <div class="experience-col">
-                <div class="eyebrow-label"><span class="tick"></span>The experience</div>
-                <h2 class="case-headline">An AI-powered fan experience that makes every supporter their own Knicks player card.</h2>
-                <div class="qr-item">
-                  <a class="qr-swatch" href="https://stg.nba.ce-share.link/" target="_blank" rel="noopener"><img src="assets/qr-nba.svg" alt="QR code linking to the Knicks fan experience"></a>
-                  <a class="qr-url" href="https://stg.nba.ce-share.link/" target="_blank" rel="noopener">stg.nba.ce-share.link</a>
-                </div>
-              </div>
+            <!-- REMOVED 6 Nov (David): AI fan-experience headline, QR and the four service columns. See git history to restore. -->
+            <div class="case-help reveal d1">
+              <div class="eyebrow-label"><span class="tick"></span>We’re here to help</div>
+              <h2 class="case-headline">Supporting TITAN teams in bringing large deals to life through compelling storytelling, creative experiences and AI.</h2>
             </div>
 
-            <hr class="hairline reveal d3">
+            <hr class="hairline reveal d2">
 
-            <div class="eyebrow-label reveal d3"><span class="tick"></span>Contact us</div>
+            <div class="eyebrow-label reveal d3"><span class="tick"></span>Support for TITAN large deals</div>
             <ul class="case-list reveal d3">
-              <li>Support for<br>Large Deals</li>
-              <li>AI-Powered<br>Experiences</li>
-              <li>Account-Level<br>Agentic Design</li>
-              <li>AI Training to<br>Support Sales</li>
+              <li>Demos &amp;<br>Showcases</li>
+              <li>Orals</li>
+              <li>Site<br>Visits</li>
+              <li>Executive<br>Presentations</li>
             </ul>
 
+            <div class="eyebrow-label case-connect-label reveal d4"><span class="tick"></span>Let’s connect</div>
             <div class="case-contact reveal d4">
               <div class="case-contact-block">
                 <strong>David Neilson</strong>
-                <span>Director · david@charleselena.com.au</span>
+                <span>Director, Charles Elena</span>
+                <span><a href="mailto:david@charleselena.com.au">david@charleselena.com.au</a></span>
               </div>
               <span class="case-contact-web">charleselena.com.au</span>
             </div>
@@ -1791,7 +1795,7 @@
       h.style.setProperty('--words', i);
     });
     /* Stagger index for grouped items (cards, tiles, list rows). */
-    document.querySelectorAll('.card-row, .analogy-list, .lesson-list, .ex-grid, .similar-list, .ex-pillars, .agents-grid, .case-list, .ai-buttons, .jargon-lines').forEach(function(g){
+    document.querySelectorAll('.card-row, .analogy-list, .lesson-list, .road-list, .ex-grid, .similar-list, .ex-pillars, .agents-grid, .case-list, .ai-buttons, .jargon-lines').forEach(function(g){
       Array.prototype.slice.call(g.children).forEach(function(c, n){ c.classList.add('stg'); c.style.setProperty('--n', n); });
     });
   }
@@ -2103,9 +2107,16 @@
   const title = document.getElementById('viewerTitle'), count = document.getElementById('viewerCount'), file = document.getElementById('viewerFile');
   const vid = document.getElementById('viewerVideo');
   const prev = document.getElementById('viewerPrev'), next = document.getElementById('viewerNext'), close = document.getElementById('viewerClose');
-  let list = [], i = 0, opener = null;
+  let list = [], i = 0, opener = null; const VID = '__video__';
   function show(n){
     i = Math.max(0, Math.min(list.length - 1, n));
+    const isVid = list[i] === VID;
+    v.classList.toggle('is-video', isVid);
+    if (isVid){ vid.currentTime = 0; const pl = vid.play(); if (pl && pl.catch) pl.catch(()=>{}); }
+    else vid.pause();
+    count.textContent = (i + 1) + ' / ' + list.length;
+    prev.disabled = i === 0; next.disabled = i === list.length - 1;
+    if (isVid) return;
     img.src = list[i]; img.alt = title.textContent + (list.length > 1 ? ' · slide ' + (i + 1) : '');
     count.textContent = (i + 1) + ' / ' + list.length;
     prev.disabled = i === 0; next.disabled = i === list.length - 1;
@@ -2113,17 +2124,17 @@
   }
   function open(btn){
     opener = btn;
-    const isVid = !!btn.dataset.viewerVideo; v.classList.toggle('is-video', isVid);
+    const hasVid = !!btn.dataset.viewerVideo;
     const pat = btn.dataset.viewerPattern, n = +btn.dataset.viewerCount || 0;
     list = pat ? Array.from({ length: n }, (_, k) => pat.replace('{n}', String(k + 1).padStart(2, '0')))
                : (btn.dataset.viewerImages || '').split(',').map(x => x.trim()).filter(Boolean);
     title.textContent = btn.dataset.viewerTitle || '';
     file.hidden = !btn.dataset.viewerFile; file.href = btn.dataset.viewerFile || '#';
     file.textContent = (btn.dataset.viewerFileLabel || 'Open file') + ' ↗';
+    if (hasVid){ vid.src = btn.dataset.viewerVideo; list.unshift(VID); }
     v.classList.toggle('single', list.length < 2);
     v.hidden = false; v.classList.add('open');
-    if (isVid){ vid.src = btn.dataset.viewerVideo; vid.currentTime = 0; const pl = vid.play(); if (pl && pl.catch) pl.catch(()=>{}); }
-    else show((+btn.dataset.viewerStart || 1) - 1);
+    show(hasVid ? 0 : (+btn.dataset.viewerStart || 1) - 1);
     close.focus();
   }
   function shut(){ v.classList.remove('open'); v.hidden = true; img.removeAttribute('src'); vid.pause(); vid.removeAttribute('src'); vid.load(); if (opener) opener.focus(); }
@@ -2134,7 +2145,7 @@
   window.addEventListener('keydown', e => {
     if (v.hidden) return;
     const k = e.key;
-    if (v.classList.contains('is-video') && k !== 'Escape' && k !== 'Tab'){ if (k === ' '){ e.preventDefault(); vid.paused ? vid.play() : vid.pause(); } e.stopImmediatePropagation(); return; }
+    if (v.classList.contains('is-video') && k !== 'Escape' && k !== 'Tab' && !(list.length > 1 && (k === 'ArrowRight' || k === 'ArrowLeft'))){ if (k === ' '){ e.preventDefault(); vid.paused ? vid.play() : vid.pause(); } e.stopImmediatePropagation(); return; }
     if (k === 'Escape') shut();
     else if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || k === ' ') show(i + 1);
     else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp') show(i - 1);
