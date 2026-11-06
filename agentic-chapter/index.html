@@ -2171,6 +2171,14 @@
   [data-slug="ex-intro"] .ex-grid{ grid-template-columns:repeat(4,1fr); }
   @media (max-width: 1100px){ [data-slug="ex-intro"] .ex-grid{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width: 760px){ [data-slug="ex-intro"] .ex-grid{ grid-template-columns:1fr; } }
+  /* 6 Nov (David): six bids over two slides, 3 big 16:9 tiles each. */
+  [data-slug^="ex-intro"] .ex-grid{ grid-template-columns:repeat(3,1fr); gap:var(--space-8); margin-top:var(--space-10); }
+  [data-slug^="ex-intro"] .ex-tile{ min-height:0; aspect-ratio:16/9; }
+  @media (max-width: 760px){ [data-slug^="ex-intro"] .ex-grid{ grid-template-columns:1fr; } }
+  .ex-tile-pending{ opacity:.6; }
+  .ex-tile-pending .ex-face{ background:none; border:1px dashed rgba(255,255,255,.35); }
+  .ex-tile-pending .ex-face.front::after{ display:none; }
+  .ex-tile-pending:hover .ex-face.front{ visibility:visible; transform:none; transition:none; }
   button.ex-tile{ font:inherit; text-align:left; cursor:pointer; width:100%; }
   button.ex-tile:focus-visible{ outline:2px solid var(--ce-aqua); outline-offset:3px; }
   /* v2.0 (4 Nov): Huw's slides hidden until further notice. To restore, change
@@ -2982,15 +2990,27 @@
      ============================================================ -->
 
 <!-- ex0 · Examples intro -->
-<section class="frame" data-hue="mix" data-slug="ex-intro" data-sect="Examples" data-title="Four bids. One framework.">
+<section class="frame" data-hue="mix" data-slug="ex-intro" data-sect="Examples" data-title="Six bids. One framework.">
   <div class="frame-inner">
-    <h2 class="display reveal d1">Four bids. <span class="gradient-underline">One framework.</span></h2>
+    <h2 class="display reveal d1">Six bids. <span class="gradient-underline">One framework.</span></h2>
     <p class="subhead reveal d2">Hover for the idea. Click to see how it was built.</p>
     <div class="ex-grid reveal d3">
       <button type="button" class="ex-tile" data-go="ex-telstra" aria-label="Unleash the Energy: Telstra. Vendor to strategic partner, told as energy released across every document."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/telstra.jpg" alt="" onerror="this.remove()"><span class="ex-client">Telstra</span><span class="ex-theme">Unleash the Energy</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Telstra</span><span class="ex-theme">Unleash the Energy</span><span class="ex-desc">Vendor to strategic partner, told as energy released across every document.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
       <button type="button" class="ex-tile" data-go="ex-amex" aria-label="Precision in motion: American Express. A rowing crew in perfect sync: 25 years of partnership, one boat moving forward."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/amex.jpg" alt="" onerror="this.remove()"><span class="ex-client">American Express</span><span class="ex-theme">Precision in motion</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">American Express</span><span class="ex-theme">Precision in motion</span><span class="ex-desc">A rowing crew in perfect sync: 25 years of partnership, one boat moving forward.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
       <button type="button" class="ex-tile" data-go="ex-google" aria-label="Unfolding the Future: Google · Project Chrysalis. A paper-craft butterfly unfolding in Google’s colours, from cover to motion."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/google-butterfly.jpg" alt="" onerror="this.remove()"><span class="ex-client">Google · Project Chrysalis</span><span class="ex-theme">Unfolding the Future</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Google · Project Chrysalis</span><span class="ex-theme">Unfolding the Future</span><span class="ex-desc">A paper-craft butterfly unfolding in Google’s colours, from cover to motion.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ex0b · Examples intro, page 2 of 2 -->
+<section class="frame" data-hue="mix" data-slug="ex-intro-2" data-sect="Examples" data-title="Six bids. One framework. (2)">
+  <div class="frame-inner">
+    <h2 class="display reveal d1">Six bids. <span class="gradient-underline">One framework.</span></h2>
+    <p class="subhead reveal d2">Hover for the idea. Click to see how it was built.</p>
+    <div class="ex-grid reveal d3">
       <button type="button" class="ex-tile" data-go="ex-ralph-lauren" aria-label="Rise with AIR: Ralph Lauren. The deck concept drawn straight from the client’s own investor report."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/ralph-lauren-deck.jpg" alt="" onerror="this.remove()"><span class="ex-client">Ralph Lauren</span><span class="ex-theme">Rise with AIR</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Ralph Lauren</span><span class="ex-theme">Rise with AIR</span><span class="ex-desc">The deck concept drawn straight from the client’s own investor report.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
+      <button type="button" class="ex-tile" data-go="ex-temasek" aria-label="One partnership, six promises: Temasek · Seviora. Six solution tenets, proven one by one, in Seviora's own purple."><span class="ex-face front"><img class="ex-thumb" src="../assets/examples/temasek.jpg" alt="" onerror="this.remove()"><span class="ex-client">Temasek · Seviora</span><span class="ex-theme">Six promises</span></span><span class="ex-face back" aria-hidden="true"><span class="ex-client">Temasek · Seviora</span><span class="ex-theme">Six promises</span><span class="ex-desc">Six solution tenets, proven one by one, in Seviora's own purple.</span><span class="ex-hint">See how it was built <span aria-hidden="true">→</span></span></span></button>
+      <div class="ex-tile ex-tile-pending" aria-label="Coming soon"><span class="ex-face front"><span class="ex-client">Coming soon</span><span class="ex-theme">Project to be confirmed</span></span></div>
     </div>
   </div>
 </section>
@@ -3094,6 +3114,29 @@
         <span class="ex-open-hint" aria-hidden="true">Click to open · 20 slides</span>
       </button>
     </div>
+  </div>
+</section>
+
+<!-- ex5 · Temasek — One partnership, six promises (restored 6 Nov) -->
+<section class="frame" data-hue="magenta" data-slug="ex-temasek" data-sect="Examples" data-title="Temasek: Seviora operational support">
+  <div class="frame-inner ex-case">
+    <div>
+      <div class="ex-client-line reveal">Temasek · Seviora · RFP orals</div>
+      <h2 class="display reveal d1">One partnership, six promises.</h2>
+      <ul class="ex-pillars reveal d2">
+        <li><span class="k">Story</span><span class="v">Infosys iCompaz as Seviora's partner for cloud and employee platform services, with a risk-free move from the incumbent.</span></li>
+        <li><span class="k">Narrative</span><span class="v">Six solution tenets, from risk-free transition to cost optimisation. The deck returns to the same wheel as each one is proven.</span></li>
+        <li><span class="k">Theme</span><span class="v">Seviora's own purple, with people-first photography on the cover and every chapter break.</span></li>
+      </ul>
+    </div>
+    <button type="button" class="ex-media ex-wide ex-open reveal d3" aria-label="Open the Seviora orals deck"
+      data-viewer-title="Temasek · Seviora · Technical Management &amp; Operational Support" data-viewer-pattern="../assets/examples/temasek/deck/{n}.jpg" data-viewer-count="15"
+      data-viewer-file="../assets/examples/temasek/Seviora_Technical_Management_Operational_Support.pdf" data-viewer-file-label="Open PDF">
+      <span class="ex-cap">Orals deck</span>
+      <img src="../assets/examples/temasek.jpg" alt="Seviora orals deck cover: Technical Management and Operational Support" onload="this.parentNode.classList.add('has-media')" onerror="this.remove()">
+      <span class="ex-pending">Asset pending · temasek.jpg</span>
+      <span class="ex-open-hint" aria-hidden="true">Click to open · 15 pages</span>
+    </button>
   </div>
 </section>
 
